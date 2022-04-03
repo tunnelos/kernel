@@ -1,0 +1,4 @@
+// BOOTBOOT Options
+
+screen=800x600
+kernel=sys/core

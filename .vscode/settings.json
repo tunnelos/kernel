@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "bootboot.h": "c",
+        "stdio.h": "c",
+        "tunnel.h": "c",
+        "screen.h": "c"
+    }
+}
