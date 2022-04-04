@@ -2,7 +2,7 @@
 
 CFLAGS = -Wall -fpic -ffreestanding -fno-stack-protector -nostdinc -nostdlib -I./bootboot/dist/ -I./include -I/usr/include
 LDFLAGS = -nostdlib -nostartfiles -T link.ld
-STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
+STRIPFLAGS = -s -K freemem -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 
 all: $(OSNAME).x86_64.elf iso fullclean
