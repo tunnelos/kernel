@@ -7,7 +7,10 @@
 #define COLOR_BLUE  0x000000FF
 #define COLOR_WHITE 0x00FFFFFF
 
-extern volatile unsigned char _binary_font_psf_start;
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+
+extern volatile unsigned char _binary_fonts_text_psf_start;
 typedef struct {
     uint32_t magic;
     uint32_t version;
@@ -21,7 +24,5 @@ typedef struct {
 } __attribute__((packed)) psf2_t;
 
 extern uint8_t fb;
-
-uint32_t blend(uint32_t *colors, uint32_t size);
 
 //#define WRITE_PIXEL(x, y, color, fb, scanline) *((uint32_t *)(&fb + scanline * y + x * 4)) = color

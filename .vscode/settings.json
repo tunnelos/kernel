@@ -4,6 +4,7 @@
         "stdio.h": "c",
         "tunnel.h": "c",
         "screen.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "cstdio": "c"
     }
 }

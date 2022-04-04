@@ -12,8 +12,8 @@ $(OSNAME).x86_64.elf: main.c screen.c stdio.c tunnel.c
 	gcc $(CFLAGS) -mno-red-zone -c screen.c -o screen.o
 	gcc $(CFLAGS) -mno-red-zone -c stdio.c -o stdio.o
 	gcc $(CFLAGS) -mno-red-zone -c tunnel.c -o tunnel.o
-	ld -r -b binary -o font.o font.psf
-	ld $(LDFLAGS) main.o stdio.o screen.o font.o -o $(OSNAME).x86_64.elf
+	ld -r -b binary -o fonts/text.o fonts/text.psf
+	ld $(LDFLAGS) main.o stdio.o screen.o fonts/text.o -o $(OSNAME).x86_64.elf
 	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
 	readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
 
