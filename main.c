@@ -8,6 +8,10 @@
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
 
+uint32_t c[2] = {
+    COLOR_BLUE, COLOR_RED
+};
+
 /******************************************
  * Entry point, called by BOOTBOOT Loader *
  ******************************************/
@@ -19,11 +23,11 @@ void _start()
 
     if(s) {
         // // red, green, blue boxes in order
-        // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
+        //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+80)*4))=0x000000FF; } }
 
-        puts("TunnelOS");
+        puts("TunnelOS", blend(&c, 2));
     }
     // hang for now
     while(1);

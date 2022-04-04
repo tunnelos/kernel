@@ -2,7 +2,7 @@
 #include "./include/screen.h"
 #include "./include/tunnel.h"
 
-void puts(char *s){
+void puts(char *s, uint32_t color){
     psf2_t *font = (psf2_t*)&_binary_font_psf_start;
     int x, y, kx = 0, line, mask, offs;
     int bpl = (font->width + 7) / 8;
@@ -13,7 +13,7 @@ void puts(char *s){
             line = offs; 
             mask = 1 << (font -> width - 1);
             for(x = 0; x < font->width; x++) {
-                *((uint32_t*)((uint64_t)&fb + line))=((int)*glyph) & (mask) ? 0xFFFFFF : 0;
+                *((uint32_t*)((uint64_t)&fb + line))=((int)*glyph) & (mask) ? color : 0;
                 mask >>= 1; 
                 line += 4;
             }
