@@ -7,15 +7,17 @@ OSNAME = tunnel
 
 all: $(OSNAME).x86_64.elf iso fullclean
 
-$(OSNAME).x86_64.elf: main.c screen.c stdio.c tunnel.c
+$(OSNAME).x86_64.elf: main.c screen.c stdio.c tunnel.c shell.c cstring.c cint.c panic.c
 	gcc $(CFLAGS) -mno-red-zone -c main.c -o main.o
 	gcc $(CFLAGS) -mno-red-zone -c screen.c -o screen.o
 	gcc $(CFLAGS) -mno-red-zone -c cstring.c -o cstring.o
 	gcc $(CFLAGS) -mno-red-zone -c cint.c -o cint.o
 	gcc $(CFLAGS) -mno-red-zone -c stdio.c -o stdio.o
 	gcc $(CFLAGS) -mno-red-zone -c tunnel.c -o tunnel.o
+	gcc $(CFLAGS) -mno-red-zone -c shell.c -o shell.o
+	gcc $(CFLAGS) -mno-red-zone -c panic.c -o panic.o
 	ld -r -b binary -o fonts/text.o fonts/text.psf
-	ld $(LDFLAGS) main.o stdio.o screen.o cstring.o cint.o fonts/text.o -o $(OSNAME).x86_64.elf
+	ld $(LDFLAGS) main.o stdio.o screen.o cstring.o cint.o shell.o panic.o fonts/text.o -o $(OSNAME).x86_64.elf
 	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
 	readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
 

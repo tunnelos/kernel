@@ -1,4 +1,4 @@
-#include "./include/shell_init.h"
+#include "./include/shell.h"
 
 void _shell__create_shell(){
     //clear screen
