@@ -4,6 +4,8 @@
 #include "./include/stdio.h"
 #include "./include/tunnel.h"
 #include "./include/panic.h"
+#include "./include/smt.h"
+#include "./include/shell.h"
 
 /* imported virtual addresses, see linker script */
 extern BOOTBOOT bootboot;
@@ -12,6 +14,7 @@ extern unsigned char environment[4096];
 /******************************************
  * Entry point, called by BOOTBOOT Loader *
  ******************************************/
+
 void _start()
 {
     /*** NOTE: this code runs on all cores in parallel ***/
@@ -19,8 +22,8 @@ void _start()
     tunnelos_sysinfo.bootboot = bootboot;
 
     if(s) {
-        __stdio_margin = 1;
-        puts("TunnelOS is loading.\n\b", COLOR_GREEN + COLOR_RED);
+        __stdio_margin = 0;
+        puts("\nTunnelOS is loading.\n\b", COLOR_GREEN + COLOR_RED);
         __stdio_margin = 8;
         tunnelos_sysinfo.free_memory_location = (uint8_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.free_memory_location_size = ((MMapEnt *)(&bootboot.mmap + 4))->size;
@@ -32,6 +35,12 @@ void _start()
         } else {
             putc('\b', COLOR_GREEN + COLOR_RED);
         }
+        int tempdata[3] = {tx, ty, kx};
+        __stdio_setTerminalXY(0, 3 * 16);
+        __stdio_margin = 1;
+        printf(COLOR_GREEN, "Cores: %d", bootboot.numcores);
+        __smt_create_task(_shell__create_shell)->one_time = true;
+        __smt_run();
         // // red, green, blue boxes in order
         //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }

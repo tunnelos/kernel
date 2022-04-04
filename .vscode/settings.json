@@ -7,6 +7,10 @@
         "main.h": "c",
         "cstdio": "c",
         "stdarg.h": "c",
-        "mm.h": "c"
+        "mm.h": "c",
+        "smt.h": "c",
+        "panic.h": "c",
+        "shell.h": "c",
+        "keyboard_ps2.h": "c"
     }
 }

@@ -29,7 +29,7 @@ void puts(char *s, uint32_t color){
                     mask >>= 1; 
                     line += 4;
                 }
-                *((uint32_t*)((uint64_t)&fb + line)) = 0; 
+                //*((uint32_t*)((uint64_t)&fb + line)) = 0; 
                 glyph += bpl;
                 offs += tunnelos_sysinfo.bootboot.fb_scanline;
             }
@@ -154,4 +154,12 @@ char* strrev(char* src) {
     src[strlen(src)] = '\0';
 
     return src;
+}
+
+void __stdio_setTerminalXY(int x, int y) {
+    ty = y;
+    tx = x;
+    //reset
+    kx = 0;
+    return;
 }
