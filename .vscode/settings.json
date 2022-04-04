@@ -3,6 +3,7 @@
         "bootboot.h": "c",
         "stdio.h": "c",
         "tunnel.h": "c",
-        "screen.h": "c"
+        "screen.h": "c",
+        "main.h": "c"
     }
 }
