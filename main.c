@@ -14,12 +14,13 @@ extern unsigned char environment[4096];
 void _start()
 {
     /*** NOTE: this code runs on all cores in parallel ***/
-    int x, y, s = bootboot.fb_scanline, w = bootboot.fb_width, h = bootboot.fb_height;
+    int s = bootboot.fb_scanline;
     tunnelos_sysinfo.bootboot = bootboot;
 
     if(s) {
-        puts("Hello World!Hello World!Hello World!Hello World!Hello World!Hello World New Line", COLOR_WHITE);
-        
+        printf(COLOR_GREEN, "%s %d\n", "test int 1:", 1024);
+        printf(COLOR_GREEN, "%s %d\n", "test int 2:", 513);
+
         // // red, green, blue boxes in order
         //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }

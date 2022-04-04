@@ -1,6 +1,6 @@
 .ONESHELL:
 
-CFLAGS = -Wall -fpic -ffreestanding -fno-stack-protector -nostdinc -nostdlib -I./bootboot/dist/ -I./include
+CFLAGS = -Wall -fpic -ffreestanding -fno-stack-protector -nostdinc -nostdlib -I./bootboot/dist/ -I./include -I/usr/include
 LDFLAGS = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
@@ -10,10 +10,12 @@ all: $(OSNAME).x86_64.elf iso fullclean
 $(OSNAME).x86_64.elf: main.c screen.c stdio.c tunnel.c
 	gcc $(CFLAGS) -mno-red-zone -c main.c -o main.o
 	gcc $(CFLAGS) -mno-red-zone -c screen.c -o screen.o
+	gcc $(CFLAGS) -mno-red-zone -c cstring.c -o cstring.o
+	gcc $(CFLAGS) -mno-red-zone -c cint.c -o cint.o
 	gcc $(CFLAGS) -mno-red-zone -c stdio.c -o stdio.o
 	gcc $(CFLAGS) -mno-red-zone -c tunnel.c -o tunnel.o
 	ld -r -b binary -o fonts/text.o fonts/text.psf
-	ld $(LDFLAGS) main.o stdio.o screen.o fonts/text.o -o $(OSNAME).x86_64.elf
+	ld $(LDFLAGS) main.o stdio.o screen.o cstring.o cint.o fonts/text.o -o $(OSNAME).x86_64.elf
 	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
 	readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
 
