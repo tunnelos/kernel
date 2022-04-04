@@ -6,6 +6,7 @@
         "screen.h": "c",
         "main.h": "c",
         "cstdio": "c",
-        "stdarg.h": "c"
+        "stdarg.h": "c",
+        "mm.h": "c"
     }
 }
