@@ -50,4 +50,4 @@ fullclean: clean
 	cp iso/$(OSNAME).x86_64.iso .
 	rm -rf iso
 turron:
-	qemu-system-x86_64 --boot d --cdrom $(OSNAME).x86_64.iso -m 256M
+	qemu-system-x86_64 --boot d --cdrom tunnel.x86_64.iso -m 256M -smp 2

@@ -6,6 +6,7 @@
 #include "./include/panic.h"
 #include "./include/smt.h"
 #include "./include/shell.h"
+#include <cpuid.h>
 
 /* imported virtual addresses, see linker script */
 extern BOOTBOOT bootboot;
@@ -20,6 +21,15 @@ void _start()
     /*** NOTE: this code runs on all cores in parallel ***/
     int s = bootboot.fb_scanline;
     tunnelos_sysinfo.bootboot = bootboot;
+
+    uint32_t eax, ebx, ecx, edx;
+    __cpuid(1, eax, ebx, ecx, edx);
+    if((ebx >> 24) == bootboot.bspid) {
+        printf(COLOR_GREEN, "Core %d is basic\nOthers will execute multitasking function.", ebx >> 24);
+    }
+    while(1);
+
+    //if(bootboot.)
 
     if(s) {
         __stdio_margin = 0;
