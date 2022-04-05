@@ -1,5 +1,7 @@
 #include "./include/serial.h"
 
+bool __serial_lock = false;
+
 int __serial_got_signal() {
     return inb(PORT + 5) & 1;
 }
@@ -10,7 +12,7 @@ char __serial_read() {
 int __serial_transmit_check(){
     return inb(PORT + 5) & 0x20;
 }
-void __serial_write_char(char a){ 
+void __serial_write_char(char a){
     while(__serial_transmit_check() == 0);
     outb(PORT, a);
 }
@@ -19,6 +21,9 @@ void __serial_write_raw(const char *data, uint64_t size) {
     return;
 }
 void __serial_write_fmt(const char *fmt, ...) {
+    if(__serial_lock) while(__serial_lock);
+    __serial_lock = true;
+
     va_list ap;
     va_start(ap, fmt);
     int i = 0;
@@ -78,5 +83,8 @@ void __serial_write_fmt(const char *fmt, ...) {
             }
         }
     }
+
+    __serial_lock = false;
+
     return;
 }

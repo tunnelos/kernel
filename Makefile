@@ -4,16 +4,19 @@ LDFLAGS = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
-			smt.o keyboard_ps2.o tools.o serial.o idt.o
-FONTLIST = fonts/text.o
+			smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o
+FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
 
-$(OSNAME).x86_64.elf: $(FILELIST)
+$(OSNAME).x86_64.elf:
 	bash compile.sh
 	ld $(LDFLAGS) $(FILELIST) $(FONTLIST) -o $(OSNAME).x86_64.elf
 	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
 	readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
+	rm -rfv fonts_compiled
+	mkdir fonts_compiled
+	mv fonts/*.o fonts_compiled/
 
 iso:
 	rm -rv iso
@@ -33,8 +36,7 @@ iso:
 	cp ../../sys boot/ -r
 	cp $(OSNAME).x86_64.elf boot/sys/core -r
 	./mkbootimg $(OSNAME).json $(OSNAME).x86_64.img
-	echo "Copying... Please, wait."
-	cp $(OSNAME).x86_64.img ../../../$(OSNAME).x86_64.img -rv
+	mv $(OSNAME).x86_64.img ../../../$(OSNAME).x86_64.img -v
 	cd ../../../
 	rm -rf tmp
 	iat $(OSNAME).x86_64.img $(OSNAME).x86_64.iso
@@ -50,4 +52,4 @@ fullclean: clean
 	cp iso/$(OSNAME).x86_64.iso .
 	rm -rf iso
 turron:
-	qemu-system-x86_64 --boot d --cdrom tunnel.x86_64.iso -m 256M -smp 2
+	qemu-system-x86_64 --boot d --cdrom tunnel.x86_64.iso -m 256M -smp 3 -serial stdio

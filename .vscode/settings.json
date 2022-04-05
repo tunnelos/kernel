@@ -13,6 +13,8 @@
         "shell.h": "c",
         "keyboard_ps2.h": "c",
         "tools.h": "c",
-        "cstring.h": "c"
+        "cstring.h": "c",
+        "idt.h": "c",
+        "pit.h": "c"
     }
 }

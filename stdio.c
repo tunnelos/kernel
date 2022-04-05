@@ -7,26 +7,22 @@
 #include "./include/serial.h"
 
 int __stdio_margin = 0;
-
+int __stdio_gui_margin = 0;
 bool terminal_block = false;
-int limit_to_cpu;
 
 void puts(char *s, uint32_t color, int x4, int y4){
     int tx = x4 * 8;
     int ty = y4 * 16;
     int kx = 0;
-    if(terminal_block) {
-        //__serial_write_fmt(" * CPU %d waits for unblocking.\r\n", __tools_get_cpu());
-        while(terminal_block);
-    }
-    //__serial_write_fmt(" * CPU %d blocked terminal access.\r\n", __tools_get_cpu());
+    if(terminal_block) while(terminal_block);
+
     terminal_block = true;
     int x, y, line, mask, offs;
     psf2_t *font = (psf2_t*)&_binary_fonts_text_psf_start;
     int bpl = (font->width + 7) / 8;
     while(*s) {
         //72
-        unsigned char *glyph = (unsigned char*)&_binary_fonts_text_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
+        unsigned char *glyph = (unsigned char *)&_binary_fonts_text_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
         offs = (kx * (font->width + __stdio_margin) * 4);
         if(*s == '\n' || kx >= 71) {
             ty += font->height;
@@ -37,11 +33,10 @@ void puts(char *s, uint32_t color, int x4, int y4){
                 line = offs; 
                 mask = 1 << (font -> width - 1);
                 for(x = 0; x < font->width; x++) {
-                    *((uint32_t*)((uint64_t)&fb + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4)))=((int)*glyph) & (mask) ? color : 0;
+                    *((uint32_t*)((uint64_t)&fb + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4))) = ((int)*glyph) & (mask) ? color : 0xFF000000;
                     mask >>= 1; 
                     line += 4;
-                }
-                //*((uint32_t*)((uint64_t)&fb + line)) = 0; 
+                } 
                 glyph += bpl;
                 offs += tunnelos_sysinfo.bootboot.fb_scanline;
             }
@@ -50,12 +45,54 @@ void puts(char *s, uint32_t color, int x4, int y4){
         kx++;
     }
     terminal_block = false;
-    //__serial_write_fmt(" * CPU %d unblocked terminal access.\r\n", __tools_get_cpu());
 }
 
 void putc(char c, uint32_t color, int x, int y) {
     char str[2] = {c, '\0'};
     puts(str, color, x, y);
+    return;
+}
+
+void puts_gui(char *s, uint32_t color, int x4, int y4){
+    int tx = x4 * 8;
+    int ty = y4 * 16;
+    int kx = 0;
+    if(terminal_block) while(terminal_block);
+
+    terminal_block = true;
+    int x, y, line, mask, offs;
+    psf2_t *font = (psf2_t*)&_binary_fonts_gui_psf_start;
+    int bpl = (font->width + 7) / 8;
+    while(*s) {
+        //72
+        unsigned char *glyph = (unsigned char*)&_binary_fonts_gui_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
+        offs = (kx * (font->width + __stdio_gui_margin) * 4);
+        if(*s == '\n' || kx >= 71) {
+            ty += font->height;
+            kx = 0;
+            tx = 0 - font->width;
+        } else {
+            for(y = 0; y < font->height; y++) {
+                line = offs; 
+                mask = 1 << (font -> width - 1);
+                for(x = 0; x < font->width; x++) {
+                    *((uint32_t*)((uint64_t)&fb + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4))) = ((int)*glyph) & (mask) ? color : *((uint32_t*)((uint64_t)&fb + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4)));
+                    mask >>= 1; 
+                    line += 4;
+                } 
+                glyph += bpl;
+                offs += tunnelos_sysinfo.bootboot.fb_scanline;
+            }
+        }
+        s++; 
+        kx++;
+    }
+    terminal_block = false;
+}
+
+void putc_gui(char c, uint32_t color, int x, int y) {
+    char str[2] = {c, '\0'};
+    puts_gui(str, color, x, y);
     return;
 }
 

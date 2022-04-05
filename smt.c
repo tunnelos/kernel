@@ -6,6 +6,7 @@ bool __smt_inSMTmode = false;
 int __smt_tasks = 0;
 uint16_t __smt_coreList[MAX_CORES] = {};
 int maincpu_tid = 1024;
+int __smt_avaliable_cores = 0;
 
 void __smt_changestatus(bool status) {
     __smt_inSMTmode = status;
@@ -23,7 +24,7 @@ smt_task_t *__smt_create_task(void (*runner)(int id)){
             tunnelos_sysinfo.software_tasks[i].one_time = false;
             tunnelos_sysinfo.software_tasks[i].is_used = true;
             __smt_tasks++;
-            __serial_write_fmt("Created task %d by CPU %d.\r\n", i, __tools_get_cpu());
+            __serial_write_fmt("CPU %d -> tos > Created task %d\r\n", __tools_get_cpu() - 1, i);
             return &tunnelos_sysinfo.software_tasks[i];
         }
         i++;
@@ -43,6 +44,7 @@ void __smt_run() {
         i++;
     }
     i = 0;
+    __serial_write_fmt("CPU %d -> tos > SMT is ready\r\n", __tools_get_cpu() - 1);
     while(1){
         if(i == 255) i = 0;
 

@@ -1,12 +1,13 @@
 #pragma once
 
 #include "./stdint.h"
-#define MAX_CORES 8
+#define MAX_CORES 8 + 1
 
 extern bool __smt_inSMTmode;
 extern int __smt_tasks;
 extern uint16_t __smt_coreList[MAX_CORES];
 extern int maincpu_tid;
+extern int __smt_avaliable_cores;
 
 typedef struct {
     int id;
