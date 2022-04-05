@@ -2,16 +2,14 @@
 
 #include "./main.h"
 
-void puts(char *str, uint32_t color);
-void putc(char c, uint32_t color);
-void printf(uint32_t color, const char *fmt, ...);
+void puts(char *str, uint32_t color, int x, int y);
+void putc(char c, uint32_t color, int x, int y);
+void printf(uint32_t color, int x, int y, const char *fmt, ...);
 
-extern int ty, tx, kx;
 extern int __stdio_margin;
+extern bool terminal_block;
 
 char *itoa(int num, char *buffer, int base);
 char itoh(int num, bool upper);
 char itoc(int num);
 char* strrev(char* src);
-
-void __stdio_setTerminalXY(int x, int y);

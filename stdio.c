@@ -4,11 +4,23 @@
 #include <stdarg.h>
 #include "./include/cstring.h"
 #include "./include/cint.h"
+#include "./include/serial.h"
 
-int ty = 0, tx = 0, kx = 0;
 int __stdio_margin = 0;
 
-void puts(char *s, uint32_t color){
+bool terminal_block = false;
+int limit_to_cpu;
+
+void puts(char *s, uint32_t color, int x4, int y4){
+    int tx = x4 * 8;
+    int ty = y4 * 16;
+    int kx = 0;
+    if(terminal_block) {
+        //__serial_write_fmt(" * CPU %d waits for unblocking.\r\n", __tools_get_cpu());
+        while(terminal_block);
+    }
+    //__serial_write_fmt(" * CPU %d blocked terminal access.\r\n", __tools_get_cpu());
+    terminal_block = true;
     int x, y, line, mask, offs;
     psf2_t *font = (psf2_t*)&_binary_fonts_text_psf_start;
     int bpl = (font->width + 7) / 8;
@@ -37,15 +49,17 @@ void puts(char *s, uint32_t color){
         s++; 
         kx++;
     }
+    terminal_block = false;
+    //__serial_write_fmt(" * CPU %d unblocked terminal access.\r\n", __tools_get_cpu());
 }
 
-void putc(char c, uint32_t color) {
+void putc(char c, uint32_t color, int x, int y) {
     char str[2] = {c, '\0'};
-    puts(str, color);
+    puts(str, color, x, y);
     return;
 }
 
-void printf(uint32_t color, const char *fmt, ...) {
+void printf(uint32_t color, int x, int y, const char *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
     int i = 0;
@@ -57,23 +71,23 @@ void printf(uint32_t color, const char *fmt, ...) {
                 switch(fmt[i + 1]) {
                     case 'c': {
                         char arg = va_arg(ap, int);
-                        putc(arg, color);
+                        putc(arg, color, x, y);
                         i += 2;
                         break;
                     }
                     case 's': {
                         char *arg = va_arg(ap, char *);
-                        puts(arg, color);
+                        puts(arg, color, x, y);
                         i += 2;
                         break;
                     }
                     case 'i':
                     case 'd': {
                         int arg = va_arg(ap, int);
-                        if(arg == 0) puts("0", color);
+                        if(arg == 0) puts("0", color, x, y);
                         else {
                             char buffer[20];
-                            puts(itoa(arg, buffer, 10), color);
+                            puts(itoa(arg, buffer, 10), color, x, y);
                         }
                         i += 2;
                         break;
@@ -82,14 +96,14 @@ void printf(uint32_t color, const char *fmt, ...) {
                     case 'X': {
                         int arg = va_arg(ap, int);
                         char buffer[20];
-                        puts(itoa(arg, buffer, 16), color);
+                        puts(itoa(arg, buffer, 16), color, x, y);
                         i += 2;
                         break;
                     }
                     case 'o': {
                         int arg = va_arg(ap, int);
                         char buffer[20];
-                        puts(itoa(arg, buffer, 8), color);
+                        puts(itoa(arg, buffer, 8), color, x, y);
                         i += 2;
                         break;
                     }
@@ -100,7 +114,7 @@ void printf(uint32_t color, const char *fmt, ...) {
                 }
             }
             default: {
-                putc(fmt[i], color);
+                putc(fmt[i], color, x, y);
                 va_end(ap);
                 break;
             }
@@ -154,12 +168,4 @@ char* strrev(char* src) {
     src[strlen(src)] = '\0';
 
     return src;
-}
-
-void __stdio_setTerminalXY(int x, int y) {
-    ty = y;
-    tx = x;
-    //reset
-    kx = 0;
-    return;
 }

@@ -4,7 +4,7 @@ LDFLAGS = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
-			smt.o keyboard_ps2.o tools.o
+			smt.o keyboard_ps2.o tools.o serial.o idt.o
 FONTLIST = fonts/text.o
 
 all: $(OSNAME).x86_64.elf iso fullclean

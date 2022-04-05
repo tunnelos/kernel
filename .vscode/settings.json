@@ -11,6 +11,8 @@
         "smt.h": "c",
         "panic.h": "c",
         "shell.h": "c",
-        "keyboard_ps2.h": "c"
+        "keyboard_ps2.h": "c",
+        "tools.h": "c",
+        "cstring.h": "c"
     }
 }

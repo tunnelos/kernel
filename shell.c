@@ -3,25 +3,63 @@
 #include "./include/smt.h"
 #include "./include/keyboard_ps2.h"
 #include "./include/tools.h"
+#include "./include/cint.h"
+#include "./include/serial.h"
 
 char current_key = '?';
 char scancodePub = 0;
+bool initalInit = false;
+
+int counter = 0;
 
 void __shell_draw_statusbar(int id){
-    __stdio_setTerminalXY(2 * 8, 0);
-    puts("Tunnel OS v0.1", 0x00FFFFFF);
-    __stdio_setTerminalXY((24 + 4) * 8, 0);
-    printf(COLOR_RED, "CuKey: %c", current_key);
-    __stdio_setTerminalXY((35 + 4) * 8, 0);
-    //if(current_key == '?') scancodePub = 0;
-    printf(COLOR_RED, "Scancode: %d", scancodePub);
-    __stdio_setTerminalXY(70 * 8, 0);
-    printf(0x00FFFFFF, "Tasks: %d", __smt_tasks);
+    int i = 0;
+    puts("Tunnel OS v0.1", 0x00FFFFFF, 2, 0);
+    printf(COLOR_RED, 20, 0, "CuKey: %c", current_key);
+    printf(COLOR_RED, 31, 0, "Scancode: %d", scancodePub);
+    if(counter % -(__INT32_MAX__ - 8192)) {
+        __serial_write_fmt(" - Action! %d\r\n", counter);
+        counter = 0;
+        i = 45;
+        //clean screen
+        while(i < 77) {
+            putc('\b', COLOR_GREEN + COLOR_RED, i, 0);
+            i++;
+        }
+        puts("TID per CPU: ", 0x00FFFFFF, 45, 0);
+        i = 0;
+        int ax = 45 + 14;
+        while(i < tunnelos_sysinfo.bootboot.numcores) {
+            if(i == (__tools_get_cpu() - 1)) {
+                if(maincpu_tid == 1024) {
+                    puts("-", 0x00FFFFFF, ax, 0);
+                    ax += 2;
+                } else {
+                    printf(0x00FFFFFF, ax, 0, "%d", maincpu_tid);
+                    ax += digitcount(maincpu_tid);
+                }
+            } else {
+                if(__smt_coreList[i] == 1024) {
+                    puts("-", 0x00FFFFFF, ax, 0);
+                    ax += 2;
+                } else {
+                    printf(0x00FFFFFF, ax, 0, "%d", __smt_coreList[i]);
+                    ax += digitcount(__smt_coreList[i]);
+                }
+            }
+            i++;
+        }
+    }
+    if(__tools_get_cpu() == (tunnelos_sysinfo.bootboot.bspid + 1)) {
+        putc('M', COLOR_GREEN, 78, 0);
+    } else {
+        putc('A', COLOR_GREEN, 78, 0);
+    }
+    counter++;
     return;
 }
 void __shell_draw_taskbar(int id){
-    __stdio_setTerminalXY(1 * 8, 29 * 16);
-    puts("Start", COLOR_GREEN + COLOR_RED);
+    puts("Start", COLOR_GREEN + COLOR_RED, 1, 29);
 }
 void __shell_keyboard_input(int id){
     if(!(inb(KPS2_SR) & KPS2_OB)) {
@@ -35,31 +73,26 @@ void __shell_keyboard_input(int id){
 }
 
 void _shell__create_shell(int id){
-    printf(0x0000FF00, "Shell init");
     __stdio_margin = 0;
     //clear screen
-    int mx = 80, my = 30;
+    int mx = 80, my = 29;
     int i1 = 1,  i2 = 0;
     while(i1 < my){
         while(i2 < mx){
-            __stdio_setTerminalXY(i2 * 8, i1 * 16);
-            putc('\x08', 0x00FFFFFF);
+            putc('\x08', 0x00FFFFFF, i2, i1);
             i2++;
         }
         i1++;
         i2 = 0;
     }
-    __stdio_setTerminalXY(0, 0);
     int i = 0;
     while(i < 80){
-        __stdio_setTerminalXY(i * 8, 0);
-        putc('\x08', COLOR_GREEN + COLOR_RED);
+        putc('\x08', COLOR_GREEN + COLOR_RED, i, 0);
         i++;
     }
     i = 0;
     while(i < 80){
-        __stdio_setTerminalXY(i * 8, 29 * 16);
-        putc('\x08', COLOR_GREEN + COLOR_RED);
+        putc('\x08', COLOR_GREEN + COLOR_RED, i, 29);
         i++;
     }
 

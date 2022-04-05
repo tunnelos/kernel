@@ -1,8 +1,11 @@
 #include "./include/smt.h"
-//#include "./include/stdio.h"
+#include "./include/tools.h"
+#include "./include/serial.h"
 
-bool __smt_inSMTmode;
+bool __smt_inSMTmode = false;
 int __smt_tasks = 0;
+uint16_t __smt_coreList[MAX_CORES] = {};
+int maincpu_tid = 1024;
 
 void __smt_changestatus(bool status) {
     __smt_inSMTmode = status;
@@ -20,6 +23,7 @@ smt_task_t *__smt_create_task(void (*runner)(int id)){
             tunnelos_sysinfo.software_tasks[i].one_time = false;
             tunnelos_sysinfo.software_tasks[i].is_used = true;
             __smt_tasks++;
+            __serial_write_fmt("Created task %d by CPU %d.\r\n", i, __tools_get_cpu());
             return &tunnelos_sysinfo.software_tasks[i];
         }
         i++;
@@ -27,19 +31,52 @@ smt_task_t *__smt_create_task(void (*runner)(int id)){
     return 0;
 }
 void __smt_run() {
+    __smt_inSMTmode = true;
     int i = 0;
-    while(i < 8192 * 2) i++;
+    while(i < tunnelos_sysinfo.bootboot.numcores) {
+        if(i > 0) {
+            cores[i - 1].busy = false;
+            cores[i - 1].haveTask = false;
+            cores[i - 1].coreID = i;
+        }
+        __smt_coreList[i] = 1024;
+        i++;
+    }
     i = 0;
     while(1){
-        if(i == 64) i = 0;
+        if(i == 255) i = 0;
 
-        if(tunnelos_sysinfo.software_tasks[i].is_used) {
-            tunnelos_sysinfo.software_tasks[i].runner(i);
-            if(tunnelos_sysinfo.software_tasks[i].one_time){
-                tunnelos_sysinfo.software_tasks[i].is_used = false;  
-                __smt_tasks--;  
-            } else {
-                tunnelos_sysinfo.software_tasks[i].runned_times++;
+        if(tunnelos_sysinfo.software_tasks[i].is_used && !tunnelos_sysinfo.software_tasks[i].already_executing) {
+            
+            int ii = 0;
+            bool functionExecuted = false;
+            while(ii < tunnelos_sysinfo.bootboot.numcores - 1){
+                if((!cores[ii].busy && !cores[ii].haveTask) && !functionExecuted) {
+                    //__serial_write_fmt("Found free CPU %d.\r\n", cores[ii].coreID);
+                    cores[ii].task_to_execute = &tunnelos_sysinfo.software_tasks[i];
+                    cores[ii].haveTask = true;
+                    functionExecuted = true;
+                    //__serial_write_fmt("Successfully set task %d to core %d.\r\n", i, cores[ii].coreID);
+                }
+                ii++;
+            }
+            ii = 0;
+            if(!functionExecuted) {
+                //__serial_write_fmt("All CPUs are busy. Executing task %d on main CPU.\r\n", i);
+                //no free cores
+                //execute on main cpu
+                maincpu_tid = tunnelos_sysinfo.software_tasks[i].id;
+                tunnelos_sysinfo.software_tasks[i].already_executing = true;
+                tunnelos_sysinfo.software_tasks[i].runner(tunnelos_sysinfo.software_tasks[i].id);
+                if(tunnelos_sysinfo.software_tasks[i].one_time) {
+                    tunnelos_sysinfo.software_tasks[i].is_used = false;
+                    tunnelos_sysinfo.software_tasks[i].already_executing = false;
+                    maincpu_tid = 1024;
+                } else {
+                    tunnelos_sysinfo.software_tasks[i].runned_times++;
+                    tunnelos_sysinfo.software_tasks[i].already_executing = false;
+                    maincpu_tid = 1024;
+                }
             }
         }
         i++;
