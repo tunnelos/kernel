@@ -10,6 +10,7 @@ typedef struct {
 } tunnel_memory_block_t;
 typedef struct {
     uint8_t alloc_table[8*1024*1024];
+    uint64_t start_point;
 } tunnel_memory_map_t;
 typedef struct {
     BOOTBOOT bootboot;

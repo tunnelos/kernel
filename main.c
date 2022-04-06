@@ -27,9 +27,10 @@ void _start()
         __idt_init();
         __main_core0init();
     } else {
+        __idt_init();
         __serial_write_fmt("CPU %d -> tos > CPU Check...\r\n", __tools_get_cpu() - 1);
         int mycpu = __tools_get_cpu() - 1;
-        if(mycpu < 0 && mycpu > MAX_CORES - 2) {
+        if(mycpu < 0 && (mycpu + 1) > MAX_CORES) {
             //do not use them
             while(1);
         }
@@ -72,11 +73,15 @@ void __main_core0init() {
         tunnelos_sysinfo.free_memory_location = (uint8_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.free_memory_location_size = ((MMapEnt *)(&bootboot.mmap + 4))->size;
 
-        if(tunnelos_sysinfo.free_memory_location_size < 8*1024*1024){
+        if(tunnelos_sysinfo.free_memory_location_size < 8*1024*1024 + 8){
             __stdio_margin = 1;
             crash((const char *)PANIC_NOT_ENOUGH_MEMORY);
             while(1);
         }
+
+        tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
+        tunnelos_sysinfo.mm->start_point = (MMapEnt *)(&bootboot.mmap + 4)->size;
+
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
         _shell__create_shell(0);
@@ -92,8 +97,6 @@ void __main_core0init() {
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+80)*4))=0x000000FF; } }
     } else {
-        //restart pc by crashing it
-        //will replace it with the serial port in the future
         __serial_write_fmt("CPU %d -> tos > Framebuffer error! Please, restart your PC\r\n", __tools_get_cpu() - 1);
         while(1);
     }

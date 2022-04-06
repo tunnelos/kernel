@@ -6,6 +6,7 @@
 #include "./include/cint.h"
 #include "./include/serial.h"
 #include "./include/window.h"
+#include "./include/window_welcome.h"
 
 char current_key = '?';
 char scancodePub = 0;
@@ -32,7 +33,7 @@ void __shell_draw_statusbar(int id){
         //     i++;
         // }
         puts("TST per CPU:", 0x00FFFFFF, 47, 0);
-        uint8_t *time = &tunnelos_sysinfo.bootboot.datetime;
+        uint8_t *time = tunnelos_sysinfo.bootboot.datetime;
         uint8_t time_offset = 30;
         printf(COLOR_GREEN, time_offset, 0, "%d", time[4]);
         time_offset += 2;
@@ -92,16 +93,7 @@ window_t windowtest;
 
 void _shell__create_shell(int id){
     __stdio_margin = 0;
-    windowtest.can_be_closed = true;
-    windowtest.can_be_in_background = true;
-    windowtest.draw_border = true;
-    windowtest.name = "Title";
-    windowtest.sx = 32;
-    windowtest.sy = 8;
-    windowtest.wx = 10;
-    windowtest.wy = 10;
     __window_init();
-    __window_create(&windowtest);
     //clear screen
     int mx = 80, my = 29;
     int i1 = 1,  i2 = 0;
@@ -113,14 +105,15 @@ void _shell__create_shell(int id){
         i1++;
         i2 = 0;
     }
+    __wWelcome_start();
     int i = 0;
     while(i < 80){
-        putc('\x08', COLOR_GREEN + COLOR_RED, i, 0);
+        putc('\x08', 0x50000000 + COLOR_RED, i, 0);
         i++;
     }
     i = 0;
     while(i < 80){
-        putc('\x08', COLOR_GREEN + COLOR_RED, i, 29);
+        putc('\x08', 0x50000000 + COLOR_RED, i, 29);
         i++;
     }
 

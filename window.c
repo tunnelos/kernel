@@ -3,7 +3,9 @@
 #include "./include/cstring.h"
 #include "./include/serial.h"
 #include "./include/tools.h"
+#include "./include/screen.h"
 
+bool __window_lock = false;
 window_t *__window_windowlist[32];
 bool __window_used[32];
 
@@ -23,36 +25,36 @@ void __window_renderer(int id) {
                 int i2 = y1 + 1;
                 int i3 = strlen(cw->name);
                 int i4 = 0;
-                putc_gui('\x08', testi, x1, y1);
+                putc_gui('\x08', (cw->rainbow) ? testi : cw->color, x1, y1);
                 i1++;
                 while(i1 < x1 + cw->sx) {
                     if(((i1 - x1) > i3) && (i1 < (x1 + cw->sx - 1 - cw->can_be_in_background))) {
-                        putc_gui('\x01', testi, i1, y1);
+                        putc_gui('\x01', (cw->rainbow) ? testi : cw->color, i1, y1);
                     }
-                    putc_gui('\x01', testi, i1, y1 + cw->sy);
+                    putc_gui('\x01', (cw->rainbow) ? testi : cw->color, i1, y1 + cw->sy);
                     i1++;
                 }
-                putc_gui('\x02', testi, i1, y1);
-                putc_gui('\x04', testi, i1, y1 + cw->sy);
-                putc_gui('\x03', testi, x1, y1 + cw->sy);
+                putc_gui('\x02', (cw->rainbow) ? testi : cw->color, i1, y1);
+                putc_gui('\x04', (cw->rainbow) ? testi : cw->color, i1, y1 + cw->sy);
+                putc_gui('\x03', (cw->rainbow) ? testi : cw->color, x1, y1 + cw->sy);
                 i1 = x1;
                 while(i2 < y1 + cw->sy) {
-                    putc_gui('\x09', testi, x1, i2);
-                    putc_gui('\x09', testi, x1 + cw->sx, i2);
+                    putc_gui('\x09', (cw->rainbow) ? testi : cw->color, x1, i2);
+                    putc_gui('\x09', (cw->rainbow) ? testi : cw->color, x1 + cw->sx, i2);
                     i2++;
                 }
                 i1 = x1 + cw->sx - 1;
                 if(cw->can_be_closed) {
-                    putc_gui('\x05', testi, i1, y1);
+                    putc_gui('\x05', (cw->rainbow) ? testi : cw->color, i1, y1);
                     i1--;
                 }
-                if(cw->can_be_in_background) putc_gui('\x06', testi, i1, y1);
+                if(cw->can_be_in_background) putc_gui('\x06', (cw->rainbow) ? testi : cw->color, i1, y1);
                 while(i4 < i3) {
                     if((x1 + i4 + 1) > i1) {
-                        putc('|', testi, x1 + i4 + 1, y1);
+                        putc('|', (cw->rainbow) ? testi : cw->color, x1 + i4 + 1, y1);
                         i4 = i3 + 1;
                     } else {
-                        putc(cw->name[i4], testi, x1 + i4 + 1, y1);
+                        putc(cw->name[i4], (cw->rainbow) ? testi : cw->color, x1 + i4 + 1, y1);
                     }
                     i4++;
                 }    
@@ -70,6 +72,8 @@ void __window_init(){
     __smt_create_task(__window_renderer);
 }
 void __window_create(window_t *window_settings){
+    if(__window_lock) while(__window_lock);
+    __window_lock = true;
     int i = 0;
     while(i < 32) {
         if(!__window_used[i]) {
@@ -83,8 +87,11 @@ void __window_create(window_t *window_settings){
         i++;
     }
     return;
+    __window_lock = false;
 }
 void __window_remove(int id) {
+    if(__window_lock) while(__window_lock);
+    __window_lock = true;
     int i = 0;
     while(i < 32) {
         if(__window_used[i]) {
@@ -95,5 +102,41 @@ void __window_remove(int id) {
         }
         i++;
     }
+    __window_lock = false;
+    return;
+}
+//copies part of framebuffer to old_context, uses x and y from new_context
+void __window_save_context(char *old_context, window_t *new_context) {
+    int x1 = new_context->wx; int x2 = x1 + new_context->sx;
+    int y1 = new_context->wy; int y2 = y1 + new_context->sy;
+    int ocp = 0; int s = tunnelos_sysinfo.bootboot.fb_scanline;
+    
+    while(x1 < x2) {
+        while(y1 < y2){
+            old_context[ocp] = *((uint8_t *)(&fb + (s * y1) + x1 * 4));
+            ocp++;
+            y1++;
+        }
+        x1++;
+        y1 = 0;
+    }
+
+    return;
+}
+void __window_read_old_ctx(char *old_context, window_t *crt_context) {
+    int x1 = crt_context->wx; int x2 = x1 + crt_context->sx;
+    int y1 = crt_context->wy; int y2 = y1 + crt_context->sy;
+    int ocp = 0; int s = tunnelos_sysinfo.bootboot.fb_scanline;
+    
+    while(x1 < x2) {
+        while(y1 < y2){
+            *((uint8_t *)(&fb + (s * y1) + x1 * 4)) = old_context[ocp];
+            ocp++;
+            y1++;
+        }
+        x1++;
+        y1 = 0;
+    }
+
     return;
 }

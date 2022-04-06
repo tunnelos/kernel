@@ -15,6 +15,7 @@
         "tools.h": "c",
         "cstring.h": "c",
         "idt.h": "c",
-        "pit.h": "c"
+        "pit.h": "c",
+        "window_welcome.h": "c"
     }
 }

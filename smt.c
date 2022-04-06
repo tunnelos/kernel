@@ -49,23 +49,18 @@ void __smt_run() {
         if(i == 255) i = 0;
 
         if(tunnelos_sysinfo.software_tasks[i].is_used && !tunnelos_sysinfo.software_tasks[i].already_executing) {
-            
             int ii = 0;
             bool functionExecuted = false;
             while(ii < tunnelos_sysinfo.bootboot.numcores - 1){
                 if((!cores[ii].busy && !cores[ii].haveTask) && !functionExecuted) {
-                    //__serial_write_fmt("Found free CPU %d.\r\n", cores[ii].coreID);
                     cores[ii].task_to_execute = &tunnelos_sysinfo.software_tasks[i];
                     cores[ii].haveTask = true;
                     functionExecuted = true;
-                    //__serial_write_fmt("Successfully set task %d to core %d.\r\n", i, cores[ii].coreID);
                 }
                 ii++;
             }
             ii = 0;
             if(!functionExecuted) {
-                //__serial_write_fmt("All CPUs are busy. Executing task %d on main CPU.\r\n", i);
-                //no free cores
                 //execute on main cpu
                 maincpu_tid = tunnelos_sysinfo.software_tasks[i].id;
                 tunnelos_sysinfo.software_tasks[i].already_executing = true;
