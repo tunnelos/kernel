@@ -23,6 +23,7 @@ typedef struct {
 } window_t;
 
 extern window_t *__window_windowlist[32];
+extern bool __window_used[32];
 
 void __window_create(window_t *window_settings);
 void __window_remove(int id);

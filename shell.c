@@ -13,6 +13,7 @@ char scancodePub = 0;
 bool initalInit = false;
 
 uint64_t counter = 0;
+uint64_t countr2 = 0;
 
 void __shell_draw_statusbar(int id){
     int i = 0;
@@ -20,6 +21,7 @@ void __shell_draw_statusbar(int id){
     printf(COLOR_RED, 17, 0, "%c", current_key);
     if(!__keyboard_ps2_ascii_only[scancodePub]) {
         printf(0, 19, 0, "\b\b");
+        printf(COLOR_RED, 19, 0, "%X", scancodePub);
     } else {
         printf(0, 19, 0, "\b\b");
         printf(COLOR_RED, 19, 0, "%X", scancodePub);
@@ -73,6 +75,30 @@ void __shell_draw_statusbar(int id){
 }
 void __shell_draw_taskbar(int id){
     puts("Start", COLOR_GREEN + COLOR_RED, 1, 29);
+    if(countr2 == 512) {
+        int i = 8;
+        while(i < 80) {
+            putc('\b', (i > 77) ? COLOR_RED : (i > 28 && i < 55) ? 0x00FF5FFF : COLOR_BLUE + COLOR_RED, i, 29);
+            i++;
+        }
+        i = 8;
+        int cl = 0;
+        int ii = 0;
+        while(ii < 32) {
+            if(__window_used[ii]) {
+                while(i < 80 && cl < 8) {
+                    putc('\b', (cl == 0 || cl == 7) ? 0x5F5F5F5F : 0x3F3F3F3F, i, 29);
+                    putc_gui((strlen(__window_windowlist[ii]->name) < cl) ? ' ' : __window_windowlist[ii]->name[cl], COLOR_GREEN, i, 29);
+                    cl++;
+                    i++;
+                }
+                i += 3;
+            }
+            ii++;
+        }
+        countr2 = 0;
+    }
+    countr2++;
 }
 void __shell_keyboard_input(int id){
     if(!(inb(KPS2_SR) & KPS2_OB)) {
@@ -114,6 +140,17 @@ void _shell__create_shell(int id){
     i = 0;
     while(i < 80){
         putc('\x08', 0x50000000 + COLOR_RED, i, 29);
+        i++;
+    }
+    i = 8;
+    while(i < 80) {
+        putc('\b', (i > 77) ? COLOR_RED : (i > 28 && i < 55) ? 0x00FF5FFF : COLOR_BLUE + COLOR_RED, i, 29);
+        i++;
+    }
+    i = 8;
+    while(i < 8 + 38) {
+        putc('\b', (i < 9 || i == 8 + 37) ? 0x5F5F5F5F : 0x3F3F3F3F, i, 29);
+        putc_gui("Updating Window list. Please, wait..."[i - 8], COLOR_GREEN, i, 29);
         i++;
     }
 

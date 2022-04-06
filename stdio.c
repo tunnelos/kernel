@@ -124,7 +124,7 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                         if(arg == 0) puts("0", color, x, y);
                         else {
                             char buffer[20];
-                            puts(itoa(arg, buffer, 10), color, x, y);
+                            puts(itoa(arg, buffer, 10, x, y, color, true), color, x, y);
                         }
                         i += 2;
                         break;
@@ -133,14 +133,14 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                     case 'X': {
                         int arg = va_arg(ap, int);
                         char buffer[20];
-                        puts(itoa(arg, buffer, 16), color, x, y);
+                        puts(itoa(arg, buffer, 16, x, y, color, true), color, x, y);
                         i += 2;
                         break;
                     }
                     case 'o': {
                         int arg = va_arg(ap, int);
                         char buffer[20];
-                        puts(itoa(arg, buffer, 8), color, x, y);
+                        puts(itoa(arg, buffer, 8, x, y, color, true), color, x, y);
                         i += 2;
                         break;
                     }
@@ -161,7 +161,7 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
     return;
 }
 
-char *itoa(int num, char *buffer, int base) {
+char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_additional) {
     int buffer_size = 20;
     int counter = 0;
     int digit = 0;
@@ -169,7 +169,7 @@ char *itoa(int num, char *buffer, int base) {
     while(num != 0 && counter < buffer_size){
         digit = (num % base);
         if(digit > 9){
-            buffer[counter++] = itoh(digit, true);
+            buffer[counter++] = itoh(digit, true, x, y, color, use_additional);
         } else {
             buffer[counter++] = itoc(digit);
         }
@@ -180,7 +180,8 @@ char *itoa(int num, char *buffer, int base) {
     return strrev(buffer);
 }
 
-char itoh(int num, bool upper) {
+char itoh(int num, bool upper, int x, int y, int color, bool use_additional) {
+    if(num < 16 && use_additional) putc('0', color, x, y);
     if(upper) return num - 10 + 'A';
     return num - 10 + 'a';
 }

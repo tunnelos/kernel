@@ -51,7 +51,7 @@ void __serial_write_fmt(const char *fmt, ...) {
                         if(!arg) __serial_write_char('0');
                         else {
                             char buffer[20];
-                            __serial_write_raw(itoa(arg, buffer, 10), strlen(itoa(arg, buffer, 10)));
+                            __serial_write_raw(itoa(arg, buffer, 10, 0, 0, 0, false), strlen(itoa(arg, buffer, 10, 0, 0, 0, false)));
                         }
                         i += 2;
                         break;
@@ -60,14 +60,14 @@ void __serial_write_fmt(const char *fmt, ...) {
                     case 'X': {
                         uint32_t arg = va_arg(ap, uint32_t);
                         char buffer[20];
-                        __serial_write_raw(itoa(arg, buffer, 16), strlen(itoa(arg, buffer, 16)));
+                        __serial_write_raw(itoa(arg, buffer, 16, 0, 0, 0, false), strlen(itoa(arg, buffer, 16, 0, 0, 0, false)));
                         i += 2;
                         break;
                     }
                     case 'o': {
                         uint32_t arg = va_arg(ap, uint32_t);
                         char buffer[20];
-                        __serial_write_raw(itoa(arg, buffer, 8), strlen(itoa(arg, buffer, 8)));
+                        __serial_write_raw(itoa(arg, buffer, 8, 0, 0, 0, false), strlen(itoa(arg, buffer, 8, 0, 0, 0, false)));
                         break;
                     }
                     default: {

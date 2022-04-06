@@ -15,7 +15,7 @@ extern int __stdio_margin;
 extern int __stdio_gui_margin;
 extern bool terminal_block;
 
-char *itoa(int num, char *buffer, int base);
-char itoh(int num, bool upper);
+char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_additional);
+char itoh(int num, bool upper, int x, int y, int color, bool use_additional);
 char itoc(int num);
 char* strrev(char* src);
