@@ -50,7 +50,7 @@ void __window_renderer(int id) {
                 }
                 if(cw->can_be_in_background) putc_gui('\x06', (cw->rainbow) ? testi : cw->color, i1, y1);
                 while(i4 < i3) {
-                    if((x1 + i4 + 1) > i1) {
+                    if((x1 + i4 + cw->can_be_closed + cw->can_be_in_background + 2) > i1) {
                         putc('|', (cw->rainbow) ? testi : cw->color, x1 + i4 + 1, y1);
                         i4 = i3 + 1;
                     } else {
@@ -59,6 +59,7 @@ void __window_renderer(int id) {
                     i4++;
                 }    
             }
+            __window_windowlist[i]->updated = true;
         }
         i++;
     }
@@ -72,8 +73,12 @@ void __window_init(){
     __smt_create_task(__window_renderer);
 }
 void __window_create(window_t *window_settings){
-    if(__window_lock) while(__window_lock);
+    if(__window_lock) {
+        __serial_write_fmt("CPU %d -> tos > Waiting for unlocking\r\n", __tools_get_cpu() - 1);
+        while(__window_lock);
+    }
     __window_lock = true;
+    __serial_write_fmt("CPU %d -> tos > Creating new window\r\n", __tools_get_cpu() - 1);
     int i = 0;
     while(i < 32) {
         if(!__window_used[i]) {
@@ -82,12 +87,13 @@ void __window_create(window_t *window_settings){
             window_settings->id = __window_id;
             __window_id++;
             __serial_write_fmt("CPU %d -> tos > New window has been created\r\n", __tools_get_cpu() - 1);
+            __window_lock = false;
             return;
         }
         i++;
     }
-    return;
     __window_lock = false;
+    return;
 }
 void __window_remove(int id) {
     if(__window_lock) while(__window_lock);
@@ -97,6 +103,7 @@ void __window_remove(int id) {
         if(__window_used[i]) {
             if(__window_windowlist[i]->id == id) {
                 __window_used[i] = false;
+                __window_lock = false;
                 return;
             }
         }
@@ -107,8 +114,8 @@ void __window_remove(int id) {
 }
 //copies part of framebuffer to old_context, uses x and y from new_context
 void __window_save_context(char *old_context, window_t *new_context) {
-    int x1 = new_context->wx; int x2 = x1 + new_context->sx;
-    int y1 = new_context->wy; int y2 = y1 + new_context->sy;
+    int x1 = new_context->wx * 8; int x2 = x1 + new_context->sx * 8;
+    int y1 = new_context->wy * 16; int y2 = y1 + new_context->sy * 16;
     int ocp = 0; int s = tunnelos_sysinfo.bootboot.fb_scanline;
     
     while(x1 < x2) {
@@ -118,14 +125,14 @@ void __window_save_context(char *old_context, window_t *new_context) {
             y1++;
         }
         x1++;
-        y1 = 0;
+        y1 = new_context->wy * 16;
     }
-
+    //__serial_write_fmt("CPU %d -> tos > Context saved\r\n", __tools_get_cpu() - 1);
     return;
 }
 void __window_read_old_ctx(char *old_context, window_t *crt_context) {
-    int x1 = crt_context->wx; int x2 = x1 + crt_context->sx;
-    int y1 = crt_context->wy; int y2 = y1 + crt_context->sy;
+    int x1 = crt_context->wx * 8; int x2 = x1 + crt_context->sx * 8;
+    int y1 = crt_context->wy * 16; int y2 = y1 + crt_context->sy * 16;
     int ocp = 0; int s = tunnelos_sysinfo.bootboot.fb_scanline;
     
     while(x1 < x2) {
@@ -135,7 +142,7 @@ void __window_read_old_ctx(char *old_context, window_t *crt_context) {
             y1++;
         }
         x1++;
-        y1 = 0;
+        y1 = crt_context->wy * 16;
     }
 
     return;

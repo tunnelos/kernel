@@ -7,6 +7,7 @@
 #include "./include/serial.h"
 #include "./include/window.h"
 #include "./include/window_welcome.h"
+#include "./include/shell_mouse.h"
 
 char current_key = '?';
 char scancodePub = 0;
@@ -60,10 +61,10 @@ void __shell_draw_statusbar(int id){
                 }
             } else {
                 if(__smt_coreList[i] == 1024) {
-                    puts("I", 0x00FFFFFF, ax, 0);
+                    puts("I", (cores[i - 1].exception) ? COLOR_RED : 0x00FFFFFF, ax, 0);
                     ax += 2;
                 } else {
-                    puts("A", 0x00FFFFFF, ax, 0);
+                    puts("A", (cores[i - 1].exception) ? COLOR_RED : 0x00FFFFFF, ax, 0);
                     ax += 2;
                 }
             }
@@ -92,7 +93,8 @@ void __shell_draw_taskbar(int id){
                     cl++;
                     i++;
                 }
-                i += 3;
+                cl = 0;
+                i += 2;
             }
             ii++;
         }
@@ -132,6 +134,7 @@ void _shell__create_shell(int id){
         i2 = 0;
     }
     __wWelcome_start();
+    __shell_mouse_create_wnd();
     int i = 0;
     while(i < 80){
         putc('\x08', 0x50000000 + COLOR_RED, i, 0);

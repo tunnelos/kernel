@@ -18,6 +18,7 @@ typedef struct {
     bool in_background;
     bool draw_border;
     bool rainbow;
+    bool updated;
 
     int id;
 } window_t;

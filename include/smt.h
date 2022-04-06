@@ -23,6 +23,7 @@ typedef struct {
     bool busy;
     bool haveTask;
     smt_task_t *task_to_execute;
+    bool exception;
 } core_t;
 
 core_t cores[MAX_CORES - 1];
