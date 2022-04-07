@@ -80,7 +80,7 @@ void __main_core0init() {
         }
 
         tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
-        tunnelos_sysinfo.mm->start_point = (MMapEnt *)(&bootboot.mmap + 4)->size;
+        tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
 
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;

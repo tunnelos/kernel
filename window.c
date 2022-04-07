@@ -114,13 +114,14 @@ void __window_remove(int id) {
 }
 //copies part of framebuffer to old_context, uses x and y from new_context
 void __window_save_context(char *old_context, window_t *new_context) {
-    int x1 = new_context->wx * 8; int x2 = x1 + new_context->sx * 8;
+    int x1 = (new_context->wx + 384) * 8; int x2 = x1 + (new_context->sx + 384) * 8;
     int y1 = new_context->wy * 16; int y2 = y1 + new_context->sy * 16;
     int ocp = 0; int s = tunnelos_sysinfo.bootboot.fb_scanline;
+    uint8_t *fbp = (uint8_t *)&fb;
     
     while(x1 < x2) {
         while(y1 < y2){
-            old_context[ocp] = *((uint8_t *)(&fb + (s * y1) + x1 * 4));
+            old_context[ocp] = fbp[(s * y1) + x1];
             ocp++;
             y1++;
         }
@@ -131,13 +132,15 @@ void __window_save_context(char *old_context, window_t *new_context) {
     return;
 }
 void __window_read_old_ctx(char *old_context, window_t *crt_context) {
-    int x1 = crt_context->wx * 8; int x2 = x1 + crt_context->sx * 8;
+    int x1 = (crt_context->wx + 384) * 8; int x2 = x1 + (crt_context->sx + 384) * 8;
     int y1 = crt_context->wy * 16; int y2 = y1 + crt_context->sy * 16;
     int ocp = 0; int s = tunnelos_sysinfo.bootboot.fb_scanline;
+    uint8_t *fbp = (uint8_t *)&fb;
     
     while(x1 < x2) {
         while(y1 < y2){
-            *((uint8_t *)(&fb + (s * y1) + x1 * 4)) = old_context[ocp];
+            fbp[(s * y1) + x1] = old_context[ocp];
+            //__serial_write_fmt("CPU %d -> tos > %X %X %X\r\n", __tools_get_cpu() - 1, fbp[(s * y1) + x1], fbp[(s * y1) + x1 + 1], fbp[(s * y1) + x1 + 2]);
             ocp++;
             y1++;
         }

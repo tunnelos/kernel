@@ -9,7 +9,7 @@ bool vectors[32];
 
 void __idt_exception_handler() {
     //__serial_write_fmt("CPU %d -> tos > Exception!\r\n", __tools_get_cpu() - 1);
-    if(__tools_get_cpu > 1) {
+    if(__tools_get_cpu() > 1) {
         cores[__tools_get_cpu() - 1].exception = true;
         cores[__tools_get_cpu() - 1].busy = false;
     }
