@@ -43,17 +43,19 @@ void __ide_init(uint32_t *bars) {
             wait(1);
             __ide_write(k, ATA_REG_COMMAND, ATA_CMD_IDENTIFY);
             wait(1);
-            if(__ide_read(k, ATA_REG_STATUS) != 0) break;
+            if(__ide_read(k, ATA_REG_STATUS) != 0) {
+                __serial_write_fmt("CPU %d -> tos > Found evidence of IDE device.\r\n", __tools_get_cpu() - 1);
+            }
             bool ssksk = false;
             while(!ssksk) {
                 status = __ide_read(k, ATA_REG_STATUS);
                 if ((status & ATA_SR_ERR)) {
                     err = 1; 
                     __ide_error(j, err);
-                    while(1);
+                    __serial_write_fmt("CPU %d -> tos > Invalid device. Skipping drive.\r\n", __tools_get_cpu() - 1);
+                    break;
                 } else {
-                    //device not found;
-                    __serial_write_fmt("CPU %d -> tos > IDE device not found\r\n", __tools_get_cpu() - 1);
+                    __serial_write_fmt("CPU %d -> tos > Found something. Checking\r\n", __tools_get_cpu() - 1);
                     ssksk = true;
                     break;
                 }
@@ -62,7 +64,6 @@ void __ide_init(uint32_t *bars) {
                     ssksk = true;
                 }
             }
-            __serial_write_fmt("CPU %d -> tos > 1\r\n", __tools_get_cpu() - 1);
             if (err != 0) {
                 uint8_t cl = __ide_read(k, ATA_REG_LBA1);
                 uint8_t ch = __ide_read(k, ATA_REG_LBA2);
@@ -85,7 +86,6 @@ void __ide_init(uint32_t *bars) {
 
             __ide_read_buffer(k, ATA_REG_DATA, (uint32_t *)__ide_buffer, 128);
             
-            __serial_write_fmt("CPU %d -> tos > Found connected IDE device\r\n", __tools_get_cpu() - 1);
             __ide_devices[count].connected = true;
             __ide_devices[count].type = type;
             __ide_devices[count].channel = k;
@@ -93,7 +93,6 @@ void __ide_init(uint32_t *bars) {
             __ide_devices[count].signature = *((uint16_t *)(__ide_buffer + ATA_IDENT_DEVICETYPE));
             __ide_devices[count].capabilities = *((uint16_t *)(__ide_buffer + ATA_IDENT_CAPABILITIES));
             __ide_devices[count].cmd_set = *((uint32_t *)(__ide_buffer + ATA_IDENT_COMMANDSETS));
-
             if (__ide_devices[count].cmd_set & (1 << 26)) {
                 __ide_devices[count].addressing_mode = 48;
                 __ide_devices[count].size = *((uint32_t *)(__ide_buffer + ATA_IDENT_MAX_LBA_EXT));
@@ -101,12 +100,15 @@ void __ide_init(uint32_t *bars) {
                 __ide_devices[count].addressing_mode = 28;
                 __ide_devices[count].size = *((uint32_t *)(__ide_buffer + ATA_IDENT_MAX_LBA));
             }
-            __serial_write_fmt("CPU %d -> tos > Connected IDE size: %d with %d-bit addressing\r\n", __tools_get_cpu() - 1, __ide_devices[count].size / 1024 / 2, __ide_devices[count].addressing_mode);
-
-            for (uint8_t i = 0; i < 40; i += 2) {
-                __ide_devices[count].model[i] = __ide_buffer[ATA_IDENT_MODEL + i + 1];
-                __ide_devices[count].model[i + 1] = __ide_buffer[ATA_IDENT_MODEL + i];
+            if(__ide_devices[count].size == 0) {
+                __serial_write_fmt("CPU %d -> tos > Found garbade data on IDE device. Skipping it.\r\n", __tools_get_cpu() - 1);
+                break;
+            } else {
+                __serial_write_fmt("CPU %d -> tos > Found connected IDE device\r\n", __tools_get_cpu() - 1);
+                __serial_write_fmt("CPU %d -> tos > Connected IDE size: %dMb with %d-bit addressing\r\n", __tools_get_cpu() - 1, __ide_devices[count].size / 1024 / 2, __ide_devices[count].addressing_mode);
             }
+
+            for (uint8_t i = 0; i < 40; i++) __ide_devices[count].model[i] = __ide_buffer[ATA_IDENT_MODEL + i];
             __ide_devices[count].model[40] = 0;
 
             __serial_write_fmt("CPU %d -> tos > Connected IDE model: %d\r\n", __tools_get_cpu() - 1, __ide_devices[count].model);
