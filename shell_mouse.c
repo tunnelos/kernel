@@ -32,7 +32,7 @@ void __shell_mouse_thread(int id) {
                 break;
             }
             case KEY_DOWN: {
-                if(!(__shell_mouse_y > 30)) __shell_mouse_move(0, 1);
+                if(!(__shell_mouse_y > 28)) __shell_mouse_move(0, 1);
                 break;
             }
             case KEY_LEFT: {
