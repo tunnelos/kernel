@@ -5,7 +5,7 @@ STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
 			smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o \
-			window_welcome.o shell_mouse.o ide.o
+			window_welcome.o shell_mouse.o ide.o idea.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean

@@ -2,6 +2,7 @@
 
 #include "./stdint.h"
 #include "./tools.h"
+#include "./serial.h"
 
 #define ATA_SR_BSY  0x80 // Busy
 #define ATA_SR_DRDY 0x40 // Drive ready
@@ -88,13 +89,14 @@ typedef struct {
     uint8_t no_int;
 } ide_channel_reg_t;
 typedef struct {
-    bool real_drive;
+    bool connected;
     uint8_t channel;
     uint8_t drive;
     uint16_t type;
     uint16_t signature;
     uint16_t capabilities;
     uint32_t cmd_set;
+    uint8_t addressing_mode;
     uint32_t size;
     uint8_t model[41];
 } ide_dev_t;
@@ -104,8 +106,15 @@ extern uint8_t __ide_buffer[2048];
 extern volatile uint8_t __ide_irq_trigger;
 extern uint8_t __ide_atapi_packet[12];
 extern ide_dev_t __ide_devices[4];
+extern void __ide_pushw();
+extern void __ide_popw();
+extern const char *__ide_error_table[11];
+extern const char *__ide_drive_table1[2];
+extern const char *__ide_drive_table2[2];
 
 void __ide_init(uint32_t *bars);
 uint8_t __ide_read(uint8_t channel, uint8_t reg);
 void __ide_write(uint8_t channel, uint8_t reg, uint8_t data);
 void __ide_read_buffer(uint8_t channel, uint8_t reg, uint32_t *buffer, uint32_t quads);
+uint8_t __ide_polling(uint8_t channel, bool advanced);
+void __ide_error(uint32_t drive, uint8_t err);

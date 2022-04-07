@@ -3,8 +3,8 @@
 
 //На тебе сейчас задача сделать PIT
 //Что это? -- Таймер на уровне железа
-//Делай глобальные переменные и функции в таком стиле __pit_(функция/переменная)
-//А какре у нас разрешение экрана? 640x480 ,текст в графическом режиме
+//-- Делай глобальные переменные и функции в таком стиле __pit_(функция/переменная)
+//А какoе у нас разрешение экрана? -- 640x480, текст в графическом режиме
 uint8_t inb(uint16_t port) {
     uint8_t val;
     asm volatile(
@@ -17,7 +17,7 @@ uint8_t inb(uint16_t port) {
 uint16_t inw(uint16_t port) {
     uint16_t val;
     asm volatile(
-        "inw %%dx, %%al"
+        "inw %%dx, %%ax"
         : "=a"(val)
         : "d"(port)
         );
@@ -26,7 +26,7 @@ uint16_t inw(uint16_t port) {
 uint32_t inl(uint16_t port) {
     uint32_t val;
     asm volatile(
-        "inl %%dx, %%al"
+        "inl %%edx, %%eax"
         : "=a"(val)
         : "d"(port)
     );
@@ -43,7 +43,7 @@ void outb(uint16_t port, uint8_t val){
 }
 void outw(uint16_t port, uint16_t val) {
     asm volatile(
-        "outw %%al, %%dx"
+        "outw %%ax, %%dx"
         :
         : "d"(port), "a"(val)
     );
@@ -51,7 +51,7 @@ void outw(uint16_t port, uint16_t val) {
 }
 void outl(uint16_t port, uint32_t val) {
     asm volatile(
-        "outl %%al, %%dx"
+        "outl %%eax, %%dx"
         :
         : "d"(port), "a"(val)
     );
@@ -66,5 +66,20 @@ int __tools_get_cpu() {
 
 void io_wait() {
     outb(0x80, 0);
+    return;
+}
+void wait(uint64_t ms) {
+    uint64_t ns = ms * 900; //it takes some time to execute loop contents
+    uint64_t i = 0;
+    while(i < ns) {
+        io_wait();
+        i++;
+    }
+    return;
+}
+
+void insl(uint16_t reg, uint32_t *buffer, int quads) {
+    int index = 0;
+    while(index < quads) buffer[index++] = inl(reg);
     return;
 }

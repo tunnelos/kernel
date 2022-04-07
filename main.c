@@ -9,13 +9,18 @@
 #include "./include/tools.h"
 #include "./include/serial.h"
 #include "./include/idt.h"
-/* imported virtual addresses, see linker script */
+#include "./include/ide.h"
+
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
 
 /******************************************
  * Entry point, called by BOOTBOOT Loader *
  ******************************************/
+
+uint32_t bars[5] = {
+    0x1F0, 0x3F6, 0x170, 0x376, 0x000
+};
 
 void _start()
 {
@@ -25,6 +30,7 @@ void _start()
     if(__tools_get_cpu() == bootboot.bspid + 1) {
         __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
         __idt_init();
+        __ide_init(bars);
         __main_core0init();
     } else {
         __idt_init();
