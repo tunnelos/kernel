@@ -18,6 +18,9 @@
         "pit.h": "c",
         "window_welcome.h": "c",
         "window.h": "c",
-        "shell_mouse.h": "c"
+        "shell_mouse.h": "c",
+        "cint.h": "c",
+        "stdint.h": "c",
+        "ide.h": "c"
     }
 }

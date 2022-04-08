@@ -64,6 +64,7 @@ int __tools_get_cpu() {
     return (ebx >> 24) + 1;
 }
 
+//waits 1-4 ns
 void io_wait() {
     outb(0x80, 0);
     return;

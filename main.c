@@ -22,15 +22,41 @@ uint32_t bars[5] = {
     0x1F0, 0x3F6, 0x170, 0x376, 0x000
 };
 
+char buffer[256] = {
+    0xFF, 0x7F, 0x5F, 0x0F, 0x01
+};
+char buffer_read[256];
+
 void _start()
 {
     /*** NOTE: this code runs on all cores in parallel ***/
     tunnelos_sysinfo.bootboot = bootboot;
 
+    ide_rw_t irt;
+
     if(__tools_get_cpu() == bootboot.bspid + 1) {
         __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
         __idt_init();
         __ide_init(bars);
+        int jjs = 0;
+        irt.lba = 0x10000000;
+        irt.rw = ATA_WRITE;
+        irt.sectors = 256;
+        irt.selector = 0;
+        while(jjs < 4) {
+            if(__ide_devices[jjs].connected) {
+                irt.drive = __ide_devices[jjs].drive;
+                irt.buffer = (uint64_t)buffer;
+                irt.rw = ATA_WRITE;
+                __serial_write_fmt("CPU %d -> tos > trying to write to %d\r\n", __tools_get_cpu() - 1, jjs);
+                __ide_get_access(irt);
+                irt.rw = ATA_READ;
+                irt.buffer = (uint64_t)buffer_read;
+                __ide_get_access(irt);
+                __serial_write_fmt("CPU %d -> tos > Result of %d: %d\r\n", __tools_get_cpu() - 1, jjs, buffer_read[0]);
+            }
+            jjs++;
+        }
         __main_core0init();
     } else {
         __idt_init();

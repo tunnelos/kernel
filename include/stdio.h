@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./main.h"
+#include "./main.h" 
 
 //standart text
 void puts(char *str, uint32_t color, int x, int y);

@@ -82,6 +82,15 @@
 #define ATA_READ  0x00
 #define ATA_WRITE 0x01
 
+#define IDE_LBA48 2
+#define IDE_LBA28 1
+#define IDE_CHS 0
+
+#define IDE_HAS_LBA 0x200
+
+#define ATA_DMA_SUPPORTED 1
+#define ATA_DMA_UNSUPPORTED 0
+
 typedef struct {
     uint16_t base;
     uint16_t ctrl;
@@ -100,6 +109,15 @@ typedef struct {
     uint32_t size;
     uint8_t model[41];
 } ide_dev_t;
+typedef struct {
+    //0 - read | 1 - write
+    bool rw;
+    uint8_t drive;
+    uint32_t lba;
+    uint8_t sectors;
+    uint16_t selector;
+    uint64_t buffer;
+} ide_rw_t;
 
 extern ide_channel_reg_t __ide_channels[2];
 extern uint8_t __ide_buffer[2048];
@@ -118,3 +136,5 @@ void __ide_write(uint8_t channel, uint8_t reg, uint8_t data);
 void __ide_read_buffer(uint8_t channel, uint8_t reg, uint32_t *buffer, uint32_t quads);
 uint8_t __ide_polling(uint8_t channel, bool advanced);
 void __ide_error(uint32_t drive, uint8_t err);
+
+void __ide_get_access(ide_rw_t data);
