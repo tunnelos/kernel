@@ -10,6 +10,7 @@
 #include "./include/serial.h"
 #include "./include/idt.h"
 #include "./include/ide.h"
+#include "./include/mm.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -18,45 +19,22 @@ extern unsigned char environment[4096];
  * Entry point, called by BOOTBOOT Loader *
  ******************************************/
 
+uint32_t scanlines;
+
 uint32_t bars[5] = {
     0x1F0, 0x3F6, 0x170, 0x376, 0x000
 };
-
-char buffer[256] = {
-    0xFF, 0x7F, 0x5F, 0x0F, 0x01
-};
-char buffer_read[256];
 
 void _start()
 {
     /*** NOTE: this code runs on all cores in parallel ***/
     tunnelos_sysinfo.bootboot = bootboot;
 
-    ide_rw_t irt;
-
     if(__tools_get_cpu() == bootboot.bspid + 1) {
         __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
+        scanlines = bootboot.fb_scanline;
         __idt_init();
         __ide_init(bars);
-        int jjs = 0;
-        irt.lba = 0x10000000;
-        irt.rw = ATA_WRITE;
-        irt.sectors = 256;
-        irt.selector = 0;
-        while(jjs < 4) {
-            if(__ide_devices[jjs].connected) {
-                irt.drive = __ide_devices[jjs].drive;
-                irt.buffer = (uint64_t)buffer;
-                irt.rw = ATA_WRITE;
-                __serial_write_fmt("CPU %d -> tos > trying to write to %d\r\n", __tools_get_cpu() - 1, jjs);
-                __ide_get_access(irt);
-                irt.rw = ATA_READ;
-                irt.buffer = (uint64_t)buffer_read;
-                __ide_get_access(irt);
-                __serial_write_fmt("CPU %d -> tos > Result of %d: %d\r\n", __tools_get_cpu() - 1, jjs, buffer_read[0]);
-            }
-            jjs++;
-        }
         __main_core0init();
     } else {
         __idt_init();
@@ -114,6 +92,37 @@ void __main_core0init() {
         tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
 
+        ide_rw_t irt;
+
+        int jjs = 0;
+        irt.lba = 0x10000000;
+        irt.rw = ATA_WRITE;
+        irt.sectors = 255;
+        irt.selector = 0;
+        tunnel_memory_block_t bl0 = malloc(256);
+        tunnel_memory_block_t bl1 = malloc(256);
+        char *data_input = bl0.address;
+        char *data_output = bl1.address;
+        data_input[0] = 0xFF;
+        data_output[0] = 0;
+        while(jjs < 4) {
+            if(__ide_devices[jjs].connected) {
+                data_output[0] = 0;
+                irt.drive = __ide_devices[jjs].drive;
+                irt.buffer = (uint32_t)data_input;
+                __serial_write_fmt("CPU %d -> tos > buffer address %d\r\n", __tools_get_cpu() - 1, irt.buffer);
+                irt.rw = ATA_WRITE;
+                __serial_write_fmt("CPU %d -> tos > trying to write to %d\r\n", __tools_get_cpu() - 1, jjs);
+                __ide_get_access(irt);
+                irt.rw = ATA_READ;
+                irt.buffer = (uint32_t)data_output;
+                __serial_write_fmt("CPU %d -> tos > buffer address %d\r\n", __tools_get_cpu() - 1, irt.buffer);
+                __ide_get_access(irt);
+                __serial_write_fmt("CPU %d -> tos > Result of %d: %d\r\n", __tools_get_cpu() - 1, jjs, data_output[0]);
+            }
+            jjs++;
+        }
+
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
         _shell__create_shell(0);
@@ -128,6 +137,7 @@ void __main_core0init() {
         //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+80)*4))=0x000000FF; } }
+        
     } else {
         __serial_write_fmt("CPU %d -> tos > Framebuffer error! Please, restart your PC\r\n", __tools_get_cpu() - 1);
         while(1);

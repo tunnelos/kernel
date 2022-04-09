@@ -116,7 +116,7 @@ typedef struct {
     uint32_t lba;
     uint8_t sectors;
     uint16_t selector;
-    uint64_t buffer;
+    uint32_t buffer;
 } ide_rw_t;
 
 extern ide_channel_reg_t __ide_channels[2];

@@ -8,6 +8,15 @@
 #include "./include/window.h"
 #include "./include/window_welcome.h"
 #include "./include/shell_mouse.h"
+#include "./include/ide.h"
+
+/*
+Так ну для отображения жестких дисков скорее всего надо сделать функцию draw_image
+не, можно прямо в инициализаторе сделать
+эт как
+найди меня сейчас в этом файле и смотри
+*/
+
 
 char current_key = '?';
 char scancodePub = 0;
@@ -18,7 +27,7 @@ uint64_t countr2 = 0;
 
 void __shell_draw_statusbar(int id){
     int i = 0;
-    puts("Tunnel OS v0.1", 0x00FFFFFF, 2, 0);
+    puts("Tunnel OS v0.2", 0x00FFFFFF, 2, 0);
     printf(COLOR_RED, 17, 0, "%c", current_key);
     if(!__keyboard_ps2_ascii_only[scancodePub]) {
         printf(0, 19, 0, "\b\b");
@@ -133,6 +142,23 @@ void _shell__create_shell(int id){
         i1++;
         i2 = 0;
     }
+    
+    int hd_x0 = 4;
+    int hd_y0 = 2;
+    int chdp = 0;
+
+    while(chdp < 4) {
+        if(__ide_devices[chdp].connected && __ide_devices[chdp].size > 0) {
+            puts("\b\b", COLOR_BLACK, hd_x0, hd_y0);
+            puts_gui("\x0A\x0B", COLOR_GREEN, hd_x0, hd_y0);
+            hd_x0 += 2;
+            printf(COLOR_GREEN, hd_x0, hd_y0, "IDE %dMb", __ide_devices[chdp].size / 1024 / 2);
+            hd_y0++;
+        }
+        hd_x0 = 4;
+        chdp++;
+    }
+
     __wWelcome_start();
     __shell_mouse_create_wnd();
     int i = 0;

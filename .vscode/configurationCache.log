@@ -1,0 +1,1 @@
+{"buildTargets":["all","clean","fullclean","iso","tunnel.x86_64.elf","turron","vhd"],"launchTargets":["/home/k/TunnelOS>tunnel.x86_64.elf()"],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

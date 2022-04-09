@@ -21,6 +21,7 @@
         "shell_mouse.h": "c",
         "cint.h": "c",
         "stdint.h": "c",
-        "ide.h": "c"
+        "ide.h": "c",
+        "color.h": "c"
     }
 }

@@ -67,7 +67,7 @@ void puts_gui(char *s, uint32_t color, int x4, int y4){
         //72
         unsigned char *glyph = (unsigned char*)&_binary_fonts_gui_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
         offs = (kx * (font->width + __stdio_gui_margin) * 4);
-        if(*s == '\n' || kx >= 71) {
+        if(kx >= 71) {
             ty += font->height;
             kx = 0;
             tx = 0 - font->width;
@@ -110,11 +110,13 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                         char arg = va_arg(ap, int);
                         putc(arg, color, x, y);
                         i += 2;
+                        x++;
                         break;
                     }
                     case 's': {
                         char *arg = va_arg(ap, char *);
                         puts(arg, color, x, y);
+                        x += strlen(arg);
                         i += 2;
                         break;
                     }
@@ -125,6 +127,7 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                         else {
                             char buffer[20];
                             puts(itoa(arg, buffer, 10, x, y, color, true), color, x, y);
+                            x += strlen(itoa(arg, buffer, 10, x, y, color, true));
                         }
                         i += 2;
                         break;
@@ -135,13 +138,7 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                         char buffer[20];
                         puts(itoa(arg, buffer, 16, x, y, color, true), color, x, y);
                         i += 2;
-                        break;
-                    }
-                    case 'o': {
-                        int arg = va_arg(ap, int);
-                        char buffer[20];
-                        puts(itoa(arg, buffer, 8, x, y, color, true), color, x, y);
-                        i += 2;
+                        x += strlen(itoa(arg, buffer, 16, x, y, color, true));
                         break;
                     }
                     default: {
@@ -152,6 +149,7 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
             }
             default: {
                 putc(fmt[i], color, x, y);
+                x++;
                 va_end(ap);
                 break;
             }
