@@ -6,7 +6,7 @@ OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
 			smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o \
 			window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o      \
-			color.o tunnelconfig/system.o
+			color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
@@ -55,4 +55,4 @@ fullclean: clean
 vhd:
 	dd if=/dev/zero of=VHD.img bs=1M count=512
 turron:
-	qemu-system-x86_64 --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw
+	qemu-system-x86_64 --cpu kvm64-v1,+avx --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw

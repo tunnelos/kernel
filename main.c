@@ -11,6 +11,9 @@
 #include "./include/idt.h"
 #include "./include/ide.h"
 #include "./include/mm.h"
+#include "./include/cpuid_tools.h"
+#include "./include/sse.h"
+#include "./include/avx.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -25,13 +28,27 @@ uint32_t bars[5] = {
     0x1F0, 0x3F6, 0x170, 0x376, 0x000
 };
 
-void _start()
-{
-    /*** NOTE: this code runs on all cores in parallel ***/
+void _start(){
+    if(__cpuid_check_sse() == 0) {
+        __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!", __tools_get_cpu());
+        while(1);
+    } else {
+        __sse_init();
+    }
+    if(__cpuid_check_avx() || __cpuid_check_avx2()) {
+        __avx_init();
+    } else {
+        __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu(), __cpuid_check_avx(), __cpuid_check_avx2());
+        while(1);
+    }
+
     tunnelos_sysinfo.bootboot = bootboot;
 
     if(__tools_get_cpu() == bootboot.bspid + 1) {
         __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
+
+        __serial_write_fmt("CPU %d -> tos > SSE is supported.\r\n", __tools_get_cpu() - 1);
+
         scanlines = bootboot.fb_scanline;
         __idt_init();
         __ide_init(bars);
