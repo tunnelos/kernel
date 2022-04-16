@@ -6,7 +6,7 @@ OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
 			smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o \
 			window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o      \
-			color.o
+			color.o tunnelconfig/system.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
@@ -47,7 +47,7 @@ iso:
 	cd ../
 	rm -rf config tunnel.json
 clean:
-	rm -rf *.o fonts/*.o
+	rm -rf *.o fonts/*.o tunnelconfig/*.o
 fullclean: clean
 	rm -rf *.elf *.iso
 	cp iso/$(OSNAME).x86_64.iso .
