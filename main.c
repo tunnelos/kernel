@@ -110,6 +110,11 @@ void __main_core0init() {
             //while(1);
         }
 
+        float fltest = 5.1;
+        fltest++;
+        double dbtest = 5.05;
+        dbtest += 16;
+
         ide_rw_t irt;
 
         int jjs = 0;

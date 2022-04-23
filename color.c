@@ -1,6 +1,5 @@
 #include "./include/color.h"
 
-
 // int HSBtoRGB(uint8_t h, uint8_t s, uint8_t b){
 //     int integer, fractional = mathModf(h / 60);
 //     int p = b * (1 - s), q = b * (1 - s * fractional), t = b * (1 - (1 - fractional) * s);
