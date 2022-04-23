@@ -1,7 +1,7 @@
 #include "./include/easter.h"
 #include "./include/smt.h"
 #include "./include/stdio.h"
-//Я короч записал твой краткий экскурс
+
 int __easter_col;
 
 void __easter_create_easter() {

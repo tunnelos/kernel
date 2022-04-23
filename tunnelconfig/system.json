@@ -1,3 +1,4 @@
 {
-    "enable_usb": true
+    "enable_usb": true,
+    "alternative_ui": false
 }

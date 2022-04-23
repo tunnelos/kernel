@@ -14,6 +14,7 @@
 #include "./include/cpuid_tools.h"
 #include "./include/sse.h"
 #include "./include/avx.h"
+#include "./include/desktop.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -110,52 +111,50 @@ void __main_core0init() {
             //while(1);
         }
 
-        float fltest = 5.1;
-        fltest++;
-        double dbtest = 5.05;
-        dbtest += 16;
+        // ide_rw_t irt;
 
-        ide_rw_t irt;
-
-        int jjs = 0;
-        irt.lba = 0x10000000;
-        irt.rw = ATA_WRITE;
-        irt.sectors = 255;
-        irt.selector = 0;
-        tunnel_memory_block_t bl0 = malloc(256);
-        tunnel_memory_block_t bl1 = malloc(256);
-        char *data_input = bl0.address;
-        char *data_output = bl1.address;
-        data_input[0] = 0xFF;
-        data_output[0] = 0;
-        while(jjs < 4) {
-            if(__ide_devices[jjs].connected) {
-                data_output[0] = 0;
-                irt.drive = __ide_devices[jjs].drive;
-                irt.buffer = (uint32_t)data_input;
-                __serial_write_fmt("CPU %d -> tos > buffer address %d\r\n", __tools_get_cpu() - 1, irt.buffer);
-                irt.rw = ATA_WRITE;
-                __serial_write_fmt("CPU %d -> tos > trying to write to %d\r\n", __tools_get_cpu() - 1, jjs);
-                __ide_get_access(irt);
-                irt.rw = ATA_READ;
-                irt.buffer = (uint32_t)data_output;
-                __serial_write_fmt("CPU %d -> tos > buffer address %d\r\n", __tools_get_cpu() - 1, irt.buffer);
-                __ide_get_access(irt);
-                __serial_write_fmt("CPU %d -> tos > Result of %d: %d\r\n", __tools_get_cpu() - 1, jjs, data_output[0]);
-            }
-            jjs++;
-        }
+        // int jjs = 0;
+        // irt.lba = 0x10000000;
+        // irt.rw = ATA_WRITE;
+        // irt.sectors = 255;
+        // irt.selector = 0;
+        // tunnel_memory_block_t bl0 = malloc(256);
+        // tunnel_memory_block_t bl1 = malloc(256);
+        // char *data_input = bl0.address;
+        // char *data_output = bl1.address;
+        // data_input[0] = 0xFF;
+        // data_output[0] = 0;
+        // while(jjs < 4) {
+        //     if(__ide_devices[jjs].connected) {
+        //         data_output[0] = 0;
+        //         irt.drive = __ide_devices[jjs].drive;
+        //         irt.buffer = (uint32_t)data_input;
+        //         __serial_write_fmt("CPU %d -> tos > buffer address %d\r\n", __tools_get_cpu() - 1, irt.buffer);
+        //         irt.rw = ATA_WRITE;
+        //         __serial_write_fmt("CPU %d -> tos > trying to write to %d\r\n", __tools_get_cpu() - 1, jjs);
+        //         __ide_get_access(irt);
+        //         irt.rw = ATA_READ;
+        //         irt.buffer = (uint32_t)data_output;
+        //         __serial_write_fmt("CPU %d -> tos > buffer address %d\r\n", __tools_get_cpu() - 1, irt.buffer);
+        //         __ide_get_access(irt);
+        //         __serial_write_fmt("CPU %d -> tos > Result of %d: %d\r\n", __tools_get_cpu() - 1, jjs, data_output[0]);
+        //     }
+        //     jjs++;
+        // }
 
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
-        _shell__create_shell(0);
-        __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);
-        __stdio_margin = 0;
-        __serial_write_fmt("CPU %d -> tos > Swithing to SMT mode\n", __tools_get_cpu() - 1);
-        if(bootboot.numcores > 1) {
-            __serial_write_fmt("CPU %d -> tos > Tasks will be runned in parallel\r\n", __tools_get_cpu() - 1);
-        }
-        __smt_run();
+
+        __desktop_init();
+
+        // _shell__create_shell(0);
+        // __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);
+        // __stdio_margin = 0;
+        // __serial_write_fmt("CPU %d -> tos > Swithing to SMT mode\n", __tools_get_cpu() - 1);
+        // if(bootboot.numcores > 1) {
+        //     __serial_write_fmt("CPU %d -> tos > Tasks will be runned in parallel\r\n", __tools_get_cpu() - 1);
+        // }
+        // __smt_run();
         // // red, green, blue boxes in order
         //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }
