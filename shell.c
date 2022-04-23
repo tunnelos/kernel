@@ -9,13 +9,7 @@
 #include "./include/window_welcome.h"
 #include "./include/shell_mouse.h"
 #include "./include/ide.h"
-
-/*
-Так ну для отображения жестких дисков скорее всего надо сделать функцию draw_image
-не, можно прямо в инициализаторе сделать
-эт как
-найди меня сейчас в этом файле и смотри
-*/
+#include "./include/easter.h"
 
 
 char current_key = '?';
@@ -42,7 +36,7 @@ void __shell_draw_statusbar(int id){
         //clean screen
         // while(i < 77) {
         //     putc('\b', COLOR_GREEN + COLOR_RED, i, 0);
-        //     i++;
+        //     i++; иди в shell create
         // }
         puts("TST per CPU:", 0x00FFFFFF, 47, 0);
         uint8_t *time = tunnelos_sysinfo.bootboot.datetime;
@@ -131,7 +125,7 @@ window_t windowtest;
 void _shell__create_shell(int id){
     __stdio_margin = 0;
     __window_init();
-    //clear screen
+    //clear screen в конце функции инициализируем пасхальную штуку
     int mx = 80, my = 29;
     int i1 = 1,  i2 = 0;
     while(i1 < my){
@@ -197,6 +191,9 @@ void _shell__create_shell(int id){
         }
         i22++;
     }
+
+    __easter_create_easter();
+    //теперь заходим в easter.c -> __easter_thread
 
     __keyboard_ps2_init();
     __smt_create_task(__shell_draw_statusbar);

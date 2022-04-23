@@ -6,7 +6,8 @@ OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
 			smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o \
 			window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o      \
-			color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o
+			color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o       \
+			easter.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean

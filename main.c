@@ -35,12 +35,6 @@ void _start(){
     } else {
         __sse_init();
     }
-    if(__cpuid_check_avx() || __cpuid_check_avx2()) {
-        __avx_init();
-    } else {
-        __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu(), __cpuid_check_avx(), __cpuid_check_avx2());
-        while(1);
-    }
 
     tunnelos_sysinfo.bootboot = bootboot;
 
@@ -108,6 +102,13 @@ void __main_core0init() {
 
         tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
+
+        if(__cpuid_check_avx() || __cpuid_check_avx2()) {
+            __avx_init();
+        } else {
+            __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu(), __cpuid_check_avx(), __cpuid_check_avx2());
+            //while(1);
+        }
 
         ide_rw_t irt;
 

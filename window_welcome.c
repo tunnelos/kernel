@@ -20,8 +20,8 @@ void __wWelcome_start() {
     __window_save_context(__wWelcome_old_context, &__wWelcome_context);
 
     puts_gui("Welcome to Tunnel OS. This a multicore", 0, 10, 7);
-    puts_gui("text-based Operating System without using", 0, 10, 8);
-    puts_gui("paging nor PIT interrupts for switching", 0, 10, 9);
+    puts_gui("text-based 64-bit Operating System without", 0, 10, 8);
+    puts_gui("using paging nor PIT interrupts for switching", 0, 10, 9);
     puts_gui("tasks.", 0, 10, 10);
     //__window_read_old_ctx(__wWelcome_old_context, &__wWelcome_context);
     __wWelcome_context.color = COLOR_BLUE + COLOR_GREEN;
