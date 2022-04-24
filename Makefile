@@ -1,18 +1,20 @@
 .ONESHELL:
 
 LDFLAGS = -nostdlib -nostartfiles -T link.ld
-STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
+STRIPFLAGS = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
 			smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o \
 			window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o      \
 			color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o\
-			easter.o math.o desktop.o
+			easter.o math.o desktop.o pita.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
 
 $(OSNAME).x86_64.elf:
+	rm -rfv debug 
+	mkdir debug
 	bash compile.sh
 	ld $(LDFLAGS) $(FILELIST) $(FONTLIST) -o $(OSNAME).x86_64.elf
 	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
@@ -20,6 +22,7 @@ $(OSNAME).x86_64.elf:
 	rm -rfv fonts_compiled
 	mkdir fonts_compiled
 	mv fonts/*.o fonts_compiled/
+	cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
 iso:
 	rm -rv iso
 	mkdir iso
@@ -56,4 +59,4 @@ fullclean: clean
 vhd:
 	dd if=/dev/zero of=VHD.img bs=1M count=512
 turron:
-	qemu-system-x86_64 --cpu kvm64-v1,+avx --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw
+	qemu-system-x86_64 --cpu kvm64-v1,+avx --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw -s -S

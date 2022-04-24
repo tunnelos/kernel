@@ -5,7 +5,6 @@ int abs (int i){
   return i < 0 ? -i : i;
 }
 
-
 float Q_rsqrt( float number )
 {
 	long i;

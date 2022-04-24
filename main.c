@@ -1,4 +1,3 @@
-
 #include "./include/main.h"
 #include "./include/screen.h"
 #include "./include/stdio.h"
@@ -15,6 +14,7 @@
 #include "./include/sse.h"
 #include "./include/avx.h"
 #include "./include/desktop.h"
+#include "./include/pit.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -46,10 +46,12 @@ void _start(){
 
         scanlines = bootboot.fb_scanline;
         __idt_init();
+        //__pit_init();
         __ide_init(bars);
         __main_core0init();
     } else {
         __idt_init();
+        //__pit_init();
         __serial_write_fmt("CPU %d -> tos > CPU Check...\r\n", __tools_get_cpu() - 1);
         int mycpu = __tools_get_cpu() - 1;
         if(mycpu < 0 && (mycpu + 1) > MAX_CORES) {
@@ -145,7 +147,7 @@ void __main_core0init() {
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
 
-        // __desktop_init();
+        //__desktop_init();
 
         _shell__create_shell(0);
         __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);

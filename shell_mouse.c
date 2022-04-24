@@ -11,6 +11,7 @@ window_t __shell_mouse_wnd_context;
 char *__shell_mouse_wnd_old_context;
 int hh = 0;
 bool __shell_mouse_wnd_sel_mode = false;
+bool __shell_mouse_wnd_mov_mode = false;
 
 #define KEY_UP     0x48
 #define KEY_DOWN   0x50
@@ -18,9 +19,11 @@ bool __shell_mouse_wnd_sel_mode = false;
 #define KEY_RIGHT  0x4D
 #define KEY_INSERT 0x52
 #define KEY_PGDOWN 0x51
+#define KEY_HOME   0x47
 
 #define MOUSE_COL_SELECTOR 0x00C01F9F
 #define MOUSE_COL_STANDART 0x005F1F2F
+#define MOUSE_COL_WINDMOVE 0x0000FF20
 
 void __shell_mouse_move(int xx, int yy) {
     __window_read_old_ctx(__shell_mouse_wnd_old_context, &__shell_mouse_wnd_context);
@@ -29,20 +32,31 @@ void __shell_mouse_move(int xx, int yy) {
     __shell_mouse_wnd_context.wx = __shell_mouse_x;
     __shell_mouse_wnd_context.wy = __shell_mouse_y;
     __window_save_context(__shell_mouse_wnd_old_context, &__shell_mouse_wnd_context);
-    putc_gui('\x07', (__shell_mouse_wnd_sel_mode) ? MOUSE_COL_SELECTOR : MOUSE_COL_STANDART, __shell_mouse_x, __shell_mouse_y);
+    if(__shell_mouse_wnd_sel_mode) {
+        if(__shell_mouse_wnd_mov_mode) {
+            putc_gui('\x07', MOUSE_COL_WINDMOVE, __shell_mouse_x, __shell_mouse_y);
+        } else {
+            putc_gui('\x07', MOUSE_COL_SELECTOR, __shell_mouse_x, __shell_mouse_y);
+        }
+    } else {
+        putc_gui('\x07', MOUSE_COL_STANDART, __shell_mouse_x, __shell_mouse_y);
+    }
 }
 void __shell_mouse_thread(int id) {
-    if(hh == 64) {
+    if(hh == 256) {
         switch(scancodePub) {
             case KEY_UP: {
                 if(!(__shell_mouse_y < 1)) {
                     if(__shell_mouse_wnd_sel_mode) {
                         uint8_t x = 0;
                         while(x < 32) {
-                            if(__window_windowlist[x]) {
-                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y && __window_windowlist[x]->id != __shell_mouse_wnd_context.id) {
+                            if(__window_used[x]) {
+                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
+                                    __window_windowlist[x]->selected = true;
+                                    __window_windowlist[x]->updated = true;
+                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
-                                    __window_windowlist[x]->wy -= 1;;
+                                    __window_windowlist[x]->wy -= 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     if(__window_windowlist[x]->update_handler != 0) __window_windowlist[x]->update_handler();
                                     __window_windowlist[x]->updated = true;
@@ -61,7 +75,10 @@ void __shell_mouse_thread(int id) {
                         uint8_t x = 0;
                         while(x < 32) {
                             if(__window_windowlist[x]) {
-                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y && __window_windowlist[x]->id != __shell_mouse_wnd_context.id) {
+                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
+                                    __window_windowlist[x]->selected = true;
+                                    __window_windowlist[x]->updated = true;
+                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     __window_windowlist[x]->wy += 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
@@ -82,7 +99,10 @@ void __shell_mouse_thread(int id) {
                         uint8_t x = 0;
                         while(x < 32) {
                             if(__window_windowlist[x]) {
-                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y && __window_windowlist[x]->id != __shell_mouse_wnd_context.id) {
+                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
+                                    __window_windowlist[x]->selected = true;
+                                    __window_windowlist[x]->updated = true;
+                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     __window_windowlist[x]->wx -= 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
@@ -101,9 +121,12 @@ void __shell_mouse_thread(int id) {
                         uint8_t x = 0;
                         while(x < 32) {
                             if(__window_windowlist[x]) {
-                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y && __window_windowlist[x]->id != __shell_mouse_wnd_context.id) {
+                                if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
+                                    __window_windowlist[x]->selected = true;
+                                    __window_windowlist[x]->updated = true;
+                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
-                                    __window_windowlist[x]->wy -= 1;
+                                    __window_windowlist[x]->wx += 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     if(__window_windowlist[x]->update_handler != 0) __window_windowlist[x]->update_handler();
                                 }
@@ -118,12 +141,39 @@ void __shell_mouse_thread(int id) {
             case KEY_INSERT: {
                 __serial_write_fmt("CPU ? -> tos > Chagne mouse mode to %d!\n", !__shell_mouse_wnd_sel_mode);
                 __shell_mouse_wnd_sel_mode = !__shell_mouse_wnd_sel_mode;
+                if(__shell_mouse_wnd_sel_mode) {
+                    uint8_t x = 0;
+                    while(x < 32) {
+                        if(__window_windowlist[x]) {
+                            if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
+                                __window_windowlist[x]->selected = true;
+                                __window_windowlist[x]->updated = true;
+                            }
+                        }
+                        x++;
+                    }
+                } else {
+                    uint8_t x = 0;
+                    while(x < 32) {
+                        if(__window_windowlist[x]) {
+                            __window_windowlist[x]->selected = false;
+                            __window_windowlist[x]->updated = true;
+                        }
+                        x++;
+                    }
+                }
                 __shell_mouse_move(0, 0);
                 break;
             }
             case KEY_PGDOWN: {
-                __serial_write_fmt("CPU ? -> tos > END Key!!\n");
+                __serial_write_fmt("CPU ? -> tos > Page Down Key!!\n");
                 break;
+            }
+            case KEY_HOME: {
+                __shell_mouse_wnd_mov_mode = !__shell_mouse_wnd_mov_mode;
+                if(!__shell_mouse_wnd_mov_mode) {
+                    __shell_mouse_wnd_sel_mode = false;
+                }
             }
         }
         hh = 0;

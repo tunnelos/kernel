@@ -19,6 +19,7 @@ typedef struct {
     bool draw_border;
     bool rainbow;
     bool updated;
+    bool selected;
 
     //up to 4 avaliable window contexts
     char *ctx0, *ctx1, *ctx2, *ctx3;
