@@ -1,5 +1,5 @@
 # Welcome to Tunnel OS.
-This is a multicore text-based 64-bit Operating System without using paging nor PIT interrupts for switching
+This is a multicore text-based 64-bit Operating System without using paging nor PIT interrupts for switching tasks
 <br>
 
 **Authors**<br>
