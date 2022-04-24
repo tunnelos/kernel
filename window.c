@@ -17,7 +17,8 @@ void __window_renderer(int id) {
     int i = 0;
     while(i < 32) {
         if(__window_used[i]) {
-            if(!__window_windowlist[i]->in_background && __window_windowlist[i]->draw_border) {
+            if(!__window_windowlist[i]->in_background && __window_windowlist[i]->draw_border && __window_windowlist[i]->updated) {
+                __window_windowlist[i]->updated = false;
                 window_t *cw = __window_windowlist[i];
                 int x1 = cw->wx;
                 int y1 = cw->wy;
@@ -59,7 +60,6 @@ void __window_renderer(int id) {
                     i4++;
                 }    
             }
-            __window_windowlist[i]->updated = true;
         }
         i++;
     }

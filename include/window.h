@@ -20,7 +20,15 @@ typedef struct {
     bool rainbow;
     bool updated;
 
+    //up to 4 avaliable window contexts
+    char *ctx0, *ctx1, *ctx2, *ctx3;
+
+    void(* update_handler)(void);
+    void(* exit_handler)(void);
+    void(* bg_handler)(void);
+
     int id;
+    bool exists;
 } window_t;
 
 extern window_t *__window_windowlist[32];

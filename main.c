@@ -145,16 +145,16 @@ void __main_core0init() {
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
 
-        __desktop_init();
+        // __desktop_init();
 
-        // _shell__create_shell(0);
-        // __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);
-        // __stdio_margin = 0;
-        // __serial_write_fmt("CPU %d -> tos > Swithing to SMT mode\n", __tools_get_cpu() - 1);
-        // if(bootboot.numcores > 1) {
-        //     __serial_write_fmt("CPU %d -> tos > Tasks will be runned in parallel\r\n", __tools_get_cpu() - 1);
-        // }
-        // __smt_run();
+        _shell__create_shell(0);
+        __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);
+        __stdio_margin = 0;
+        __serial_write_fmt("CPU %d -> tos > Swithing to SMT mode\n", __tools_get_cpu() - 1);
+        if(bootboot.numcores > 1) {
+            __serial_write_fmt("CPU %d -> tos > Tasks will be runned in parallel\r\n", __tools_get_cpu() - 1);
+        }
+        __smt_run();
         // // red, green, blue boxes in order
         //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }

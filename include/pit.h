@@ -23,8 +23,8 @@ typedef struct {
 } pit_timer_t;
 
 extern uint64_t current_tick;
-extern pit_timer_t __pit_timers[396];
+// extern pit_timer_t __pit_timers[396];
 
 void __pit_event_timer();
-void __pit_create_timer(void (*callback)(void), bool multiple, uint64_t every);
+// void __pit_create_timer(void (*callback)(void), bool multiple, uint64_t every);
 
