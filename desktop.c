@@ -3,8 +3,10 @@
 #include "./include/serial.h"
 #include "./include/cstring.h"
 
-int current_tasks[];
-char task_name[];
+unsigned int __desktop_tasks_count = 0;
+unsigned int __desktop_tasks_length = 0;
+int __desktop_ids[10];
+char *__desktop_titles[25];
 
 void __desktop_init() {
     __serial_write_fmt("CPU 0 -> tos -> DESKTOP > Creating desktop...\n");
@@ -26,32 +28,30 @@ void __desktop_init() {
     for(int i = 0; i < 10; i++){
         putc('\x08', COLOR_LIGHT_GREEN, i, 2);
     }
-    puts_gui("Apps", COLOR_GRAY, 1, 2);
-    puts_gui("Games", COLOR_GRAY, 1, 3);
-    puts_gui("System", COLOR_GRAY, 1, 4);
+    puts_gui("Apps", COLOR_WHITE, 1, 2);
+    puts_gui("Games", COLOR_WHITE, 1, 3);
+    puts_gui("System", COLOR_WHITE, 1, 4);
 
     while(true);
 }
 
-unsigned short __desktop_tasks_count = 0;
-int __desktop_ids[10];
-char *__desktop_titles[25];
-
 void __desktop_add_task(char task[]) {
     __desktop_titles[__desktop_ids[__desktop_tasks_count]] = task;
     __desktop_tasks_count++;
+    __desktop_tasks_length += strlen(task);
 }
 
-void __desktop_termanaite_task() {
+void __desktop_termanaite_task(task) {
     __desktop_tasks_count--;
+    __desktop_tasks_length -= strlen(task);
 }
 
 int __desktop_get_current_tasks() {
     
 }
 void __desktop_render_tasks(){
-    // for(int i = 1; i < __desktop_tasks_count; i++){
-    //     putc('\x08', COLOR_DARK_GRAY, );
-    //     puts_gui(__desktop_titles[__desktop_ids[i]]);
-    // }
+    for(int i = 0; i < __desktop_tasks_count; i++){
+        //putc('\x08', COLOR_DARK_GRAY, );
+        puts_gui(__desktop_titles[__desktop_ids[i]], COLOR_LIGHT_GRAY, __desktop_tasks_length, 0);
+    }
 }

@@ -192,8 +192,7 @@ void _shell__create_shell(int id){
         i22++;
     }
 
-    __easter_create_easter();
-    //теперь заходим в easter.c -> __easter_thread
+    //__easter_create_easter();
 
     __keyboard_ps2_init();
     __smt_create_task(__shell_draw_statusbar);

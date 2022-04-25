@@ -2,6 +2,7 @@ iso
 *.o
 *.elf
 *.txt
-*.iso
 VHD.img
+*.iso
+webserver
 exp/main

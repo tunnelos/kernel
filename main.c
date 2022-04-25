@@ -147,7 +147,7 @@ void __main_core0init() {
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
 
-        //__desktop_init();
+        __desktop_init();
 
         _shell__create_shell(0);
         __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);
