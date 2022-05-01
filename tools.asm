@@ -1,9 +1,13 @@
 global __cli
+global __sti
 global __pit_eoi
 global __tools_int_test
 
 __cli:
     cli
+    ret
+__sti:
+    sti
     ret
 __pit_eoi:
     mov al, 0x20

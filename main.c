@@ -16,6 +16,8 @@
 #include "./include/desktop.h"
 #include "./include/pit.h"
 #include "./include/pic.h"
+#include "./include/rtc.h"
+#include "./include/nmi.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -46,12 +48,13 @@ void _start(){
         __serial_write_fmt("CPU %d -> tos > SSE is supported.\r\n", __tools_get_cpu() - 1);
 
         scanlines = bootboot.fb_scanline;
+        __cli();
         __idt_init();
         __pic_unmask(0);
-        __pit_init();
-        __tools_int_test(2);
-        //int jjjs = 0;
-        //while(jjjs < 65535*64) jjjs++;
+        __nmi_init();
+        //__pit_init();
+        __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
+        __rtc_init();
         __ide_init(bars);
         __main_core0init();
     } else {

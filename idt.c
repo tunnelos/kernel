@@ -1,17 +1,33 @@
 #include "./include/idt.h"
 #include "./include/tools.h"
 #include "./include/smt.h"
+#include "./include/rtc.h"
 
 idt_entry_t __idt_idt[256];
 idtr_t __idt_idtr;
 bool vectors[32];
-
+interrupt_t current_interrupt;
 
 void __idt_exception_handler(int interrupt_id) {
     __serial_write_fmt("CPU %d -> tos > Exception %d!\r\n", __tools_get_cpu() - 1, interrupt_id);
+    current_interrupt.active = true;
+    current_interrupt.interrupt_id = interrupt_id;
+    current_interrupt.critical = true;
+    switch(interrupt_id) {
+        case IDT_INTERRUPT_RTC: {
+            outb(RTC_REGISTER_B_OUT, 0x0C);
+            inb(RTC_REGISTER_B_IN);
+            break;
+        }
+    }
+    current_interrupt.active = false;
 }
 void __idt_interrupt_handler(int interrupt_id) {
+    current_interrupt.active = true;
+    current_interrupt.critical = false;
+    current_interrupt.interrupt_id = interrupt_id;
     __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n", __tools_get_cpu() - 1, interrupt_id);
+    current_interrupt.active = false;
 }
 
 void __idt_set_descriptor(uint8_t vector, void *isr, uint8_t flags) {
