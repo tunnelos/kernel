@@ -23,8 +23,10 @@ extern idtr_t __idt_idtr;
 extern void *__idt_stub_table[32];
 extern bool vectors[32];
 
-void __idt_exception_handler();
-void __idt_interrupt_handler();
+void __idt_exception_handler(int interrupt_id);
+void __idt_interrupt_handler(int interrupt_id);
 
 void __idt_set_descriptor(uint8_t vector, void *isr, uint8_t flags);
 void __idt_init();
+
+extern void __cli();

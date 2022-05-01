@@ -7,13 +7,11 @@ idtr_t __idt_idtr;
 bool vectors[32];
 
 
-void __idt_exception_handler() {
-    //__serial_write_fmt("CPU %d -> tos > Exception!\r\n", __tools_get_cpu() - 1);
-    if(__tools_get_cpu() > 1) {
-        cores[__tools_get_cpu() - 1].exception = true;
-        cores[__tools_get_cpu() - 1].busy = false;
-    }
-    __asm__ volatile("iretq");
+void __idt_exception_handler(int interrupt_id) {
+    __serial_write_fmt("CPU %d -> tos > Exception %d!\r\n", __tools_get_cpu() - 1, interrupt_id);
+}
+void __idt_interrupt_handler(int interrupt_id) {
+    __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n", __tools_get_cpu() - 1, interrupt_id);
 }
 
 void __idt_set_descriptor(uint8_t vector, void *isr, uint8_t flags) {

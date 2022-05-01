@@ -11,5 +11,5 @@ void outl(uint16_t port, uint32_t val);
 void io_wait();
 void wait(uint64_t ms);
 void insl(uint16_t reg, uint32_t *buffer, int quads);
-
 int __tools_get_cpu();
+extern void __tools_int_test(uint8_t interrupt_number);

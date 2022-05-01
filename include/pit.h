@@ -30,8 +30,11 @@ extern uint64_t current_tick;
 // extern pit_timer_t __pit_timers[396];
 
 void __pit_event_timer();
+uint16_t __pit_count();
+void __pit_set_count(uint16_t count);
 // void __pit_create_timer(void (*callback)(void), bool multiple, uint64_t every);
 extern void __pit_init();
+extern void __pit_eoi();
 
 extern uint16_t __pit_system_timer_fractions;
 extern uint32_t __pit_system_timer_ms;

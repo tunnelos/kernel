@@ -15,6 +15,7 @@
 #include "./include/avx.h"
 #include "./include/desktop.h"
 #include "./include/pit.h"
+#include "./include/pic.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -46,7 +47,11 @@ void _start(){
 
         scanlines = bootboot.fb_scanline;
         __idt_init();
-        //__pit_init();
+        __pic_unmask(0);
+        __pit_init();
+        __tools_int_test(2);
+        //int jjjs = 0;
+        //while(jjjs < 65535*64) jjjs++;
         __ide_init(bars);
         __main_core0init();
     } else {

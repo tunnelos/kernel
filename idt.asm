@@ -1,15 +1,26 @@
 extern __idt_exception_handler
+extern __idt_interrupt_handler
 global __idt_stub_table
 
 %macro isr_err_stub 1
 isr_stub_%+%1:
+    push rbp
+    mov rbp, rsp
+    mov edi, %+%1
     call __idt_exception_handler
+    nop
+    pop rbp
     iretq 
 %endmacro
 ; if writing for 64-bit, use iretq instead
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
-    call __idt_exception_handler
+    push rbp
+    mov rbp, rsp
+    mov edi, %+%1
+    call __idt_interrupt_handler
+    nop
+    pop rbp
     iretq
 %endmacro
 

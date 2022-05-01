@@ -5,6 +5,8 @@ global __pit_IRQ0_fractions
 global __pit_IRQ0_ms
 global __pit_IRQ0_frequency
 global __pit_reload_value
+extern __pit_eoi
+extern __pit_event_timer
 
 section .bss
 __pit_system_timer_fractions:  resd 1          ; Fractions of 1 ms since timer initialized
@@ -15,6 +17,14 @@ __pit_IRQ0_frequency:          resd 1          ; Actual frequency of PIT
 __pit_reload_value:            resw 1          ; Current PIT reload value
 section .text
 
+__pit_interrupt:
+    push rax
+    push rbx
+    call __pit_event_timer
+    call __pit_eoi
+    pop rbx
+    pop rax
+    iretd
 __pit_init:
     push rbx
 
@@ -34,7 +44,7 @@ __pit_init:
     inc eax
 __pit_init_001:
     mov ebx, 3
-    mov ebx, 0
+    mov edx, 0
     div ebx
     cmp edx, 3 / 2
     jb __pit_init_002
