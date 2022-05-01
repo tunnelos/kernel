@@ -5,25 +5,15 @@ int abs (int i){
   return i < 0 ? -i : i;
 }
 
-float Q_rsqrt( float number )
-{
-	long i;
-	float x2, y;
-	const float threehalfs = 1.5F;
-
-	x2 = number * 0.5F;
-	y  = number;
-	i  = * ( long * ) &y;                       // evil floating point bit level hacking
-	i  = 0x5f3759df - ( i >> 1 );               // what the fuck? 
-	y  = * ( float * ) &i;
-	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
-
-	return y;
-}
-
 float sqrt(float number) {
-    return round(Q_rsqrt(number) * (number / 2) * 2);
+    float i = 0;
+
+    while(i <= number){
+        if((i * i) >= number) return i;
+        i += 0.000001;
+    }
+
+    return i;
 }
 
 float round(float number) {
