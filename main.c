@@ -51,14 +51,17 @@ void _start(){
         __cli();
         __idt_init();
         __pic_unmask(0);
-        __nmi_init();
         //__pit_init();
         __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
         __rtc_init();
+        __nmi_init();
         __ide_init(bars);
         __main_core0init();
     } else {
         __idt_init();
+        __pic_unmask(0);
+        __rtc_init();
+        __nmi_init();
         //__pit_init();
         __serial_write_fmt("CPU %d -> tos > CPU Check...\r\n", __tools_get_cpu() - 1);
         int mycpu = __tools_get_cpu() - 1;

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Apr  9 16:27:45 2022
+# Make data base, printed on Sun May  1 12:39:02 2022
 
 # Variables
 
@@ -68,14 +68,14 @@ MANDATORY_PATH = /usr/share/gconf/cinnamon.mandatory.path
 XDG_DATA_DIRS = /usr/share/cinnamon:/usr/share/gnome:/home/k/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
 # environment
 __GL_SYNC_DISPLAY_DEVICE = DP-0
-# makefile (from 'Makefile', line 10)
+# makefile (from 'Makefile', line 11)
 FONTLIST = fonts/text.o fonts/gui.o
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-b46ee53f-7611-400c-8175-43bda3eacfa3.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-3c30d309-2dc7-410f-94a4-9d2673832cd0.sock
 # environment
 LC_NAME = en_US.UTF-8
 # environment
@@ -85,17 +85,17 @@ XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-NO_PROXY = localhost,127.0.0.0/8,::1
+PATH = /home/k/google-cloud-sdk/bin:/home/k/plugin/apache-maven-3.8.4/bin:/home/k/vasm/build:/home/k/6502js-but-c:/home/k/.cargo/bin:/home/k/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/dart/bin
 # makefile (from 'Makefile', line 5)
 OSNAME = tunnel
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/k-H61H2-M2:@/tmp/.ICE-unix/2494,unix/k-H61H2-M2:/tmp/.ICE-unix/2494
+SESSION_MANAGER = local/k-H61H2-M2:@/tmp/.ICE-unix/2710,unix/k-H61H2-M2:/tmp/.ICE-unix/2710
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # makefile (from 'Makefile', line 6)
-FILELIST = main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o color.o
+FILELIST = main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o ui.o color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o easter.o math.o desktop.o pita.o toolsa.o pic.o pica.o rtc.o nmi.o
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -115,8 +115,6 @@ SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
 DISPLAY = :0
 # environment
-no_proxy = localhost,127.0.0.0/8,::1
-# environment
 VSCODE_PIPE_LOGGING = true
 # environment
 PWD = /home/k/TunnelOS
@@ -127,13 +125,13 @@ QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 2572
+SSH_AGENT_PID = 2790
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = X-Cinnamon
 # environment
 GTK_MODULES = gail:atk-bridge
 # makefile (from 'Makefile', line 4)
-STRIPFLAGS = -s -K mmio -K fb -K bootboot -K environment -K initstack
+STRIPFLAGS = -K mmio -K fb -K bootboot -K environment -K initstack
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -141,11 +139,10 @@ HOME = /home/k
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /home/k/.config/Code/CachedData/8dfae7a5cd50421d10cd99cb873990460525a898
+VSCODE_CODE_CACHE_PATH = /home/k/.config/Code/CachedData/dfd34e8260c270da74b5c2d86d61aee4b6d56977
 # environment
 LOGNAME = k
 # environment
- 
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
 +F = $(notdir $+)
@@ -169,8 +166,6 @@ COLORTERM = truecolor
 MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
-# environment
-PATH = /home/k/google-cloud-sdk/bin:/home/k/plugin/apache-maven-3.8.4/bin:/home/k/vasm/build:/home/k/6502js-but-c:/home/k/.cargo/bin:/home/k/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/dart/bin
 # environment
 SHLVL = 1
 # environment
@@ -204,7 +199,7 @@ LANGUAGE = en_US
 # environment
 XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-0e66b754-1.66.1-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-0e66b754-1.66.2-main.sock
 # makefile
 MAKEFLAGS = pqrR
 # environment
@@ -238,7 +233,7 @@ LC_ALL = C
 # environment
 GJS_DEBUG_TOPICS = JS ERROR;JS LOG
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/84d09c8a_f6ae_43d4_9d13_dbb208fbf116
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/061be25d_76a1_4522_8032_b7912ec4c3c2
 # automatic
 ^F = $(notdir $^)
 # environment
@@ -260,9 +255,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 28157
+VSCODE_PID = 21241
 # variable set hash-table stats:
-# Load=125/1024=12%, Rehash=0, Collisions=18/163=11%
+# Load=123/1024=12%, Rehash=0, Collisions=17/163=10%
 
 # Pattern-specific Variable Values
 
@@ -270,9 +265,9 @@ VSCODE_PID = 28157
 
 # Directories
 
-# . (device 2130, inode 10092719): 43 files, no impossibilities.
+# . (device 2130, inode 10092719): 67 files, no impossibilities.
 
-# 43 files, no impossibilities in 1 directories.
+# 67 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -283,6 +278,7 @@ VSCODE_PID = 28157
 .ONESHELL:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
 
 all: tunnel.x86_64.elf iso fullclean
@@ -292,7 +288,7 @@ all: tunnel.x86_64.elf iso fullclean
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/11=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/13=0%
 
 tunnel.x86_64.elf:
 #  Implicit rule search has not been done.
@@ -317,8 +313,10 @@ tunnel.x86_64.elf:
 # automatic
 # ? := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=5/19=26%
-#  recipe to execute (from 'Makefile', line 15):
+# Load=8/32=25%, Rehash=0, Collisions=7/21=33%
+#  recipe to execute (from 'Makefile', line 16):
+	rm -rfv debug 
+	mkdir debug
 	bash compile.sh
 	ld $(LDFLAGS) $(FILELIST) $(FONTLIST) -o $(OSNAME).x86_64.elf
 	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
@@ -326,12 +324,16 @@ tunnel.x86_64.elf:
 	rm -rfv fonts_compiled
 	mkdir fonts_compiled
 	mv fonts/*.o fonts_compiled/
+	cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
+	cd debug
+	objdump -D tunnel.x86_64.elf > tunnel.x86_64.txt
+	cd ..
 
 vhd:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 56):
+#  recipe to execute (from 'Makefile', line 63):
 	dd if=/dev/zero of=VHD.img bs=1M count=512
 
 # Not a target:
@@ -343,7 +345,7 @@ vhd:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-04-09 16:27:41.757126495
+#  Last modified 2022-05-01 12:35:38.032904392
 #  File has been updated.
 #  Successfully updated.
 
@@ -357,21 +359,21 @@ turron:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 58):
-	qemu-system-x86_64 --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw
+#  recipe to execute (from 'Makefile', line 65):
+	qemu-system-x86_64 --cpu kvm64-v1,+avx -d int --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw -s -S
 
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 50):
-	rm -rf *.o fonts/*.o
+#  recipe to execute (from 'Makefile', line 57):
+	rm -rf *.o fonts/*.o tunnelconfig/*.o
 
 fullclean: clean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 52):
+#  recipe to execute (from 'Makefile', line 59):
 	rm -rf *.elf *.iso
 	cp iso/$(OSNAME).x86_64.iso .
 	rm -rf iso
@@ -380,7 +382,7 @@ iso:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 30):
 	rm -rv iso
 	mkdir iso
 	mkdir iso/tmp
@@ -393,7 +395,6 @@ iso:
 	make all
 	cp ../../../../$(OSNAME).x86_64.elf . -r
 	cp ../../../../$(OSNAME).json . -r
- 
 	./mkbootimg check $(OSNAME).x86_64.elf
 	mkdir boot
 	cp ../../sys boot/ -r
@@ -417,12 +418,12 @@ iso:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 55 / storage = 489 B / avg = 8 B
-# current buf: size = 8162 B / used = 489 B / count = 55 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 79 / storage = 696 B / avg = 8 B
+# current buf: size = 8162 B / used = 696 B / count = 79 / avg = 8 B
 
-# strcache performance: lookups = 73 / hit rate = 24%
+# strcache performance: lookups = 97 / hit rate = 18%
 # hash-table stats:
-# Load=55/8192=1%, Rehash=0, Collisions=1/73=1%
-# Finished Make data base on Sat Apr  9 16:27:45 2022
+# Load=79/8192=1%, Rehash=0, Collisions=1/97=1%
+# Finished Make data base on Sun May  1 12:39:02 2022
 
  

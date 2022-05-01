@@ -23,13 +23,13 @@ float Q_rsqrt( float number )
 }
 
 float sqrt(float number) {
-    return Q_rsqrt(number) * 64;
+    return round(Q_rsqrt(number) * (number / 2) * 2);
 }
 
 float round(float number) {
     float r = number;
-    if((number - floor(number)) > 0.44444) r++;
-    return r;
+    if((number - floor(number)) > 0.444444) r++;
+    return floor(r);
 }
 
 float acos(float x){
