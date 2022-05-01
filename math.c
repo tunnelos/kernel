@@ -58,7 +58,9 @@ float modf(float x, float *iptr){
     union {
         float f; 
         uint32_t i;
-    } u = {x, 0};
+    } u;
+    u.f = x;
+    u.i = 0;
     uint64_t mask;
     int e = (int)(u.i >> 52 & 0x7FF) - 0x3FF;
 

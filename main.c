@@ -48,16 +48,22 @@ void _start(){
         __serial_write_fmt("CPU %d -> tos > SSE is supported.\r\n", __tools_get_cpu() - 1);
 
         scanlines = bootboot.fb_scanline;
+        tunnelos_sysinfo.cores++;
         __cli();
         __idt_init();
+        tunnelos_sysinfo.interrupts = true;
         __pic_unmask(0);
         //__pit_init();
         __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
         __rtc_init();
+        tunnelos_sysinfo.rtc = true;
         __nmi_init();
+        tunnelos_sysinfo.nmi = true;
         __ide_init(bars);
+        tunnelos_sysinfo.ide = true;
         __main_core0init();
     } else {
+        tunnelos_sysinfo.cores++;
         __idt_init();
         __pic_unmask(0);
         __rtc_init();
@@ -65,7 +71,8 @@ void _start(){
         //__pit_init();
         __serial_write_fmt("CPU %d -> tos > CPU Check...\r\n", __tools_get_cpu() - 1);
         int mycpu = __tools_get_cpu() - 1;
-        if(mycpu < 0 && (mycpu + 1) > MAX_CORES) {
+        if(mycpu < 0 || (mycpu + 1) > MAX_CORES) {
+            __serial_write_fmt("CPU %d -> tos > CPU will be unused.\r\n", __tools_get_cpu() - 1);
             //do not use them
             while(1);
         }
@@ -107,19 +114,22 @@ void __main_core0init() {
     if(s) {
         tunnelos_sysinfo.free_memory_location = (uint8_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.free_memory_location_size = ((MMapEnt *)(&bootboot.mmap + 4))->size;
-
-        if(tunnelos_sysinfo.free_memory_location_size < 8*1024*1024 + 8){
+        if(tunnelos_sysinfo.free_memory_location_size < 16*1024*1024 + 8){
             __stdio_margin = 1;
-            crash((const char *)PANIC_NOT_ENOUGH_MEMORY);
+            crash((const char *)PANIC_NOT_ENOUGH_MEMORY_STRING, PANIC_NOT_ENOUGH_MEMORY_NUMBER);
             while(1);
         }
+
+        __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\r\n", __tools_get_cpu(), tunnelos_sysinfo.free_memory_location_size / 1024);
 
         tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
 
         if(__cpuid_check_avx() || __cpuid_check_avx2()) {
+            tunnelos_sysinfo.avx = true;
             __avx_init();
         } else {
+            tunnelos_sysinfo.avx = false;
             __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu(), __cpuid_check_avx(), __cpuid_check_avx2());
             //while(1);
         }
@@ -159,6 +169,10 @@ void __main_core0init() {
         __stdio_margin = 1;
 
         __desktop_init();
+        __desktop_add_task("Discord");
+        __desktop_add_task("VSCode");
+        __desktop_add_task("Firefox");
+        __desktop_render_tasks();
 
         _shell__create_shell(0);
         __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);

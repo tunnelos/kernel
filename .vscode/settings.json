@@ -22,6 +22,7 @@
         "cint.h": "c",
         "stdint.h": "c",
         "ide.h": "c",
-        "color.h": "c"
+        "color.h": "c",
+        "desktop.h": "c"
     }
 }

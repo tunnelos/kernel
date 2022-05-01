@@ -62,4 +62,4 @@ fullclean: clean
 vhd:
 	dd if=/dev/zero of=VHD.img bs=1M count=512
 turron:
-	qemu-system-x86_64 --cpu kvm64-v1,+avx -d int --boot d --cdrom $(OSNAME).x86_64.iso -m 256M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw -s -S
+	qemu-system-x86_64 --cpu kvm64-v1,+avx -d int --boot d --cdrom $(OSNAME).x86_64.iso -m 20M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw -s -S

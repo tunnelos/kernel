@@ -10,7 +10,7 @@ int __stdio_margin = 0;
 int __stdio_gui_margin = 0;
 bool terminal_block = false;
 
-void puts(char *s, uint32_t color, int x4, int y4){
+void puts(const char *s, uint32_t color, int x4, int y4){
     int tx = x4 * 8;
     int ty = y4 * 16;
     int kx = 0;
@@ -47,13 +47,13 @@ void puts(char *s, uint32_t color, int x4, int y4){
     terminal_block = false;
 }
 
-void putc(char c, uint32_t color, int x, int y) {
+void putc(const char c, uint32_t color, int x, int y) {
     char str[2] = {c, '\0'};
     puts(str, color, x, y);
     return;
 }
 
-void puts_gui(char *s, uint32_t color, int x4, int y4){
+void puts_gui(const char *s, uint32_t color, int x4, int y4){
     int tx = x4 * 8;
     int ty = y4 * 16;
     int kx = 0;
@@ -90,7 +90,7 @@ void puts_gui(char *s, uint32_t color, int x4, int y4){
     terminal_block = false;
 }
 
-void putc_gui(char c, uint32_t color, int x, int y) {
+void putc_gui(const char c, uint32_t color, int x, int y) {
     char str[2] = {c, '\0'};
     puts_gui(str, color, x, y);
     return;
@@ -146,6 +146,14 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                         break;
                     }
                 }
+                va_end(ap);
+                break;
+            }
+            case '\n': {
+                y++;
+                x = 0;
+                va_end(ap);
+                break;
             }
             default: {
                 putc(fmt[i], color, x, y);

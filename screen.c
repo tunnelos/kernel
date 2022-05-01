@@ -83,7 +83,6 @@ void __screen_draw_rectangle(int x, int y, int width, int height, uint32_t color
     }
 
     temp = SCREEN_WIDTH * (y - 1) + x;
-    int indexStepOnEveryLine = SCREEN_WIDTH - width;
 
     if(transparency == 0){
         for (int j = 1; j < height; j++){

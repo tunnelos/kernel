@@ -3,11 +3,11 @@
 #include "./main.h" 
 
 //standart text
-void puts(char *str, uint32_t color, int x, int y);
-void putc(char c, uint32_t color, int x, int y);
+void puts(const char *str, uint32_t color, int x, int y);
+void putc(const char c, uint32_t color, int x, int y);
 
-void puts_gui(char *str, uint32_t color, int x, int y);
-void putc_gui(char c, uint32_t color, int x, int y);
+void puts_gui(const char *str, uint32_t color, int x, int y);
+void putc_gui(const char c, uint32_t color, int x, int y);
 
 void printf(uint32_t color, int x, int y, const char *fmt, ...);
 

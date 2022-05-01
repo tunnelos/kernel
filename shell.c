@@ -23,7 +23,7 @@ void __shell_draw_statusbar(int id){
     int i = 0;
     puts("Tunnel OS v0.3", 0x00FFFFFF, 2, 0);
     printf(COLOR_RED, 17, 0, "%c", current_key);
-    if(!__keyboard_ps2_ascii_only[scancodePub]) {
+    if(!__keyboard_ps2_ascii_only[(uint8_t)scancodePub]) {
         printf(0, 19, 0, "\b\b");
         printf(COLOR_RED, 19, 0, "%X", scancodePub);
     } else {
