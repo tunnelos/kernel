@@ -34,7 +34,7 @@ uint32_t bars[5] = {
 
 void _start(){
     if(__cpuid_check_sse() == 0) {
-        __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!", __tools_get_cpu());
+        __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!", __tools_get_cpu() - 1);
         while(1);
     } else {
         __sse_init();
@@ -124,7 +124,7 @@ void __main_core0init() {
             while(1);
         }
 
-        __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\r\n", __tools_get_cpu(), tunnelos_sysinfo.free_memory_location_size / 1024);
+        __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\r\n", __tools_get_cpu() - 1, tunnelos_sysinfo.free_memory_location_size / 1024);
 
         tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
@@ -134,7 +134,7 @@ void __main_core0init() {
             __avx_init();
         } else {
             tunnelos_sysinfo.avx = false;
-            __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu(), __cpuid_check_avx(), __cpuid_check_avx2());
+            __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu() - 1, __cpuid_check_avx(), __cpuid_check_avx2());
             //while(1);
         }
 
@@ -172,7 +172,8 @@ void __main_core0init() {
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
         __mm_fillblocks();
-        free(malloc(8));
+        void *testalo = malloc(8);
+        void *testaln = realloc(testalo, 64);
 
         // __desktop_init();
         // __desktop_add_task("Discord");

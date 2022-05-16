@@ -40,12 +40,42 @@ void *malloc(int size) {
                 state[0] = state[1] + state[3];
                 state[1]++;
             }
-            __serial_write_fmt("Allocated %d blocks of memory on address %X\r\n", state[2], (uint64_t)tunnelos_sysinfo.mm->meta[state[0]].address);
+            __serial_write_fmt("CPU %d -> tos > Allocated %d blocks of memory on address %X\r\n", __tools_get_cpu() - 1, state[2], (uint64_t)tunnelos_sysinfo.mm->meta[state[0]].address);
             return tunnelos_sysinfo.mm->meta[state[0]].address;
         }
         state[3]++;
     }
     return 0;
+}
+
+tunnel_memory_block_t __mm_get_blockinformation(void *address) {
+    uint64_t adr = (uint64_t)address;
+    uint64_t sadr = (uint64_t)(&tunnelos_sysinfo.mm->blockdata);
+    uint64_t index = adr - sadr;
+    uint64_t blk = floor(index / 256);
+    tunnel_memory_block_t bl;
+    bl.address = tunnelos_sysinfo.mm->meta[blk].address;
+    bl.free = tunnelos_sysinfo.mm->meta[blk].free;
+    bl.have = tunnelos_sysinfo.mm->meta[blk].have;
+    return bl;
+}
+
+void *realloc(void *address, int size) {
+    void *new_addr = malloc(size);
+    void *old = address;
+    int old_size = __mm_get_blockinformation(address).have;
+    if(old_size == 0) old_size = 1;
+    old_size *= 256;
+    uint64_t i = 0;
+    char *data_new = (char *)new_addr;
+    char *data_old = (char *)old;
+    while(i < old_size) {
+        data_new[i] = data_old[i];
+        i++;
+    }
+    free(address);
+    __serial_write_fmt("CPU %d -> tos > Reallocated %d blocks\r\n", __tools_get_cpu() - 1, old_size / 256);
+    return new_addr;
 }
 
 bool free(void *address) {
@@ -64,6 +94,6 @@ bool free(void *address) {
         tunnelos_sysinfo.mm->meta[blk + i].free = true;
         i++;
     }
-    __serial_write_fmt("Freed %d blocks\r\t", blks);
+    __serial_write_fmt("CPU %d -> tos > Freed %d blocks\r\n", __tools_get_cpu() - 1, blks);
     return true;
 }
