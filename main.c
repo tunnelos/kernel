@@ -52,8 +52,11 @@ void _start(){
         __cli();
         __idt_init();
         tunnelos_sysinfo.interrupts = true;
+        __serial_write_fmt("CPU %d -> tos > Starting up PIT.\r\n", __tools_get_cpu() - 1);
+        //__pit_init();
         __pic_unmask(0);
         //__pit_init();
+        tunnelos_sysinfo.pit = true;
         __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
         __rtc_init();
         tunnelos_sysinfo.rtc = true;
@@ -66,6 +69,7 @@ void _start(){
         tunnelos_sysinfo.cores++;
         __idt_init();
         __pic_unmask(0);
+        __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
         __rtc_init();
         __nmi_init();
         //__pit_init();
@@ -167,12 +171,14 @@ void __main_core0init() {
 
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 1;
+        __mm_fillblocks();
+        free(malloc(8));
 
-        __desktop_init();
-        __desktop_add_task("Discord");
-        __desktop_add_task("VSCode");
-        __desktop_add_task("Firefox");
-        __desktop_render_tasks();
+        // __desktop_init();
+        // __desktop_add_task("Discord");
+        // __desktop_add_task("VSCode");
+        // __desktop_add_task("Firefox");
+        // __desktop_render_tasks();
 
         _shell__create_shell(0);
         __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);

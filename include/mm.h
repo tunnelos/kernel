@@ -4,5 +4,8 @@
 #include "./main.h"
 
 extern int __mm_pointer;
+extern int __mm_index;
 
-tunnel_memory_block_t malloc(int size);
+void __mm_fillblocks();
+void *malloc(int size);
+bool free(void *address);

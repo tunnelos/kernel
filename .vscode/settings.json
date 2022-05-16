@@ -23,6 +23,7 @@
         "stdint.h": "c",
         "ide.h": "c",
         "color.h": "c",
-        "desktop.h": "c"
+        "desktop.h": "c",
+        "encoder.h": "c"
     }
 }

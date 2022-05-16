@@ -54,7 +54,7 @@ void __shell_mouse_thread(int id) {
                                 if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
                                     __window_windowlist[x]->selected = true;
                                     __window_windowlist[x]->updated = true;
-                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
+                                    //__serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     __window_windowlist[x]->wy -= 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
@@ -78,7 +78,7 @@ void __shell_mouse_thread(int id) {
                                 if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
                                     __window_windowlist[x]->selected = true;
                                     __window_windowlist[x]->updated = true;
-                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
+                                    //__serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     __window_windowlist[x]->wy += 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
@@ -102,7 +102,7 @@ void __shell_mouse_thread(int id) {
                                 if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
                                     __window_windowlist[x]->selected = true;
                                     __window_windowlist[x]->updated = true;
-                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
+                                    //__serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     __window_windowlist[x]->wx -= 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
@@ -124,7 +124,7 @@ void __shell_mouse_thread(int id) {
                                 if(__window_windowlist[x]->wx == __shell_mouse_x && __window_windowlist[x]->wy == __shell_mouse_y) {
                                     __window_windowlist[x]->selected = true;
                                     __window_windowlist[x]->updated = true;
-                                    __serial_write_fmt("CPU ? -> tos > Moving window!\n");
+                                    //__serial_write_fmt("CPU ? -> tos > Moving window!\n");
                                     __window_read_old_ctx(__window_windowlist[x]->ctx0, __window_windowlist[x]);
                                     __window_windowlist[x]->wx += 1;
                                     __window_save_context(__window_windowlist[x]->ctx0, __window_windowlist[x]);
@@ -185,7 +185,7 @@ void __shell_mouse_create_wnd() {
     __shell_mouse_wnd_context.sy = 1;
     __shell_mouse_wnd_context.wx = 9;
     __shell_mouse_wnd_context.wy = 16;
-    __shell_mouse_wnd_old_context = (char *)(malloc(8 * 16).address);
+    __shell_mouse_wnd_old_context = (char *)(malloc(8 * 16));
     __shell_mouse_wnd_context.ctx0 = __shell_mouse_wnd_old_context;
     __shell_mouse_x = 9;
     __shell_mouse_y = 16;

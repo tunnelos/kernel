@@ -26,16 +26,14 @@ __pit_interrupt:
     pop rax
     iretd
 __pit_init:
+    cli
     push rbx
-
     mov eax, 0x10000
     cmp ebx, 18
     jbe __pit_init_000
-
     mov eax, 1
     cmp ebx, 1193181
     jae __pit_init_000
-
     mov eax, 3579545
     mov edx, 0
     div ebx
@@ -54,7 +52,6 @@ __pit_init_000:
     push rax
     mov [__pit_reload_value], ax
     mov ebx, eax
-    
     mov eax, 3579545
     mov edx, 0
     div ebx
@@ -84,4 +81,5 @@ __pit_init_004:
     mov al, ah
     out 0x40, al
     pop rax
+    sti
     ret

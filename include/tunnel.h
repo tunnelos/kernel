@@ -3,17 +3,20 @@
 #include "./stdint.h"
 #include "./smt.h"
 #include "../bootboot/dist/bootboot.h"
+#include "../api/tos.h"
 
+#pragma pack(push, 1)
 typedef struct {
-    int size;
-    int buffer_index;
+    bool free;
     void *address;
-    int struct_index;
+    int have;
     struct tunnel_memory_block_t *next;
     struct tunnel_memory_block_t *prev;
 } tunnel_memory_block_t;
 typedef struct {
-    uint8_t alloc_table[8*1024*1024];
+    apimap_t *api_data;
+    tunnel_memory_block_t meta[4096*8];
+    char blockdata[4096*8][256];
     uint64_t start_point;
 } tunnel_memory_map_t;
 typedef struct {
@@ -32,5 +35,6 @@ typedef struct {
     bool ide;
     int cores;
 } tunnelos_sysinfo_t;
+#pragma pack(pop)
 
 tunnelos_sysinfo_t tunnelos_sysinfo;
