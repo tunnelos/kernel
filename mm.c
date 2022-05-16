@@ -2,9 +2,30 @@
 #include "./include/serial.h"
 #include "./include/tools.h"
 #include "./include/math.h"
+#include "./include/stdint.h"
 
 int __mm_pointer = 0;
 int __mm_index = 0;
+
+void *memcpy(void *dest, const void *src, size_t n) {
+    size_t i = 0;
+    char *d = (char *)dest;
+    char *s = (char *)src;
+    while(i < n) {
+        d[i] = s[i];
+        i++;
+    }
+    return dest;
+}
+void memset(void *dest, int c, size_t n) {
+    size_t i = 0;
+    char *d = (char *)dest;
+    while(i < n) {
+        d[i] = c % 256;
+        i++;
+    }
+    return;
+}
 
 void __mm_fillblocks() {
     int m = 4096 * 8;

@@ -4,6 +4,9 @@
 int abs (int i){
   return i < 0 ? -i : i;
 }
+double fabs(double x) {
+    return -x;
+}
 
 float sqrt(float number) {
     float i = 0;
@@ -52,7 +55,7 @@ int pow(int x, int y){
 
 int floor(float x){
     return (int)x;
-} 
+}
 
 float modf(float x, float *iptr){
     union {

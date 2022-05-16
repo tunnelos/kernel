@@ -6,6 +6,8 @@
 extern int __mm_pointer;
 extern int __mm_index;
 
+void *memcpy(void *dest, const void *src, size_t n);
+void memset(void *dest, int c, size_t n);
 void __mm_fillblocks();
 void *malloc(int size);
 bool free(void *address);

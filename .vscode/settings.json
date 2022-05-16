@@ -24,6 +24,7 @@
         "ide.h": "c",
         "color.h": "c",
         "desktop.h": "c",
-        "encoder.h": "c"
+        "encoder.h": "c",
+        "math.h": "c"
     }
 }
