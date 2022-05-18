@@ -8,7 +8,7 @@ FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm
 			window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o ui.o \
 			color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o\
 			easter.o math.o desktop.o pita.o toolsa.o pic.o pica.o rtc.o nmi.o     \
-			api.o encoder.o
+			api.o encoder.o sort.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
