@@ -6,6 +6,8 @@
 void puts(const char *str, uint32_t color, int x, int y);
 void putc(const char c, uint32_t color, int x, int y);
 
+int sprintf(char *str, const char *fmt, ...);
+
 void puts_gui(const char *str, uint32_t color, int x, int y);
 void putc_gui(const char c, uint32_t color, int x, int y);
 

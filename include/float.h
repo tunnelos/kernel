@@ -1,0 +1,3 @@
+#pragma once
+
+#define DBL_EPSILON 2.2204460492503131e-16

@@ -5,6 +5,7 @@
 #include "./include/cstring.h"
 #include "./include/cint.h"
 #include "./include/serial.h"
+#include "./include/mm.h"
 
 int __stdio_margin = 0;
 int __stdio_gui_margin = 0;
@@ -94,6 +95,92 @@ void putc_gui(const char c, uint32_t color, int x, int y) {
     char str[2] = {c, '\0'};
     puts_gui(str, color, x, y);
     return;
+}
+
+int sprintf(char *str, const char *fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    int i = 0;
+    int si = 0;
+    int len = strlen(fmt);
+
+    while(i < len) {
+        switch(fmt[i]){
+            case '%': {
+                switch(fmt[i + 1]) {
+                    case 'c': {
+                        char arg = va_arg(ap, int);
+                        str[si] = arg;
+                        si++;
+                        i += 2;
+                        break;
+                    }
+                    case 's': {
+                        char *arg = va_arg(ap, char *);
+                        strcpy(&str[strlen(arg) + si], arg);
+                        si += strlen(arg);
+                        i += 2;
+                        break;
+                    }
+                    case 'l': {
+                        int arg = va_arg(ap, int);
+                        if(arg == 0) str[si++] = '0';
+                        else {
+                            char buffer[20];
+                            itoa(arg, buffer, 10, 0, 0, 0, false);
+                            strncmp(&str[si], buffer, strlen(buffer));
+                            si += strlen(buffer);
+                        }
+                        i += 3;
+                        break;
+                    }
+                    case 'i':
+                    case 'd': {
+                        int arg = va_arg(ap, int);
+                        if(arg == 0) str[si++] = '0';
+                        else {
+                            char buffer[20];
+                            itoa(arg, buffer, 10, 0, 0, 0, false);
+                            strncmp(&str[si], buffer, strlen(buffer));
+                            si += strlen(buffer);
+                        }
+                        i += 2;
+                        break;
+                    }
+                    case 'x':
+                    case 'X': {
+                        int arg = va_arg(ap, int);
+                        char buffer[20];
+                        itoa(arg, buffer, 16, 0, 0, 0, false);
+                        strncmp(&str[si], buffer, strlen(buffer));
+                        i += 2;
+                        si += strlen(buffer);
+                        break;
+                    }
+                    default: {
+                        va_end(ap);
+                        break;
+                    }
+                }
+                va_end(ap);
+                break;
+            }
+            case '\n': {
+                str[si] = '\n';
+                si++;
+                va_end(ap);
+                break;
+            }
+            default: {
+                str[si] = fmt[i];
+                si++;
+                va_end(ap);
+                break;
+            }
+        }
+        i++;
+    }
+    return i;
 }
 
 void printf(uint32_t color, int x, int y, const char *fmt, ...) {

@@ -4,6 +4,12 @@ for f in *.c ; do
     echo Compiling ${f%.c}.c ...;
     gcc ${CFLAGS} -c ${f%.c}.c -o "${f%.c}".o; 
 done
+cd cJSON
+for f in *.c ; do 
+    echo Compiling ${f%.c}.c ...;
+    gcc ${CFLAGS} -c ${f%.c}.c -o "${f%.c}".o; 
+done
+cd ..
 for g in fonts/*.psf ; do 
     echo Linking ${g%.psf}.psf ...;
     ld -r -b binary -o ${g%.psf}.o ${g%.psf}.psf; 

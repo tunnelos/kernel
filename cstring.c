@@ -103,3 +103,20 @@ int strncmp(const char *s1, const char *s2, size_t n) {
 char *strcpy(char *dest, const char *src) {
     return (char *)memcpy(dest, src, strlen(src));
 }
+char *strchr(const char *s, char c) {
+    int i = 0;
+    while(i < strlen(s) + 1) {
+        if(s[i] == c) return (char *)(&s[i]);
+        i++;
+    }
+    return NULL;
+}
+char *strrch(const char *s, char c) {
+    int i = 0;
+    char *last = NULL;
+    while(i < strlen(s) + 1) {
+        if(s[i] == c) last = (char *)(&s[i]);
+        i++;
+    }
+    return last;
+}
