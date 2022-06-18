@@ -15,7 +15,15 @@ all: $(OSNAME).x86_64.elf iso fullclean
 
 setup:
 	bash setup.sh
-
+help:
+	@echo "Avaliable commands"
+	@echo "make all - compiles code into iso file"
+	@echo "make setup - sets up compiling environment"
+	@echo "make iso - generates iso file"
+	@echo "make clean - cleans folder from object files"
+	@echo "make fullclean - execute clean and remove target files"
+	@echo "make vhd - generate vhd file"
+	@echo "make turron - starts qemu"
 $(OSNAME).x86_64.elf:
 	rm -rfv debug 
 	mkdir debug
