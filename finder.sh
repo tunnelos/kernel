@@ -9,27 +9,35 @@ cp compile.sh std/
 
 cd api
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../base
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../cJSON
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../drivers
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../etc
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../fonts
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../software
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../std
 bash compile.sh
+rm compile.sh
 cp *.o ../
 cd ../
 bash compile.sh
