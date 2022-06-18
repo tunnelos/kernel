@@ -13,6 +13,9 @@ FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
 
+setup:
+	bash setup.sh
+
 $(OSNAME).x86_64.elf:
 	rm -rfv debug 
 	mkdir debug

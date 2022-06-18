@@ -1,0 +1,143 @@
+
+<html>
+<head>
+<title>stdarg.h</title>
+<meta name="generator" content="c2html 0.9.6">
+<meta name="date" content="2010-11-14T21:29:38+00:00">
+</head>
+
+<body bgcolor="#FFFFFF">
+<pre width="80"><font color="#B22222">/* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2009 Free Software Foundation, Inc.
+
+This file is part of GCC.
+
+GCC is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3, or (at your option)
+any later version.
+
+GCC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Under Section 7 of GPL version 3, you are granted additional
+permissions described in the GCC Runtime Library Exception, version
+3.1, as published by the Free Software Foundation.
+
+You should have received a copy of the GNU General Public License and
+a copy of the GCC Runtime Library Exception along with this program;
+see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+&lt;http://www.gnu.org/licenses/&gt;.  */</font>
+
+<font color="#B22222">/*
+ * ISO C Standard:  7.15  Variable arguments  &lt;stdarg.h&gt;
+ */</font>
+
+<font color="#A020F0">#ifndef _STDARG_H</font>
+<font color="#A020F0">#ifndef _ANSI_STDARG_H_</font>
+<font color="#A020F0">#ifndef __need___va_list</font>
+<strong><font color="#228B22">#define _STDARG_H</font></strong>
+<strong><font color="#228B22">#define _ANSI_STDARG_H_</font></strong>
+<font color="#A020F0">#endif </font><font color="#B22222">/* not __need___va_list */</font><font color="#A020F0"></font>
+<strong><font color="#228B22">#undef __need___va_list</font></strong>
+
+<font color="#B22222">/* Define __gnuc_va_list.  */</font>
+
+<font color="#A020F0">#ifndef __GNUC_VA_LIST</font>
+<strong><font color="#228B22">#define __GNUC_VA_LIST</font></strong>
+<font color="#4169E1">typedef __builtin_va_list __gnuc_va_list;</font>
+<font color="#A020F0">#endif</font>
+
+<font color="#B22222">/* Define the standard macros for the user,
+   if this invocation was from the user program.  */</font>
+<font color="#A020F0">#ifdef _STDARG_H</font>
+
+<strong><font color="#228B22">#define va_start(v,l)        __builtin_va_start(v,l)</font></strong>
+<strong><font color="#228B22">#define va_end(v)        __builtin_va_end(v)</font></strong>
+<strong><font color="#228B22">#define va_arg(v,l)        __builtin_va_arg(v,l)</font></strong>
+<font color="#A020F0">#if !defined(__STRICT_ANSI__) || __STDC_VERSION__ + 0 &gt;= 199900L || defined(__GXX_EXPERIMENTAL_CXX0X__)</font>
+<strong><font color="#228B22">#define va_copy(d,s)        __builtin_va_copy(d,s)</font></strong>
+<font color="#A020F0">#endif</font>
+<strong><font color="#228B22">#define __va_copy(d,s)        __builtin_va_copy(d,s)</font></strong>
+
+<font color="#B22222">/* Define va_list, if desired, from __gnuc_va_list. */</font>
+<font color="#B22222">/* We deliberately do not define va_list when called from
+   stdio.h, because ANSI C says that stdio.h is not supposed to define
+   va_list.  stdio.h needs to have access to that data type, 
+   but must not use that name.  It should use the name __gnuc_va_list,
+   which is safe because it is reserved for the implementation.  */</font>
+
+<font color="#A020F0">#ifdef _HIDDEN_VA_LIST  </font><font color="#B22222">/* On OSF1, this means varargs.h is "half-loaded".  */</font><font color="#A020F0"></font>
+<strong><font color="#228B22">#undef _VA_LIST</font></strong>
+<font color="#A020F0">#endif</font>
+
+<font color="#A020F0">#ifdef _BSD_VA_LIST</font>
+<strong><font color="#228B22">#undef _BSD_VA_LIST</font></strong>
+<font color="#A020F0">#endif</font>
+
+<font color="#A020F0">#if defined(__svr4__) || (defined(_SCO_DS) &amp;&amp; !defined(__VA_LIST))</font>
+<font color="#B22222">/* SVR4.2 uses _VA_LIST for an internal alias for va_list,
+   so we must avoid testing it and setting it here.
+   SVR4 uses _VA_LIST as a flag in stdarg.h, but we should
+   have no conflict with that.  */</font>
+<font color="#A020F0">#ifndef _VA_LIST_</font>
+<strong><font color="#228B22">#define _VA_LIST_</font></strong>
+<font color="#A020F0">#ifdef __i860__</font>
+<font color="#A020F0">#ifndef _VA_LIST</font>
+<strong><font color="#228B22">#define _VA_LIST va_list</font></strong>
+<font color="#A020F0">#endif</font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* __i860__ */</font><font color="#A020F0"></font>
+<font color="#4169E1">typedef __gnuc_va_list va_list;</font>
+<font color="#A020F0">#ifdef _SCO_DS</font>
+<strong><font color="#228B22">#define __VA_LIST</font></strong>
+<font color="#A020F0">#endif</font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* _VA_LIST_ */</font><font color="#A020F0"></font>
+<font color="#A020F0">#else </font><font color="#B22222">/* not __svr4__ || _SCO_DS */</font><font color="#A020F0"></font>
+
+<font color="#B22222">/* The macro _VA_LIST_ is the same thing used by this file in Ultrix.
+   But on BSD NET2 we must not test or define or undef it.
+   (Note that the comments in NET 2's ansi.h
+   are incorrect for _VA_LIST_--see stdio.h!)  */</font>
+<font color="#A020F0">#if !defined (_VA_LIST_) || defined (__BSD_NET2__) || defined (____386BSD____) || defined (__bsdi__) || defined (__sequent__) || defined (__FreeBSD__) || defined(WINNT)</font>
+<font color="#B22222">/* The macro _VA_LIST_DEFINED is used in Windows NT 3.5  */</font>
+<font color="#A020F0">#ifndef _VA_LIST_DEFINED</font>
+<font color="#B22222">/* The macro _VA_LIST is used in SCO Unix 3.2.  */</font>
+<font color="#A020F0">#ifndef _VA_LIST</font>
+<font color="#B22222">/* The macro _VA_LIST_T_H is used in the Bull dpx2  */</font>
+<font color="#A020F0">#ifndef _VA_LIST_T_H</font>
+<font color="#B22222">/* The macro __va_list__ is used by BeOS.  */</font>
+<font color="#A020F0">#ifndef __va_list__</font>
+<font color="#4169E1">typedef __gnuc_va_list va_list;</font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* not __va_list__ */</font><font color="#A020F0"></font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* not _VA_LIST_T_H */</font><font color="#A020F0"></font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* not _VA_LIST */</font><font color="#A020F0"></font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* not _VA_LIST_DEFINED */</font><font color="#A020F0"></font>
+<font color="#A020F0">#if !(defined (__BSD_NET2__) || defined (____386BSD____) || defined (__bsdi__) || defined (__sequent__) || defined (__FreeBSD__))</font>
+<strong><font color="#228B22">#define _VA_LIST_</font></strong>
+<font color="#A020F0">#endif</font>
+<font color="#A020F0">#ifndef _VA_LIST</font>
+<strong><font color="#228B22">#define _VA_LIST</font></strong>
+<font color="#A020F0">#endif</font>
+<font color="#A020F0">#ifndef _VA_LIST_DEFINED</font>
+<strong><font color="#228B22">#define _VA_LIST_DEFINED</font></strong>
+<font color="#A020F0">#endif</font>
+<font color="#A020F0">#ifndef _VA_LIST_T_H</font>
+<strong><font color="#228B22">#define _VA_LIST_T_H</font></strong>
+<font color="#A020F0">#endif</font>
+<font color="#A020F0">#ifndef __va_list__</font>
+<strong><font color="#228B22">#define __va_list__</font></strong>
+<font color="#A020F0">#endif</font>
+
+<font color="#A020F0">#endif </font><font color="#B22222">/* not _VA_LIST_, except on certain systems */</font><font color="#A020F0"></font>
+
+<font color="#A020F0">#endif </font><font color="#B22222">/* not __svr4__ */</font><font color="#A020F0"></font>
+
+<font color="#A020F0">#endif </font><font color="#B22222">/* _STDARG_H */</font><font color="#A020F0"></font>
+
+<font color="#A020F0">#endif </font><font color="#B22222">/* not _ANSI_STDARG_H_ */</font><font color="#A020F0"></font>
+<font color="#A020F0">#endif </font><font color="#B22222">/* not _STDARG_H */</font><font color="#A020F0"></font>
+</pre>
+</body>
+
+</html>
