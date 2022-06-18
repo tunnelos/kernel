@@ -7,7 +7,7 @@ fi
 
 apt update
 apt upgrade -y
-apt install gcc iat make -y
+apt install gcc iat make nasm -y
 cd /usr/include
 rm -f stdarg.h*
 rm -f stdarg.h
