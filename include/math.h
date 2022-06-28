@@ -2,6 +2,22 @@
 
 #include "./stdint.h"
 
+#define s1 1.f/3.f
+#define s2 1.f/5.f
+#define s3 1.f/7.f
+#define s4 1.f/9.f
+#define s5 1.f/11.f
+
+#define POLYNOMIAL2(xx) ((((s5 * (xx) + s4) * (xx) + s3) * (xx) + s2) * (xx))
+#define POLYNOMIAL(xx) (POLYNOMIAL2 (xx) + s1)
+
+#define TAYLOR_SIN(xx, x, dx) \
+({                                                                           \
+    double t = ((POLYNOMIAL (xx)  * (x) - 0.5 * (dx))  * (xx) + (dx));        \
+    double res = (x) + t;                                                       \
+    res;                                                                        \
+})
+
 int abs(int i);
 double fabs(double x);
 float acos(float x);
