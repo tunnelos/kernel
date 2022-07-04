@@ -10,6 +10,7 @@ typedef struct {
     bool free;
     void *address;
     int have;
+    int id;
     struct tunnel_memory_block_t *next;
     struct tunnel_memory_block_t *prev;
 } tunnel_memory_block_t;

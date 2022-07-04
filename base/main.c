@@ -88,6 +88,7 @@ void _start(){
         //waiting for system to be in SMT mode
         if(bootboot.numcores < MAX_CORES) {
             while(1) {
+                if(!__smt_inSMTmode) while(1);
                 if(cores[mycpu].haveTask) {
                     cores[mycpu].busy = true;
                     __smt_coreList[mycpu + 1] = cores[mycpu].task_to_execute->id;
@@ -193,6 +194,7 @@ void __main_core0init() {
             __serial_write_fmt("CPU %d -> tos > Tasks will be runned in parallel\r\n", __tools_get_cpu() - 1);
         }
         __smt_run();
+        while(1);
         // // red, green, blue boxes in order
         //for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+20)*4))=0x00FF0000; } }
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+50)*4))=0x0000FF00; } }

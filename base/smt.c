@@ -1,9 +1,11 @@
 #include "../include/smt.h"
 #include "../include/tools.h"
 #include "../include/serial.h"
+#include "../include/stdlib.h"
 
 bool __smt_inSMTmode = false;
 int __smt_tasks = 0;
+int __smt_lastmax = 0;
 uint16_t __smt_coreList[MAX_CORES] = {};
 int maincpu_tid = 1024;
 int __smt_avaliable_cores = 0;
@@ -24,6 +26,7 @@ smt_task_t *__smt_create_task(void (*runner)(int id)){
             tunnelos_sysinfo.software_tasks[i].one_time = false;
             tunnelos_sysinfo.software_tasks[i].is_used = true;
             __smt_tasks++;
+            if(i < __smt_lastmax) __smt_lastmax = i;
             __serial_write_fmt("CPU %d -> tos > Created task %d\r\n", __tools_get_cpu() - 1, i);
             return &tunnelos_sysinfo.software_tasks[i];
         }
@@ -46,7 +49,10 @@ void __smt_run() {
     i = 0;
     __serial_write_fmt("CPU %d -> tos > SMT is ready\r\n", __tools_get_cpu() - 1);
     while(1){
-        if(i == 255) i = 0;
+        if(!__smt_inSMTmode) return;
+        
+        i++;
+        if(i < __smt_lastmax) i = 0;
 
         if(tunnelos_sysinfo.software_tasks[i].is_used && !tunnelos_sysinfo.software_tasks[i].already_executing) {
             int ii = 0;
