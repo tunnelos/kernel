@@ -64,7 +64,7 @@ void *malloc(int size) {
             while(state[1] < state[2]) {
                 tunnelos_sysinfo.mm->meta[state[1] + state[3]].free = false;
                 #if TUNNEL_TRANDOM >= 0
-                tunnelos_sysinfo.mm->meta[state[1] + state[3]].id = (uint16_t)TUNNEL_RANDOM()
+                tunnelos_sysinfo.mm->meta[state[1] + state[3]].id = (uint16_t)TUNNEL_RANDOM();
                 if(tunnelos_sysinfo.mm->meta[state[1] + state[3]].id <= 0) tunnelos_sysinfo.mm->meta[state[1] + state[3]].id = tunnelos_sysinfo.mm->meta[state[1] + state[3]].id + tunnelos_sysinfo.mm->meta[state[1] + state[3]].id + tunnelos_sysinfo.mm->meta[state[1] + state[3]].id;
                 #else
                 tunnelos_sysinfo.mm->meta[state[1] + state[3]].id = rand() % 4096;
