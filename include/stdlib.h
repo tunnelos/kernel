@@ -1,10 +1,10 @@
 #pragma once
 
 #ifndef ENABLE_TRANDOM
-#define ENABLE_TRANDOM 1
+#define ENABLE_TRANDOM -1
 #endif
 
-extern int _stdlib__seed;
+extern int __stdlib_seed;
 
 void srand(int seed);
 int rand();

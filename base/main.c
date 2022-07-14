@@ -19,6 +19,7 @@
 #include "../include/rtc.h"
 #include "../include/nmi.h"
 #include "../include/systemconf.h"
+#include "../include/test.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -34,45 +35,32 @@ uint32_t bars[5] = {
 };
 
 void _start(){
-    if(__cpuid_check_sse() == 0) {
-        __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!", __tools_get_cpu() - 1);
-        while(1);
-    } else {
-        __sse_init();
-    }
-
     tunnelos_sysinfo.bootboot = bootboot;
 
     if(__tools_get_cpu() == bootboot.bspid + 1) {
         __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
 
-        __serial_write_fmt("CPU %d -> tos > SSE is supported.\r\n", __tools_get_cpu() - 1);
+        if(!__cpuid_check_sse()) {
+            __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!", __tools_get_cpu() - 1);
+            while(1);
+        }
 
         scanlines = bootboot.fb_scanline;
         tunnelos_sysinfo.cores++;
         __cli();
         __idt_init();
-        tunnelos_sysinfo.interrupts = true;
-        __serial_write_fmt("CPU %d -> tos > Starting up PIT.\r\n", __tools_get_cpu() - 1);
-        //__pit_init();
+        __sse_init();
         __pic_unmask(0);
-        //__pit_init();
-        tunnelos_sysinfo.pit = true;
-        __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
-        __rtc_init();
-        tunnelos_sysinfo.rtc = true;
-        __nmi_init();
-        tunnelos_sysinfo.nmi = true;
+        __pit_init();
         __ide_init(bars);
+        tunnelos_sysinfo.interrupts = true;
+        tunnelos_sysinfo.pit = true;
+        tunnelos_sysinfo.rtc = true;
+        tunnelos_sysinfo.nmi = false;
         tunnelos_sysinfo.ide = true;
         __main_core0init();
     } else {
         tunnelos_sysinfo.cores++;
-        __idt_init();
-        __pic_unmask(0);
-        __serial_write_fmt("CPU %d -> tos > Starting up RTC Timer.\r\n", __tools_get_cpu() - 1);
-        __rtc_init();
-        __nmi_init();
         //__pit_init();
         __serial_write_fmt("CPU %d -> tos > CPU Check...\r\n", __tools_get_cpu() - 1);
         int mycpu = __tools_get_cpu() - 1;
@@ -140,10 +128,20 @@ void __main_core0init() {
             //while(1);
         }
 
-        __serial_write_fmt("CPU %d -> tos > Parsing JSON data\r\n", __tools_get_cpu() - 1);
-        __systemconf_init();
-        const char *ttt = cJSON_GetStringValue(cJSON_GetObjectItem(config_json, "test"));
-        __serial_write_fmt("CPU %d -> tos > from json : %s\n", __tools_get_cpu() - 1, ttt);
+        // __serial_write_fmt("CPU %d -> tos > Parsing JSON data\r\n", __tools_get_cpu() - 1);
+        // __systemconf_init();
+        // const char *ttt = cJSON_GetStringValue(cJSON_GetObjectItem(config_json, "test"));
+        // __serial_write_fmt("CPU %d -> tos > from json : %s\n", __tools_get_cpu() - 1, ttt);
+        int i = 0;
+        int ii = 0;
+        while(1) {
+            wait(1000 / 62);
+            if((i % 62) == 0) {
+                __serial_write_fmt("CPU %d -> tos > i = %d - %d\r\n", __tools_get_cpu() - 1, i, ii);
+                ii++;
+            }
+            i++;
+        }
 
         // ide_rw_t irt;
 
@@ -180,11 +178,13 @@ void __main_core0init() {
         __stdio_margin = 1;
         __mm_fillblocks();
 
-        // __desktop_init();
-        // __desktop_add_task("Discord");
-        // __desktop_add_task("VSCode");
-        // __desktop_add_task("Firefox");
-        // __desktop_render_tasks();
+        __test_unitest();
+
+        __desktop_init();
+        __desktop_add_task("Discord");
+        __desktop_add_task("VSCode");
+        __desktop_add_task("Firefox");
+        __desktop_render_tasks();
 
         _shell__create_shell(0);
         __serial_write_fmt("CPU %d -> tos > Created shell\r\n", __tools_get_cpu() - 1);

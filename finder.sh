@@ -11,10 +11,12 @@ cd api
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../base
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../cJSON
 bash compile.sh
 rm compile.sh
@@ -23,21 +25,26 @@ cd ../drivers
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../etc
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../fonts
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../software
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../std
 bash compile.sh
 rm compile.sh
 cp *.o ../
+rm *.o -r
 cd ../
 bash compile.sh

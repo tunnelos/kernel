@@ -9,4 +9,4 @@ This is a multicore text-based 64-bit Operating System without using paging nor 
 - STB Image header (unused ATM)
 
 **Authors**<br>
-*SergeyMC9730(dogotrigger), Kolyah35, Sazix1337(SaziX)*
+*SergeyMC9730 (dogotrigger), Kolyah35 (Kolyah35), Sazix1337 (SaziX)*

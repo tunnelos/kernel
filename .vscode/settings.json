@@ -26,6 +26,7 @@
         "desktop.h": "c",
         "encoder.h": "c",
         "math.h": "c",
-        "rtc.h": "c"
+        "rtc.h": "c",
+        "cmos.h": "c"
     }
 }

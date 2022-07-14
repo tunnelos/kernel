@@ -2,7 +2,10 @@
 #include "../include/tools.h"
 #include "../include/smt.h"
 #include "../include/rtc.h"
+#include "../include/cmos.h"
 #include "../include/panic.h"
+#include "../include/tunnel.h"
+#include "../include/nmi.h"
 
 idt_entry_t __idt_idt[256];
 idtr_t __idt_idtr;
@@ -15,7 +18,11 @@ void __idt_exception_handler(int interrupt_id) {
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.critical = true;
     switch(interrupt_id) {
-        case IDT_INTERRUPT_RTC: {
+        case IDT_INTERRUPT_CMOS: {
+            if(__cmos_firstInt) {
+                __cmos_getRTC();
+                __cmos_firstInt = false;
+            }
             outb(RTC_REGISTER_B_OUT, 0x0C);
             inb(RTC_REGISTER_B_IN);
             break;
@@ -33,9 +40,23 @@ void __idt_interrupt_handler(int interrupt_id) {
     current_interrupt.interrupt_id = interrupt_id;
     __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n", __tools_get_cpu() - 1, interrupt_id);
     switch(interrupt_id) {
-        case IDT_INTERRUPT_RTC: {
+        case IDT_INTERRUPT_CMOS: {
+            if(!tunnelos_sysinfo.rtc) {
+                __nmi_init();
+                __rtc_init();
+                __nmi_init();
+                tunnelos_sysinfo.rtc = true;
+            }
+            if(__cmos_firstInt) {
+                __cmos_getRTC();
+                __cmos_firstInt = false;
+            }
             outb(RTC_REGISTER_B_OUT, 0x0C);
             inb(RTC_REGISTER_B_IN);
+            break;
+        }
+        default: {
+            crash(PANIC_UNEXPECTED_INTERRUPT_STRING, PANIC_UNEXPECTED_INTERRUPT_NUMBER, true);
             break;
         }
     }

@@ -3,13 +3,13 @@
 LDFLAGS = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
-FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o     \
+FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o \
 	    smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o     \
 	    window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o ui.o     \
 	    color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o    \
 	    easter.o math.o desktop.o pita.o toolsa.o pic.o pica.o rtc.o nmi.o stdlib.o\
 	    api.o encoder.o sort.o cJSON/cJSON.o cJSON/cJSON_Utils.o systemconf.o hal.o\
-	    trnd.o unitype.o placeholder.o
+	    trnd.o unitype.o placeholder.o test.o cmos.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
