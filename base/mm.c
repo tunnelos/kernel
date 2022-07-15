@@ -43,6 +43,30 @@ void __mm_fillblocks() {
     return;
 }
 
+int __mm_findoffset(int blocks) {
+    int p = 0;
+    int i = 0;
+    bool f = false;
+    while(p < 4096 * 8) {
+        while(i < blocks) {
+            if(!tunnelos_sysinfo.mm->meta[i + p].free) {
+                f = false;
+                i = blocks;
+            } else {
+                f = true;
+            }        
+            i++;
+        }
+        if(f) {
+            return p;
+        } else {
+            p++;
+            i = 0;
+        }
+    }
+    return -1;
+}
+
 void *malloc(int size) {
     #if TUNNEL_TRANDOM <= 0
     srand(1024);
@@ -53,11 +77,12 @@ void *malloc(int size) {
     if(state[4] == 0) state[4] = 1;
     //state[4] - blocks to allocate
     //state[0] - block offset
-    //__mm_index - block offset
+    //__mm_index - blocks allocated
     state[3] = 0;
     state[2] = 0;
     state[1] = 0;
-    state[0] = __mm_index;
+    state[0] = __mm_findoffset(state[4]);
+    if(state[0] == -1) return NULL;
     __mm_index += state[4];
 
     while(state[3] < 4096 * 8) {
@@ -83,7 +108,7 @@ void *malloc(int size) {
         }
         state[3]++;
     }
-    return 0;
+    return NULL;
 }
 
 tunnel_memory_block_t __mm_get_blockinformation(void *address) {
@@ -95,6 +120,9 @@ tunnel_memory_block_t __mm_get_blockinformation(void *address) {
     bl.address = tunnelos_sysinfo.mm->meta[blk].address;
     bl.free = tunnelos_sysinfo.mm->meta[blk].free;
     bl.have = tunnelos_sysinfo.mm->meta[blk].have;
+    bl.id = tunnelos_sysinfo.mm->meta[blk].id;
+    bl.next = tunnelos_sysinfo.mm->meta[blk].next;
+    bl.prev = tunnelos_sysinfo.mm->meta[blk].prev;
     return bl;
 }
 
@@ -134,6 +162,7 @@ bool free(void *address) {
         tunnelos_sysinfo.mm->meta[blk + i].id = -1;
         i++;
     }
+    __mm_index -= blks;
     __serial_write_fmt("CPU %d -> tos > Freed %d blocks\r\n", __tools_get_cpu() - 1, blks);
     return true;
 }
