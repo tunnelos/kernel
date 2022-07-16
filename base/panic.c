@@ -20,22 +20,28 @@ void crash(const char *str, uint16_t id, bool interrupt) {
     tunnelos_sysinfo_t *t = &tunnelos_sysinfo;
     int totalram = t->free_memory_location_size;
     i = 0;
-    int freeram = totalram;
-    while(i < 4096 * 8) {
-        if(!t->mm->meta[i].free) freeram -= 256;
+    int mapedram = totalram;
+    int allocram = 0;
+    while(i < 8320 * 8) {
+        if(!t->mm->meta[i].free) allocram += 256;
         i++;
     }
-    if(!interrupt) {
-        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Avaliable %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * SMT : %s  | AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
-            freeram / 1024, totalram / 1024,
+    //calculate memory map size
+    mapedram -= (sizeof(t->mm->api_data) + sizeof(t->mm->blockdata) + sizeof(t->mm->meta) + sizeof(t->mm->start_point));
+    
+    if(!interrupt) {//Allocated 
+        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * SMT : %s  | AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+            (totalram / 1024) - (mapedram / 1024), totalram / 1024,
+            allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
             pcb(__smt_inSMTmode), pcb(t->avx), pcb(t->sse), pcb(t->sse2), pcb(t->rtc),
             pcb(t->interrupts), pcb(t->nmi), pcb(t->pit), pcb(t->ide),
             t->cores
         );
     } else {
-        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Avaliable %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * SMT : %s  | AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
-            freeram / 1024, totalram / 1024, 
+        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * SMT : %s  | AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+            (totalram / 1024) - (mapedram / 1024), totalram / 1024,
+            allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
             pcb(__smt_inSMTmode), pcb(t->avx), pcb(t->sse), pcb(t->sse2), pcb(t->rtc),
             pcb(t->interrupts), pcb(t->nmi), pcb(t->pit), pcb(t->ide),

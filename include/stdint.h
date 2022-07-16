@@ -13,7 +13,7 @@ typedef uint32_t size_t;
 #define false (bool)0
 #define NAN 0.0/0.0
 #define NaN NAN
-#define NULL 0
+#define NULL (void *)0
 
 #define ULONG_MAX 0xFFFFFFFFUL
 #define INT_MAX   2147483647

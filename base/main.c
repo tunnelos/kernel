@@ -132,8 +132,8 @@ void __main_core0init() {
         __systemconf_init();
         const char *ttt = cJSON_GetStringValue(cJSON_GetObjectItem(config_json, "test"));
         __serial_write_fmt("CPU %d -> tos > from json : %s\n", __tools_get_cpu() - 1, ttt);
-        int i = 0;
-        int ii = 0;
+        // int i = 0;
+        // int ii = 0;
         // while(1) {
         //     wait(1000 / 50);
         //     if((i % 50) == 0) {
@@ -175,7 +175,7 @@ void __main_core0init() {
         // }
 
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
-        __stdio_margin = 1;
+        __stdio_margin = 0;
         __mm_fillblocks();
 
         __test_unitest();

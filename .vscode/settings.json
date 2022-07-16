@@ -27,6 +27,7 @@
         "encoder.h": "c",
         "math.h": "c",
         "rtc.h": "c",
-        "cmos.h": "c"
+        "cmos.h": "c",
+        "tags.h": "c"
     }
 }

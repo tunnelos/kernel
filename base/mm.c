@@ -29,7 +29,7 @@ void memset(void *dest, int c, size_t n) {
 }
 
 void __mm_fillblocks() {
-    int m = 4096 * 8;
+    int m = 8320 * 8;
     int i = 0;
     while(i < m) {
         tunnelos_sysinfo.mm->meta[i].next = (struct tunnel_memory_block_t *)(&tunnelos_sysinfo.mm->meta[i + 1]);
@@ -44,29 +44,30 @@ void __mm_fillblocks() {
 }
 
 int __mm_findoffset(int blocks) {
-    int p = 0;
-    int i = 0;
-    bool f = false;
-    while(p < 4096 * 8) {
-        while(i < blocks) {
-            if(!tunnelos_sysinfo.mm->meta[i + p].free) {
-                f = false;
-                i = blocks;
-            } else {
-                f = true;
-            }        
-            i++;
-        }
-        if(f) {
-            return p;
-        } else {
-            p++;
-            i = 0;
-        }
-    }
-    return -1;
+    // int p = 0;
+    // int o = 0;
+    // goto repeat;
+    // repeat:
+    //     if(o >= 8320 * 8) return -1;
+    //     //find free block offset
+    //     while(!tunnelos_sysinfo.mm->meta[o].free) o++;
+    //     //find free blocks on this offset
+    //     while(tunnelos_sysinfo.mm->meta[o + p].free) p++;
+    //     __serial_write_fmt("[TEST] %d %d\n", o, p);
+    //     if(blocks <= p) return o;
+    //     else {
+    //         o += p;
+    //         p = 0;
+    //         goto repeat;
+    //     }
+    // return -1;
+    return 0;
 }
-
+void *calloc(int size) {
+    void *ret = malloc(size);
+    memset(ret, 0, size);
+    return ret;
+}
 void *malloc(int size) {
     #if TUNNEL_TRANDOM <= 0
     srand(1024);
@@ -85,7 +86,7 @@ void *malloc(int size) {
     if(state[0] == -1) return NULL;
     __mm_index += state[4];
 
-    while(state[3] < 4096 * 8) {
+    while(state[3] < 8320 * 8) {
         if(!tunnelos_sysinfo.mm->meta[state[3]].free) state[2] = 0;
         else state[2]++;        
         state[3]++;
@@ -150,7 +151,7 @@ bool free(void *address) {
     uint64_t index = adr - sadr;
     uint64_t blk = floor(index / 256);
     int blks = 0;
-    if(blk >= 4096 * 8) return false;
+    if(blk >= 8320 * 8) return false;
     if(blk < 0) return false;
     if(tunnelos_sysinfo.mm->meta[blk].free) return false;
     int i = 0;
