@@ -2,6 +2,7 @@
 
 #include "./stdint.h"
 #include "./main.h"
+#include "./tags.h"
 
 // By SaziX
 #define COLOR_RED           0x00FF0000
@@ -35,14 +36,4 @@ typedef struct {
 
 extern uint8_t fb;
 
-void __screen_flush(int width, int height);
-void __screen_write_pixel(int pos_x, int pos_y, uint32_t color);
-void __screen_reset_draw_limit();
-uint32_t **__screen_get_draw_limit();
-void __screen_set_draw_limit(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2);
-
-
-extern uint32_t __screen_draw_x1;
-extern uint32_t __screen_draw_x2; 
-extern uint32_t __screen_draw_y1; 
-extern uint32_t __screen_draw_y2;
+unused void __screen_write_pixel(int pos_x, int pos_y, uint32_t color);

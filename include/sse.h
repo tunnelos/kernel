@@ -1,4 +1,4 @@
 #pragma once
 
 extern void __sse_init();
-void __sse_allocate();
+void __sse_save();

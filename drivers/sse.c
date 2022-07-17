@@ -3,7 +3,7 @@
 
 char region[512] __attribute__((aligned(16)));
 
-void __sse_allocate() {
+void __sse_save() {
     asm volatile("fxsave %0"::"m"(region));
     return;
 }

@@ -28,6 +28,7 @@
         "math.h": "c",
         "rtc.h": "c",
         "cmos.h": "c",
-        "tags.h": "c"
+        "tags.h": "c",
+        "sse.h": "c"
     }
 }
