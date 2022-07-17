@@ -1,5 +1,5 @@
 global __sse_init
-extern __sse_allocate
+extern __sse_save
 
 __sse_init:
     mov rax, cr0
@@ -9,5 +9,5 @@ __sse_init:
     mov rax, cr4
     or ax, 3 << 9
     mov cr4, rax
-    call __sse_allocate
+    call __sse_save
     ret
