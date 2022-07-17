@@ -29,6 +29,7 @@
         "rtc.h": "c",
         "cmos.h": "c",
         "tags.h": "c",
-        "sse.h": "c"
+        "sse.h": "c",
+        "arch.h": "c"
     }
 }
