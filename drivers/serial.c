@@ -28,6 +28,7 @@ void __serial_write_fmt(const char *fmt, ...) {
     va_start(ap, fmt);
     int i = 0;
     int len = strlen(fmt);
+    bool setlong = false;
     
     for(; i < len; i++) {
         switch(fmt[i]) {
@@ -45,23 +46,47 @@ void __serial_write_fmt(const char *fmt, ...) {
                         i += 2;
                         break;
                     }
+                    case 'l': {
+                        setlong = true;
+                        i += 2;
+                        break;
+                    }
                     case 'i':
                     case 'd': {
-                        uint32_t arg = va_arg(ap, uint32_t);
-                        if(!arg) __serial_write_char('0');
-                        else {
-                            char buffer[20];
-                            __serial_write_raw(itoa(arg, buffer, 10, 0, 0, 0, false), strlen(itoa(arg, buffer, 10, 0, 0, 0, false)));
+                        if(setlong) {
+                            setlong = false;
+                            uint64_t arg = va_arg(ap, uint64_t);
+                            if(!arg) __serial_write_char('0');
+                            else {
+                                char buffer[20];
+                                __serial_write_raw(itoalong(arg, buffer, 10, 0, 0, 0, false), strlen(itoalong(arg, buffer, 10, 0, 0, 0, false)));
+                            }
+                            i += 2;
+                        } else {
+                            uint32_t arg = va_arg(ap, uint32_t);
+                            if(!arg) __serial_write_char('0');
+                            else {
+                                char buffer[20];
+                                __serial_write_raw(itoa(arg, buffer, 10, 0, 0, 0, false), strlen(itoa(arg, buffer, 10, 0, 0, 0, false)));
+                            }
+                            i += 2;
                         }
-                        i += 2;
                         break;
                     }
                     case 'x':
                     case 'X': {
-                        uint32_t arg = va_arg(ap, uint32_t);
-                        char buffer[20];
-                        __serial_write_raw(itoa(arg, buffer, 16, 0, 0, 0, false), strlen(itoa(arg, buffer, 16, 0, 0, 0, false)));
-                        i += 2;
+                        if(setlong) {
+                            setlong = false;
+                            uint64_t arg = va_arg(ap, uint64_t);
+                            char buffer[20];
+                            __serial_write_raw(itoalong(arg, buffer, 16, 0, 0, 0, false), strlen(itoalong(arg, buffer, 16, 0, 0, 0, false)));
+                            i += 2;
+                        } else {
+                            uint32_t arg = va_arg(ap, uint32_t);
+                            char buffer[20];
+                            __serial_write_raw(itoa(arg, buffer, 16, 0, 0, 0, false), strlen(itoa(arg, buffer, 16, 0, 0, 0, false)));
+                            i += 2;
+                        }
                         break;
                     }
                     case 'o': {

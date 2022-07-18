@@ -1,5 +1,6 @@
 extern __idt_exception_handler
 extern __idt_interrupt_handler
+extern current_iframe
 global __idt_stub_table
 
 %macro isr_err_stub 1
@@ -7,8 +8,10 @@ isr_stub_%+%1:
     push rbp
     mov rbp, rsp
     mov edi, %+%1
+    mov qword [rbp-8], rdi
+    mov rax, qword [rbp-8]
+    mov qword [current_iframe], rax
     call __idt_exception_handler
-    nop
     pop rbp
     iretq 
 %endmacro
@@ -18,8 +21,10 @@ isr_stub_%+%1:
     push rbp
     mov rbp, rsp
     mov edi, %+%1
+    mov qword [rbp-8], rdi
+    mov rax, qword [rbp-8]
+    mov qword [current_iframe], rax
     call __idt_interrupt_handler
-    nop
     pop rbp
     iretq
 %endmacro

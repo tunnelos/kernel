@@ -44,24 +44,26 @@ void __mm_fillblocks() {
 }
 
 int __mm_findoffset(int blocks) {
-    // int p = 0;
-    // int o = 0;
-    // goto repeat;
-    // repeat:
-    //     if(o >= 8320 * 8) return -1;
-    //     //find free block offset
-    //     while(!tunnelos_sysinfo.mm->meta[o].free) o++;
-    //     //find free blocks on this offset
-    //     while(tunnelos_sysinfo.mm->meta[o + p].free) p++;
-    //     __serial_write_fmt("[TEST] %d %d\n", o, p);
-    //     if(blocks <= p) return o;
-    //     else {
-    //         o += p;
-    //         p = 0;
-    //         goto repeat;
-    //     }
-    // return -1;
-    return 0;
+    int p = 0;
+    int o = 0;
+    goto repeat;
+    repeat:
+        if(o >= 8320 * 8) return -1;
+        //find free block offset
+        while(!tunnelos_sysinfo.mm->meta[o].free) o++;
+        if(o >= 8320 * 8) return -1;
+        //find free blocks on this offset
+        while(tunnelos_sysinfo.mm->meta[o + p].free) p++;
+        __serial_write_fmt("[TEST] %d %d\n", o, p);
+        if(blocks <= p) return o;
+        else {
+            if(p == 0) p++;
+            o += p;
+            p = 0;
+            goto repeat;
+        }
+    return -1;
+    // return 0;
 }
 void *calloc(int size) {
     void *ret = malloc(size);
@@ -85,30 +87,19 @@ void *malloc(int size) {
     state[0] = __mm_findoffset(state[4]);
     if(state[0] == -1) return NULL;
     __mm_index += state[4];
-
-    while(state[3] < 8320 * 8) {
-        if(!tunnelos_sysinfo.mm->meta[state[3]].free) state[2] = 0;
-        else state[2]++;        
-        state[3]++;
-        if(state[2] == state[4]) {
-            tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].have = state[2];
-            while(state[1] < state[2]) {
-                tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].free = false;
-                #if TUNNEL_TRANDOM >= 0
-                tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id = (uint16_t)TUNNEL_RANDOM();
-                if(tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id <= 0) tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id = tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id + tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id + tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id;
-                #else
-                tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].id = rand() % 4096;
-                #endif
-                tunnelos_sysinfo.mm->meta[state[1] + state[3] + state[0]].have = state[2] - state[1] - 1;
-                state[6] = state[1] + state[3] + state[0];
-                state[1]++;
-            }
-            __serial_write_fmt("CPU %d -> tos > Allocated %d blocks of memory on address %X as %d\r\n", __tools_get_cpu() - 1, state[2], (uint64_t)tunnelos_sysinfo.mm->meta[state[6]].address, tunnelos_sysinfo.mm->meta[state[6]].id);
-            return tunnelos_sysinfo.mm->meta[state[6]].address;
-        }
-        state[3]++;
+    while(state[1] < state[4]) {
+        tunnelos_sysinfo.mm->meta[state[1] + state[0]].free = false;
+        #if TUNNEL_TRANDOM >= 0
+        tunnelos_sysinfo.mm->meta[state[0]].id = (uint16_t)TUNNEL_RANDOM();
+        if(tunnelos_sysinfo.mm->meta[state[1] + state[0]].id <= 0) tunnelos_sysinfo.mm->meta[state[1] + state[0]].id = tunnelos_sysinfo.mm->meta[state[1] + state[0]].id + tunnelos_sysinfo.mm->meta[state[1] + state[0]].id + tunnelos_sysinfo.mm->meta[state[1] + state[0]].id;
+        #else
+        tunnelos_sysinfo.mm->meta[state[1] + state[0]].id = rand() % 4096;
+        #endif;
+        state[1]++;
     }
+    __serial_write_fmt("CPU %d -> tos > Allocated %d blocks of memory on address %X\r\n", __tools_get_cpu() - 1, state[4], (uint64_t)tunnelos_sysinfo.mm->meta[state[0]].address);
+    return tunnelos_sysinfo.mm->meta[state[0]].address;
+    
     return NULL;
 }
 

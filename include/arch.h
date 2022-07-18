@@ -24,10 +24,10 @@
 #define GCCENVIRONMENT_NUM 2
 #endif
 
-#if OPTIMIZE == 0
 extern const char *__arch_archlookup[3];
 extern const char *__arch_envlookup [3];
 
+#if OPTIMIZE == 0
 const char *__arch_getarch();
 const char *__arch_getenvironment();
 #endif

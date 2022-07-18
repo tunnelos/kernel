@@ -97,12 +97,50 @@ void putc_gui(const char c, uint32_t color, int x, int y) {
     return;
 }
 
+char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_additional) {
+    int buffer_size = 20;
+    int counter = 0;
+    int digit = 0;
+    
+    while(num != 0 && counter < buffer_size){
+        digit = (num % base);
+        if(digit > 9){
+            buffer[counter++] = itoh(digit, true, x, y, color, use_additional);
+        } else {
+            buffer[counter++] = itoc(digit);
+        }
+        num /= base;
+    }
+
+    buffer[counter] = '\0';
+    return strrev(buffer);
+}
+char *itoalong(uint64_t num, char *buffer, int base, int x, int y, int color, bool use_additional) {
+    int buffer_size = 20;
+    int counter = 0;
+    uint64_t digit = 0;
+    
+    while(num != 0 && counter < buffer_size){
+        digit = (num % base);
+        if(digit > 9){
+            buffer[counter++] = itoh(digit, true, x, y, color, use_additional);
+        } else {
+            buffer[counter++] = itoc(digit);
+        }
+        num /= base;
+    }
+
+    buffer[counter] = '\0';
+    return strrev(buffer);
+}
+
 int sprintf(char *str, const char *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
     int i = 0;
     int si = 0;
     int len = strlen(fmt);
+    bool setlong = false;
 
     while(i < len) {
         switch(fmt[i]){
@@ -123,38 +161,55 @@ int sprintf(char *str, const char *fmt, ...) {
                         break;
                     }
                     case 'l': {
-                        int arg = va_arg(ap, int);
-                        if(arg == 0) str[si++] = '0';
-                        else {
-                            char buffer[20];
-                            itoa(arg, buffer, 10, 0, 0, 0, false);
-                            strncmp(&str[si], buffer, strlen(buffer));
-                            si += strlen(buffer);
-                        }
-                        i += 3;
+                        //set long int flag and reset on 'd' or 'X' after execution
+                        setlong = true;
+                        i += 2;
                         break;
                     }
                     case 'i':
                     case 'd': {
-                        int arg = va_arg(ap, int);
-                        if(arg == 0) str[si++] = '0';
-                        else {
-                            char buffer[20];
-                            itoa(arg, buffer, 10, 0, 0, 0, false);
-                            strncmp(&str[si], buffer, strlen(buffer));
-                            si += strlen(buffer);
+                        if(setlong) {
+                            setlong = false;
+                            uint64_t arg = va_arg(ap, uint64_t);
+                            if(arg == 0) str[si++] = '0';
+                            else {
+                                char buffer[20];
+                                itoalong(arg, buffer, 10, 0, 0, 0, false);
+                                strncmp(&str[si], buffer, strlen(buffer));
+                                si += strlen(buffer);
+                            }
+                            i += 2;
+                        } else {
+                            int arg = va_arg(ap, int);
+                            if(arg == 0) str[si++] = '0';
+                            else {
+                                char buffer[20];
+                                itoa(arg, buffer, 10, 0, 0, 0, false);
+                                strncmp(&str[si], buffer, strlen(buffer));
+                                si += strlen(buffer);
+                            }
+                            i += 2;
                         }
-                        i += 2;
                         break;
                     }
                     case 'x':
                     case 'X': {
-                        int arg = va_arg(ap, int);
-                        char buffer[20];
-                        itoa(arg, buffer, 16, 0, 0, 0, false);
-                        strncmp(&str[si], buffer, strlen(buffer));
-                        i += 2;
-                        si += strlen(buffer);
+                        if(setlong) {
+                            setlong = false;
+                            uint64_t arg = va_arg(ap, uint64_t);
+                            char buffer[20];
+                            itoalong(arg, buffer, 16, 0, 0, 0, false);
+                            strncmp(&str[si], buffer, strlen(buffer));
+                            i += 2;
+                            si += strlen(buffer);
+                        } else {
+                            int arg = va_arg(ap, int);
+                            char buffer[20];
+                            itoa(arg, buffer, 16, 0, 0, 0, false);
+                            strncmp(&str[si], buffer, strlen(buffer));
+                            i += 2;
+                            si += strlen(buffer);
+                        }
                         break;
                     }
                     default: {
@@ -188,7 +243,8 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
     va_start(ap, fmt);
     int i = 0;
     int len = strlen(fmt);
-    
+    bool setlong = false;
+
     while(i < len) {
         switch(fmt[i]){
             case '%': {
@@ -207,25 +263,51 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
                         i += 2;
                         break;
                     }
+                    case 'l': {
+                        //set long int flag and reset on 'd' or 'X' after execution
+                        setlong = true;
+                        i += 2;
+                        break;
+                    }
                     case 'i':
                     case 'd': {
-                        int arg = va_arg(ap, int);
-                        if(arg == 0) puts("0", color, x, y);
-                        else {
-                            char buffer[20];
-                            puts(itoa(arg, buffer, 10, x, y, color, true), color, x, y);
-                            x += strlen(itoa(arg, buffer, 10, x, y, color, true));
+                        if(setlong) {
+                            setlong = false;
+                            uint64_t arg = va_arg(ap, uint64_t);
+                            if(arg == 0) puts("0", color, x, y);
+                            else {
+                                char buffer[20];
+                                puts(itoalong(arg, buffer, 10, x, y, color, true), color, x, y);
+                                x += strlen(itoalong(arg, buffer, 10, x, y, color, true));
+                            }
+                        } else {
+                            int arg = va_arg(ap, int);
+                            if(arg == 0) puts("0", color, x, y);
+                            else {
+                                char buffer[20];
+                                puts(itoa(arg, buffer, 10, x, y, color, true), color, x, y);
+                                x += strlen(itoa(arg, buffer, 10, x, y, color, true));
+                            }
+                            i += 2;
                         }
-                        i += 2;
                         break;
                     }
                     case 'x':
                     case 'X': {
-                        int arg = va_arg(ap, int);
-                        char buffer[20];
-                        puts(itoa(arg, buffer, 16, x, y, color, true), color, x, y);
-                        i += 2;
-                        x += strlen(itoa(arg, buffer, 16, x, y, color, true));
+                        if(setlong) {
+                            setlong = false;
+                            uint64_t arg = va_arg(ap, uint64_t);
+                            char buffer[20];
+                            puts(itoalong(arg, buffer, 16, x, y, color, true), color, x, y);
+                            i += 2;
+                            x += strlen(itoalong(arg, buffer, 16, x, y, color, true));
+                        } else {
+                            int arg = va_arg(ap, int);
+                            char buffer[20];
+                            puts(itoa(arg, buffer, 16, x, y, color, true), color, x, y);
+                            i += 2;
+                            x += strlen(itoa(arg, buffer, 16, x, y, color, true));
+                        }
                         break;
                     }
                     default: {
@@ -252,25 +334,6 @@ void printf(uint32_t color, int x, int y, const char *fmt, ...) {
         i++;
     }
     return;
-}
-
-char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_additional) {
-    int buffer_size = 20;
-    int counter = 0;
-    int digit = 0;
-    
-    while(num != 0 && counter < buffer_size){
-        digit = (num % base);
-        if(digit > 9){
-            buffer[counter++] = itoh(digit, true, x, y, color, use_additional);
-        } else {
-            buffer[counter++] = itoc(digit);
-        }
-        num /= base;
-    }
-
-    buffer[counter] = '\0';
-    return strrev(buffer);
 }
 
 char itoh(int num, bool upper, int x, int y, int color, bool use_additional) {

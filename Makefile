@@ -9,7 +9,7 @@ FILELIST =  main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm
 	    	tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o cmos.o     \
 	    	easter.o math.o desktop.o pita.o toolsa.o pica.o rtc.o nmi.o stdlib.o api.o\
 	    	encoder.o sort.o cJSON/cJSON.o cJSON/cJSON_Utils.o systemconf.o pic.o      \
-	    	trnd.o unitype.o placeholder.o test.o arch.o
+	    	trnd.o unitype.o placeholder.o test.o arch.o network.o
 FONTLIST = fonts/text.o fonts/gui.o
 
 all: $(OSNAME).x86_64.elf iso fullclean
