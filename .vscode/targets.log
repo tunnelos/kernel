@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul  7 17:09:11 2022
+# Make data base, printed on Wed Jul 20 15:48:36 2022
 
 # Variables
 
@@ -24,8 +24,6 @@ PROVIDE_FULLSTACK_ACTION = true
 XDG_SESSION_CLASS = user
 # environment
 XDG_SESSION_TYPE = x11
-# environment
-VSCODE_LOG_NATIVE = false
 # environment
 GTK3_MODULES = xapp-gtk3-module
 # automatic
@@ -65,11 +63,9 @@ XDG_DATA_DIRS = /usr/share/xfce4:/home/dog/.local/share/flatpak/exports/share:/v
 # environment
 __GL_SYNC_DISPLAY_DEVICE = DP-0
 # makefile (from 'Makefile', line 13)
-FONTLIST = fonts/text.o fonts/gui.o
+FONTLIST = text_PSF.o gui_PSF.o
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
-# environment
-VSCODE_VERBOSE_LOGGING = true
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -81,29 +77,27 @@ XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/dog/.local/bin:/home/dog/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # makefile (from 'Makefile', line 5)
 OSNAME = tunnel
 # environment
 GOLANG_EXECUTABLE = go
 # environment
-SESSION_MANAGER = local/dogotrigger:@/tmp/.ICE-unix/2191,unix/dogotrigger:/tmp/.ICE-unix/2191
+SESSION_MANAGER = local/dogotrigger:@/tmp/.ICE-unix/2047,unix/dogotrigger:/tmp/.ICE-unix/2047
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 THREE_SCALE_USER_TOKEN = 207c527cfc2a6b8dcf4fa43ad7a976da
 # environment
-WINDOWID = 75501257
+WINDOWID = 104858022
 # makefile (from 'Makefile', line 6)
-FILELIST = main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o ui.o color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o easter.o math.o desktop.o pita.o toolsa.o pic.o pica.o rtc.o nmi.o stdlib.o api.o encoder.o sort.o cJSON/cJSON.o cJSON/cJSON_Utils.o systemconf.o trnd.o
+FILELIST_X86_64 = main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o placeholder.o system_JSON.o tunnel_JSON.o network.o api.o nmi.o
 # environment
 XDG_MENU_PREFIX = xfce-
 # environment
-VSCODE_LOG_STACK = false
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # makefile (from 'Makefile', line 3)
-LDFLAGS = -nostdlib -nostartfiles -T link.ld
+LDFLAGS_X86_64 = -nostdlib -nostartfiles -T link.ld
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -115,15 +109,13 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 XDG_SESSION_DESKTOP = xfce
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-4h78adiboIeQ/agent.2191
+SSH_AUTH_SOCK = /tmp/ssh-zqm1D5m95uTX/agent.2047
 # automatic
 %F = $(notdir $%)
 # environment
 DISPLAY = :0.0
 # environment
-VSCODE_PIPE_LOGGING = true
-# environment
-PWD = /home/dog/backup/TunnelOS
+PWD = /home/dog/TunnelOS
 # environment
 QT_QPA_PLATFORMTHEME = qt5ct
 # default
@@ -131,13 +123,11 @@ QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 2448
+SSH_AGENT_PID = 2204
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = XFCE
 # environment
 GTK_MODULES = gail:atk-bridge
-# makefile (from 'Makefile', line 4)
-STRIPFLAGS = -K mmio -K fb -K bootboot -K environment -K initstack
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -147,11 +137,11 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /home/dog/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
+VSCODE_CODE_CACHE_PATH = /home/dog/.config/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 LOGNAME = dog
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
 # environment
@@ -177,11 +167,11 @@ MAKECMDGOALS := all
 # environment
 SHLVL = 1
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-163847f8-ed4c-4631-84cb-63b8adf3d6c8.sock
-# environment
 COMPIZ_CONFIG_PROFILE = mint
 # environment
 XDG_SESSION_ID = c1
+# makefile (from 'Makefile', line 4)
+STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 # environment
 USER = dog
 # environment
@@ -209,7 +199,7 @@ LANGUAGE = en_US
 # environment
 XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-521f5c76-1.68.1-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-521f5c76-1.69.2-main.sock
 # environment
 PANEL_GDK_CORE_DEVICE_EVENTS = 0
 # makefile
@@ -226,8 +216,6 @@ RECOMMENDER_API_URL = https://gw.api.openshift.io//api/v2
 GDK_BACKEND = x11
 # environment
 LC_PAPER = ru_RU.UTF-8
-# environment
-NO_AT_BRIDGE = 1
 # environment
 QT_ACCESSIBILITY = 1
 # environment
@@ -263,9 +251,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 420812
+VSCODE_PID = 2455543
 # variable set hash-table stats:
-# Load=127/1024=12%, Rehash=0, Collisions=15/167=9%
+# Load=121/1024=12%, Rehash=0, Collisions=12/151=8%
 
 # Pattern-specific Variable Values
 
@@ -273,9 +261,9 @@ VSCODE_PID = 420812
 
 # Directories
 
-# . (device 2049, inode 54003514): 32 files, no impossibilities.
+# . (device 2049, inode 54003514): 19 files, no impossibilities.
 
-# 32 files, no impossibilities in 1 directories.
+# 19 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -286,33 +274,81 @@ VSCODE_PID = 420812
 setup:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 18):
-	bash setup.sh
+	@bash setup.sh
 
 .ONESHELL:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
 
-all: tunnel.x86_64.elf iso fullclean
+all: clean tunnel.x86_64.iso
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/13=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 
-tunnel.x86_64.elf:
+arch:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 20):
+	@echo "Avaliable architectures"
+	@echo "x86_64"
+
+vhd:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 84):
+	@dd if=/dev/zero of=VHD.img bs=1M count=512
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-20 15:45:46.886572074
+#  File has been updated.
+#  Successfully updated.
+
+help:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 23):
+	@echo "Avaliable commands"
+	@echo "make arch - show avaliable architectures"
+	@echo "make all - compile code into bootable files"
+	@echo "make setup - set up compiling environment"
+	@echo "make iso - generate iso file"
+	@echo "make clean - clean from object files"
+	@echo "make fullclean - execute clean and remove target files"
+	@echo "make vhd - generate vhd file"
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
-# @ := tunnel.x86_64.elf
+# @ := clean
 # automatic
 # % := 
 # automatic
@@ -328,131 +364,83 @@ tunnel.x86_64.elf:
 # automatic
 # ? := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=7/21=33%
-#  recipe to execute (from 'Makefile', line 29):
-	rm -rfv debug 
-	mkdir debug
-	bash finder.sh
-	ld $(LDFLAGS) $(FILELIST) $(FONTLIST) -o $(OSNAME).x86_64.elf
-	strip $(STRIPFLAGS) $(OSNAME).x86_64.elf
-	readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
-	rm -rfv fonts_compiled
-	mkdir fonts_compiled
-	mv fonts/*.o fonts_compiled/
-	cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
-	cd debug
-	objdump -D tunnel.x86_64.elf > tunnel.x86_64.txt
-	cd ..
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  recipe to execute (from 'Makefile', line 77):
+	@rm -rf *.o fonts/*.o tunnelconfig/*.o
+	@rm -rf temp
 
-vhd:
+fullclean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 76):
-	dd if=/dev/zero of=VHD.img bs=1M count=512
+#  recipe to execute (from 'Makefile', line 80):
+	@rm -rf *.elf *.iso
+	@cp iso/$(OSNAME).x86_64.iso .
+	@rm -rf iso
 
-# Not a target:
-.SUFFIXES:
+tunnel.x86_64.iso:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-
-# Not a target:
-Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-02 18:08:08.953662998
-#  File has been updated.
-#  Successfully updated.
-
-help:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
-	@echo "Avaliable commands"
-	@echo "make all - compiles code into iso file"
-	@echo "make setup - sets up compiling environment"
-	@echo "make iso - generates iso file"
-	@echo "make clean - cleans folder from object files"
-	@echo "make fullclean - execute clean and remove target files"
-	@echo "make vhd - generate vhd file"
-	@echo "make turron - starts qemu"
-
-# Not a target:
-.DEFAULT:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-turron:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 78):
-	qemu-system-x86_64 --cpu kvm64-v1,+avx -d int --boot d --cdrom $(OSNAME).x86_64.iso -m 20M -smp 3 -serial stdio -drive file=VHD.img,index=0,if=ide,format=raw -s -S
-
-clean:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 70):
-	rm -rf *.o fonts/*.o tunnelconfig/*.o
-
-fullclean: clean
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 72):
-	rm -rf *.elf *.iso
-	cp iso/$(OSNAME).x86_64.iso .
-	rm -rf iso
-
-iso:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 43):
-	rm -rv iso
-	mkdir iso
-	mkdir iso/tmp
-	mkdir iso/tmp/mkbootimg
-	cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
-	mkdir iso/tmp/sys
-	cp tunnelconfig/* .
-	cp config iso/tmp/sys/
-	cd iso/tmp/mkbootimg/mkbootimg
-	make all
-	cp ../../../../$(OSNAME).x86_64.elf . -r
-	cp ../../../../$(OSNAME).json . -r
-	./mkbootimg check $(OSNAME).x86_64.elf
-	mkdir boot
-	cp ../../sys boot/ -r
-	cp $(OSNAME).x86_64.elf boot/sys/core -r
-	./mkbootimg $(OSNAME).json $(OSNAME).x86_64.img
-	mv $(OSNAME).x86_64.img ../../../$(OSNAME).x86_64.img -v
-	cd ../../../
-	rm -rf tmp
-	iat $(OSNAME).x86_64.img $(OSNAME).x86_64.iso
-	du -h $(OSNAME).x86_64.iso
-	du -h ../$(OSNAME).x86_64.elf
-	rm -rfv $(OSNAME).x86_64.img
-	cd ../
-	rm -rf config tunnel.json
+#  recipe to execute (from 'Makefile', line 32):
+	@rm -rf temp/
+	@mkdir temp
+	@mkdir temp/debug
+	@mkdir temp/iso
+	@mkdir temp/iso/tmp
+	@mkdir temp/iso/tmp/mkbootimg
+	@mkdir temp/iso/tmp/sys
+	@cp -r arch/x86_64/* temp/
+	@cp -r temp/linker/* temp/
+	@cd temp
+	@bash finder.sh
+	@echo * Linking
+	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
+	@strip $(STRIPFLAGS_X86_64) $(OSNAME).x86_64.elf
+	@readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
+	@rm -rf fonts_compiled
+	@mkdir fonts_compiled
+	@mv fonts/*.o fonts_compiled/
+	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
+	@cd debug
+	@objdump -D tunnel.x86_64.elf > tunnel.x86_64.txt
+	@cd ..
+	@cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
+	@cp tunnelconfig/* .
+	@cp config iso/tmp/sys/
+	@cd iso/tmp/mkbootimg/mkbootimg
+	@make all
+	@cp ../../../../$(OSNAME).x86_64.elf . -r
+	@cp ../../../../$(OSNAME).json . -r
+	@./mkbootimg check $(OSNAME).x86_64.elf
+	@mkdir boot
+	@cp ../../sys boot/ -r
+	@cp $(OSNAME).x86_64.elf boot/sys/core -r
+	@./mkbootimg $(OSNAME).json $(OSNAME).x86_64.img
+	@mv $(OSNAME).x86_64.img ../../../$(OSNAME).x86_64.img -v
+	@cd ../../../
+	@rm -rf tmp
+	@iat $(OSNAME).x86_64.img $(OSNAME).x86_64.iso
+	@du -h $(OSNAME).x86_64.iso
+	@du -h ../$(OSNAME).x86_64.elf
+	@rm -rfv $(OSNAME).x86_64.img
+	@cd ../
+	@rm -rf config tunnel.json
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/32=0%
+# Load=12/1024=1%, Rehash=0, Collisions=0/28=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 46 / storage = 405 B / avg = 8 B
-# current buf: size = 8162 B / used = 405 B / count = 46 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 31 / storage = 289 B / avg = 9 B
+# current buf: size = 8162 B / used = 289 B / count = 31 / avg = 9 B
 
-# strcache performance: lookups = 66 / hit rate = 30%
+# strcache performance: lookups = 49 / hit rate = 36%
 # hash-table stats:
-# Load=46/8192=1%, Rehash=0, Collisions=1/66=2%
-# Finished Make data base on Thu Jul  7 17:09:11 2022
+# Load=31/8192=0%, Rehash=0, Collisions=1/49=2%
+# Finished Make data base on Wed Jul 20 15:48:36 2022
 
  

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "./stdint.h"
+#include "./arch.h"
 
+#if GCCARCH_NUM == 0
 #define KPS2_OB 0b00000001
 #define KPS2_IB 0b00000010
 #define KPS2_SF 0b00000100
@@ -12,6 +14,7 @@
 #define KPS2_PE 0b10000000
 #define KPS2_DP 0x60
 #define KPS2_SR 0x64
+#endif
 
 extern char __keyboard_ps2_lookuptable[256];
 extern bool __keyboard_ps2_ascii_only[256];

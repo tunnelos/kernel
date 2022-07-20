@@ -65,12 +65,12 @@ int __mm_findoffset(int blocks) {
     return -1;
     // return 0;
 }
-void *calloc(int size) {
+void *calloc(size_t size) {
     void *ret = malloc(size);
     memset(ret, 0, size);
     return ret;
 }
-void *malloc(int size) {
+void *malloc(size_t size) {
     #if TUNNEL_TRANDOM <= 0
     srand(1024);
     #endif
@@ -89,12 +89,12 @@ void *malloc(int size) {
     __mm_index += state[4];
     while(state[1] < state[4]) {
         tunnelos_sysinfo.mm->meta[state[1] + state[0]].free = false;
-        #if TUNNEL_TRANDOM >= 0
+        #if TUNNEL_TRANDOM > 0
         tunnelos_sysinfo.mm->meta[state[0]].id = (uint16_t)TUNNEL_RANDOM();
         if(tunnelos_sysinfo.mm->meta[state[1] + state[0]].id <= 0) tunnelos_sysinfo.mm->meta[state[1] + state[0]].id = tunnelos_sysinfo.mm->meta[state[1] + state[0]].id + tunnelos_sysinfo.mm->meta[state[1] + state[0]].id + tunnelos_sysinfo.mm->meta[state[1] + state[0]].id;
         #else
         tunnelos_sysinfo.mm->meta[state[1] + state[0]].id = rand() % 4096;
-        #endif;
+        #endif
         state[1]++;
     }
     __serial_write_fmt("CPU %d -> tos > Allocated %d blocks of memory on address %X\r\n", __tools_get_cpu() - 1, state[4], (uint64_t)tunnelos_sysinfo.mm->meta[state[0]].address);
@@ -118,7 +118,7 @@ tunnel_memory_block_t __mm_get_blockinformation(void *address) {
     return bl;
 }
 
-void *realloc(void *address, int size) {
+void *realloc(void *address, size_t size) {
     void *new_addr = malloc(size);
     void *old = address;
     int old_size = __mm_get_blockinformation(address).have;
@@ -136,15 +136,15 @@ void *realloc(void *address, int size) {
     return new_addr;
 }
 
-bool free(void *address) {
+void free(void *address) {
     uint64_t adr = (uint64_t)address;
     uint64_t sadr = (uint64_t)(&tunnelos_sysinfo.mm->blockdata);
     uint64_t index = adr - sadr;
     uint64_t blk = floor(index / 256);
     int blks = 0;
-    if(blk >= 8320 * 8) return false;
-    if(blk < 0) return false;
-    if(tunnelos_sysinfo.mm->meta[blk].free) return false;
+    if(blk >= 8320 * 8) return;
+    if(blk < 0) return;
+    if(tunnelos_sysinfo.mm->meta[blk].free) return;
     int i = 0;
     blks = tunnelos_sysinfo.mm->meta[blk].have;
     tunnelos_sysinfo.mm->meta[blk].id = -1;
@@ -156,5 +156,5 @@ bool free(void *address) {
     }
     __mm_index -= blks;
     __serial_write_fmt("CPU %d -> tos > Freed %d blocks\r\n", __tools_get_cpu() - 1, blks);
-    return true;
+    return;
 }

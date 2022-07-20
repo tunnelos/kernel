@@ -128,10 +128,10 @@ void __main_core0init() {
             //while(1);
         }
 
-        __serial_write_fmt("CPU %d -> tos > Parsing JSON data\r\n", __tools_get_cpu() - 1);
-        __systemconf_init();
-        const char *ttt = cJSON_GetStringValue(cJSON_GetObjectItem(config_json, "test"));
-        __serial_write_fmt("CPU %d -> tos > from json : %s\n", __tools_get_cpu() - 1, ttt);
+        // __serial_write_fmt("CPU %d -> tos > Parsing JSON data\r\n", __tools_get_cpu() - 1);
+        // __systemconf_init();
+        // const char *ttt = cJSON_GetStringValue(cJSON_GetObjectItem(config_json, "test"));
+        // __serial_write_fmt("CPU %d -> tos > from json : %s\n", __tools_get_cpu() - 1, ttt);
         // int i = 0;
         // int ii = 0;
         // while(1) {

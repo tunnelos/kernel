@@ -7,3 +7,5 @@ VHD.img
 *.iso
 webserver
 exp/main
+fonts_compiled
+temp

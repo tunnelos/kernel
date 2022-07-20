@@ -1,25 +1,30 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/dog/backup/TunnelOS'
-rm -rfv debug 
-mkdir debug
+rm -rf *.o fonts/*.o tunnelconfig/*.o
+rm -rf temp
+rm -rf temp/
+mkdir temp
+mkdir temp/debug
+mkdir temp/iso
+mkdir temp/iso/tmp
+mkdir temp/iso/tmp/mkbootimg
+mkdir temp/iso/tmp/sys
+cp -r arch/x86_64/* temp/
+cp -r temp/linker/* temp/
+cd temp
 bash finder.sh
-ld -nostdlib -nostartfiles -T link.ld main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idta.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o idea.o event.o fpua.o path.o ui.o color.o tunnelconfig/system.o cpuid_toolsa.o ssea.o avxa.o sse.o uhci.o easter.o math.o desktop.o pita.o toolsa.o pic.o pica.o rtc.o nmi.o stdlib.o api.o encoder.o sort.o cJSON/cJSON.o cJSON/cJSON_Utils.o systemconf.o trnd.o fonts/text.o fonts/gui.o -o tunnel.x86_64.elf
+echo * Linking
+ld -nostdlib -nostartfiles -T link.ld main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o placeholder.o system_JSON.o tunnel_JSON.o network.o api.o nmi.o text_PSF.o gui_PSF.o -o tunnel.x86_64.elf || false
 strip -K mmio -K fb -K bootboot -K environment -K initstack tunnel.x86_64.elf
 readelf -hls tunnel.x86_64.elf > tunnel.x86_64.txt
-rm -rfv fonts_compiled
+rm -rf fonts_compiled
 mkdir fonts_compiled
 mv fonts/*.o fonts_compiled/
 cp tunnel.x86_64.elf debug/tunnel.x86_64.elf
 cd debug
 objdump -D tunnel.x86_64.elf > tunnel.x86_64.txt
 cd ..
- 
-rm -rv iso
-mkdir iso
-mkdir iso/tmp
-mkdir iso/tmp/mkbootimg
 cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
-mkdir iso/tmp/sys
 cp tunnelconfig/* .
 cp config iso/tmp/sys/
 cd iso/tmp/mkbootimg/mkbootimg
@@ -40,9 +45,5 @@ du -h ../tunnel.x86_64.elf
 rm -rfv tunnel.x86_64.img
 cd ../
 rm -rf config tunnel.json
-rm -rf *.o fonts/*.o tunnelconfig/*.o
-rm -rf *.elf *.iso
-cp iso/tunnel.x86_64.iso .
-rm -rf iso
 make: Leaving directory '/home/dog/backup/TunnelOS'
  

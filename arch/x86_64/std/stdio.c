@@ -19,11 +19,11 @@ void puts(const char *s, uint32_t color, int x4, int y4){
 
     terminal_block = true;
     int x, y, line, mask, offs;
-    psf2_t *font = (psf2_t*)&_binary_fonts_text_psf_start;
+    psf2_t *font = (psf2_t*)&_binary_text_psf_start;
     int bpl = (font->width + 7) / 8;
     while(*s) {
         //72
-        unsigned char *glyph = (unsigned char *)&_binary_fonts_text_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
+        unsigned char *glyph = (unsigned char *)&_binary_text_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
         offs = (kx * (font->width + __stdio_margin) * 4);
         if(*s == '\n' || kx >= 71) {
             ty += font->height;
@@ -62,11 +62,11 @@ void puts_gui(const char *s, uint32_t color, int x4, int y4){
 
     terminal_block = true;
     int x, y, line, mask, offs;
-    psf2_t *font = (psf2_t*)&_binary_fonts_gui_psf_start;
+    psf2_t *font = (psf2_t*)&_binary_gui_psf_start;
     int bpl = (font->width + 7) / 8;
     while(*s) {
         //72
-        unsigned char *glyph = (unsigned char*)&_binary_fonts_gui_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
+        unsigned char *glyph = (unsigned char*)&_binary_gui_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
         offs = (kx * (font->width + __stdio_gui_margin) * 4);
         if(kx >= 71) {
             ty += font->height;

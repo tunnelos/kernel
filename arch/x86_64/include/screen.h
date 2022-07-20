@@ -20,8 +20,9 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
-extern volatile unsigned char _binary_fonts_text_psf_start;
-extern volatile unsigned char _binary_fonts_gui_psf_start;
+extern volatile unsigned char _binary_text_psf_start;
+extern volatile unsigned char _binary_gui_psf_start;
+
 typedef struct {
     uint32_t magic;
     uint32_t version;

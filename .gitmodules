@@ -1,6 +1,9 @@
-[submodule "bootboot"]
-	path = bootboot
-	url = https://gitlab.com/bztsrc/bootboot.git
-[submodule "cJSON"]
-	path = cJSON
+[submodule "arch/x86_64/cJSON"]
+	path = arch/x86_64/cJSON
 	url = https://github.com/SergeyMC9730/cJSON.git
+[submodule "arch/aarch64/cJSON"]
+	path = arch/aarch64/cJSON
+	url = https://github.com/SergeyMC9730/cJSON.git
+[submodule "arch/x86_64/bootboot"]
+	path = arch/x86_64/bootboot
+	url = https://gitlab.com/bztsrc/bootboot.git

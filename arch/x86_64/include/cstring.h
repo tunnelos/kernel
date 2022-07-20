@@ -3,6 +3,7 @@
 
 int strlen(const char *str);
 char *tolower(char *data);
+char tolowerchar(char data);
 int strncmp(const char *s1, const char *s2, size_t n);
 int strcmp(const char *s1, const char *s2);
 char *strcpy(char *dest, const char *src);

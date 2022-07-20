@@ -12,6 +12,8 @@ char tlhelper(char c) {
     return (c >= 'A' && c <= 'Z') ? (c + 32) : c;
 }
 
+char tolowerchar(char data) { return tlhelper(data); }
+
 char *tolower(char *data) {
     char *a = data;
     char *b = data;
@@ -82,7 +84,7 @@ double strtod(const char *nptr, char **endptr) {
     }
     if(exponent && !hasexponent) while(*nptr != 'E') --nptr;
     if(!result && se) --nptr;
-    if(endptr) *endptr = (const char *)nptr;
+    if(endptr) *endptr = (char *)nptr;
     while(exp != 0) {
         if(se == '-') res /= 10;
         else res *= 10;

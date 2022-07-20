@@ -124,8 +124,6 @@ extern uint8_t __ide_buffer[2048];
 extern volatile uint8_t __ide_irq_trigger;
 extern uint8_t __ide_atapi_packet[12];
 extern ide_dev_t __ide_devices[4];
-extern void __ide_pushw();
-extern void __ide_popw();
 extern const char *__ide_error_table[11];
 extern const char *__ide_drive_table1[2];
 extern const char *__ide_drive_table2[2];

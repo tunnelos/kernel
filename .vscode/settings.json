@@ -30,6 +30,9 @@
         "cmos.h": "c",
         "tags.h": "c",
         "sse.h": "c",
-        "arch.h": "c"
+        "arch.h": "c",
+        "systemconf.h": "c",
+        "cjson.h": "c",
+        "stdlib.h": "c"
     }
 }

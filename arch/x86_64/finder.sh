@@ -6,6 +6,7 @@ cp compile.sh etc/
 cp compile.sh fonts/
 cp compile.sh software/
 cp compile.sh std/
+cp compile.sh tunnelconfig/
 
 cd api
 bash compile.sh
@@ -46,5 +47,10 @@ bash compile.sh
 rm compile.sh
 cp *.o ../
 rm *.o -r
-cd ../
+cd ../tunnelconfig
 bash compile.sh
+rm compile.sh
+cp *.o ../
+rm *.o -r
+cd ..
+pwd
