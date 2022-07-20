@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 20 15:48:36 2022
+# Make data base, printed on Wed Jul 20 20:12:42 2022
 
 # Variables
 
@@ -62,7 +62,7 @@ MANDATORY_PATH = /usr/share/gconf/xfce.mandatory.path
 XDG_DATA_DIRS = /usr/share/xfce4:/home/dog/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop:/usr/share
 # environment
 __GL_SYNC_DISPLAY_DEVICE = DP-0
-# makefile (from 'Makefile', line 13)
+# makefile (from 'Makefile', line 14)
 FONTLIST = text_PSF.o gui_PSF.o
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
@@ -141,7 +141,7 @@ VSCODE_CODE_CACHE_PATH = /home/dog/.config/Code/CachedData/3b889b090b5ad5793f524
 # environment
 LOGNAME = dog
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
 +F = $(notdir $+)
 # environment
@@ -166,6 +166,8 @@ MAKE = $(MAKE_COMMAND)
 MAKECMDGOALS := all
 # environment
 SHLVL = 1
+# makefile (from 'Makefile', line 13)
+FILELIST_AARCH64 = boot_ASM.o
 # environment
 COMPIZ_CONFIG_PROFILE = mint
 # environment
@@ -251,9 +253,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 2455543
+VSCODE_PID = 2852884
 # variable set hash-table stats:
-# Load=121/1024=12%, Rehash=0, Collisions=12/151=8%
+# Load=122/1024=12%, Rehash=0, Collisions=12/152=8%
 
 # Pattern-specific Variable Values
 
@@ -261,9 +263,9 @@ VSCODE_PID = 2455543
 
 # Directories
 
-# . (device 2049, inode 54003514): 19 files, no impossibilities.
+# . (device 2049, inode 54003514): 22 files, no impossibilities.
 
-# 19 files, no impossibilities in 1 directories.
+# 22 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -274,14 +276,14 @@ VSCODE_PID = 2455543
 setup:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 18):
+#  recipe to execute (from 'Makefile', line 19):
 	@bash setup.sh
 
 .ONESHELL:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
 #  File has not been updated.
 
 all: clean tunnel.x86_64.iso
@@ -297,7 +299,7 @@ arch:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
+#  recipe to execute (from 'Makefile', line 21):
 	@echo "Avaliable architectures"
 	@echo "x86_64"
 
@@ -305,7 +307,7 @@ vhd:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 84):
+#  recipe to execute (from 'Makefile', line 89):
 	@dd if=/dev/zero of=VHD.img bs=1M count=512
 
 # Not a target:
@@ -317,7 +319,7 @@ vhd:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-20 15:45:46.886572074
+#  Last modified 2022-07-20 17:33:48.186495186
 #  File has been updated.
 #  Successfully updated.
 
@@ -325,7 +327,7 @@ help:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 24):
 	@echo "Avaliable commands"
 	@echo "make arch - show avaliable architectures"
 	@echo "make all - compile code into bootable files"
@@ -365,7 +367,7 @@ clean:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  recipe to execute (from 'Makefile', line 77):
+#  recipe to execute (from 'Makefile', line 82):
 	@rm -rf *.o fonts/*.o tunnelconfig/*.o
 	@rm -rf temp
 
@@ -373,7 +375,7 @@ fullclean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 80):
+#  recipe to execute (from 'Makefile', line 85):
 	@rm -rf *.elf *.iso
 	@cp iso/$(OSNAME).x86_64.iso .
 	@rm -rf iso
@@ -382,7 +384,7 @@ tunnel.x86_64.iso:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 32):
+#  recipe to execute (from 'Makefile', line 33):
 	@rm -rf temp/
 	@mkdir temp
 	@mkdir temp/debug
@@ -394,7 +396,6 @@ tunnel.x86_64.iso:
 	@cp -r temp/linker/* temp/
 	@cd temp
 	@bash finder.sh
-	@echo * Linking
 	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
 	@strip $(STRIPFLAGS_X86_64) $(OSNAME).x86_64.elf
 	@readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
@@ -426,6 +427,10 @@ tunnel.x86_64.iso:
 	@rm -rfv $(OSNAME).x86_64.img
 	@cd ../
 	@rm -rf config tunnel.json
+	@cp -r debug ../targets_debug
+	@cp -r iso ../targets_executeable
+	@cd ..
+	@rm -rf temp
 
 # files hash-table stats:
 # Load=12/1024=1%, Rehash=0, Collisions=0/28=0%
@@ -435,12 +440,12 @@ tunnel.x86_64.iso:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 31 / storage = 289 B / avg = 9 B
-# current buf: size = 8162 B / used = 289 B / count = 31 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 34 / storage = 317 B / avg = 9 B
+# current buf: size = 8162 B / used = 317 B / count = 34 / avg = 9 B
 
-# strcache performance: lookups = 49 / hit rate = 36%
+# strcache performance: lookups = 52 / hit rate = 34%
 # hash-table stats:
-# Load=31/8192=0%, Rehash=0, Collisions=1/49=2%
-# Finished Make data base on Wed Jul 20 15:48:36 2022
+# Load=34/8192=0%, Rehash=0, Collisions=1/52=2%
+# Finished Make data base on Wed Jul 20 20:12:42 2022
 
  

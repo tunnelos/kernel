@@ -3,14 +3,15 @@
 LDFLAGS_X86_64 = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
-FILELIST_X86_64 = main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o     \
-				  smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o  \
-	    		  window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o   \
-	    		  cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
-	    		  easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o   \
-	    		  encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o \
-	    		  placeholder.o system_JSON.o tunnel_JSON.o network.o api.o nmi.o
-FONTLIST =        text_PSF.o gui_PSF.o
+FILELIST_X86_64 =  main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o nmi.o api.o  \
+				   smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o  \
+	    		   window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o   \
+	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
+	    		   easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o   \
+	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o \
+	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o
+FILELIST_AARCH64 = boot_ASM.o armio.o cint.c cstring.c math.c sort.c stdlib.c system_JSON.o
+FONTLIST =         text_PSF.o gui_PSF.o
 
 all: clean $(OSNAME).x86_64.iso
 
@@ -18,7 +19,7 @@ setup:
 	@bash setup.sh
 arch:
 	@echo "Avaliable architectures"
-	@echo "x86_64"
+	@echo "x86_64 aarch64"
 help:
 	@echo "Avaliable commands"
 	@echo "make arch - show avaliable architectures"
@@ -28,8 +29,14 @@ help:
 	@echo "make clean - clean from object files"
 	@echo "make fullclean - execute clean and remove target files"
 	@echo "make vhd - generate vhd file"
+$(OSNAME).aarch64.elf:
+	@rm -rf temp
+	@mkdir temp
+	@mkdir temp/debug
+	@cp -r arch/aarch64/* temp/
+	@cp -r temp/linker/* temp/
 $(OSNAME).x86_64.iso:
-	@rm -rf temp/
+	@rm -rf temp
 	@mkdir temp
 	@mkdir temp/debug
 	@mkdir temp/iso

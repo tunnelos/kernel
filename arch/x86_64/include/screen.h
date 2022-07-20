@@ -36,5 +36,3 @@ typedef struct {
 } __attribute__((packed)) psf2_t;
 
 extern uint8_t fb;
-
-unused void __screen_write_pixel(int pos_x, int pos_y, uint32_t color);

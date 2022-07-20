@@ -9,12 +9,13 @@ This is a multicore text-based Operating System without using paging nor PIT int
 - OSDev
 - STB Image header (unused ATM)
 - szhou42/osdev - PIC
-- levex/osdev - PIC 
+- levex/osdev - PIC
 <br>
 
 **Supported architectures**
 -
-- x86_64
+- `x86_64`
+- `aarch64` **(Work In Progress)**
 
 **Authors**<br>
 -

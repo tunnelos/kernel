@@ -9,4 +9,7 @@ webserver
 exp/main
 fonts_compiled
 temp
+targets_debug
+targets_executeable
+debug
 .vscode

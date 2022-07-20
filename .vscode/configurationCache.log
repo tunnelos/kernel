@@ -1,1 +1,1 @@
-{"buildTargets":["all","arch","clean","fullclean","help","setup","tunnel.x86_64.iso","vhd"],"launchTargets":["/home/dog/backup/TunnelOS>tunnel.x86_64.elf()"],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
+{"buildTargets":["all","arch","clean","fullclean","help","setup","tunnel.x86_64.iso","vhd"],"launchTargets":["/home/dog/backup/TunnelOS>tunnel.x86_64.elf()"],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[]},"fileIndex":[]}}
