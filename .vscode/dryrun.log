@@ -2,7 +2,7 @@ make all --dry-run --keep-going --print-directory
 make: Entering directory '/home/dog/backup/TunnelOS'
 rm -rf *.o fonts/*.o tunnelconfig/*.o
 rm -rf temp
-rm -rf temp/
+rm -rf temp
 mkdir temp
 mkdir temp/debug
 mkdir temp/iso
@@ -13,7 +13,7 @@ cp -r arch/x86_64/* temp/
 cp -r temp/linker/* temp/
 cd temp
 bash finder.sh
-ld -nostdlib -nostartfiles -T link.ld main.o screen.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o placeholder.o system_JSON.o tunnel_JSON.o network.o api.o nmi.o text_PSF.o gui_PSF.o -o tunnel.x86_64.elf || false
+ld -nostdlib -nostartfiles -T link.ld main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o nmi.o api.o smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o placeholder.o system_JSON.o tunnel_JSON.o network.o text_PSF.o gui_PSF.o -o tunnel.x86_64.elf || false
 strip -K mmio -K fb -K bootboot -K environment -K initstack tunnel.x86_64.elf
 readelf -hls tunnel.x86_64.elf > tunnel.x86_64.txt
 rm -rf fonts_compiled
@@ -46,6 +46,22 @@ cd ../
 rm -rf config tunnel.json
 cp -r debug ../targets_debug
 cp -r iso ../targets_executeable
+cd ..
+rm -rf temp
+rm -rf temp
+mkdir temp
+mkdir temp/debug
+mkdir ../targets_debug
+mkdir ../targets_executeable
+cp -r arch/aarch64/* temp/
+cp -r temp/linker/* temp/
+cd temp
+bash finder.sh
+aarch64-linux-gnu-ld -nostdlib -nostartfiles -T link.ld boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o text_PSF.o gui_PSF.o -o tunnel.aarch64.elf || false
+aarch64-linux-gnu-objdump -D tunnel.aarch64.elf > tunnel.aarch64.txt
+
+cp tunnel.aarch64.elf ../targets_executeable/
+cp tunnel.aarch64.txt ../targets_debug
 cd ..
 rm -rf temp
 make: Leaving directory '/home/dog/backup/TunnelOS'

@@ -56,7 +56,7 @@ then
 	exit 1
 fi
 
-if [ $PACKAGE_SET_TOOL -eq 1] && [ $PACKAGE_SET_QEMU -eq 1 ] 
+if [ $PACKAGE_SET_TOOL -eq 1] && [ $PACKAGE_SET_QEMU -eq 1 ]
 then
 	PACKAGE_SET_INFO="* Downloading ${PACKAGE_SET_INFO2} and ${PACKAGE_SET_INFO1}..."
 fi

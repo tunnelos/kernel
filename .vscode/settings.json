@@ -2,6 +2,7 @@
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
         "armio.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "main.h": "c"
     }
 }

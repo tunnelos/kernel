@@ -19,4 +19,5 @@ _start:
     sub w2, w2, #1
     cbnz w2, 3b
 4:
+    bl main
     b 1b

@@ -1,6 +1,7 @@
 .ONESHELL:
 
-LDFLAGS_X86_64 = -nostdlib -nostartfiles -T link.ld
+LDFLAGS_X86_64  = -nostdlib -nostartfiles -T link.ld
+LDFLAGS_AARCH64 = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST_X86_64 =  main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o nmi.o api.o  \
@@ -10,10 +11,10 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o
 	    		   easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o   \
 	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o \
 	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o
-FILELIST_AARCH64 = boot_ASM.o armio.o cint.c cstring.c math.c sort.c stdlib.c system_JSON.o
+FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
 
-all: clean $(OSNAME).x86_64.iso
+all: clean $(OSNAME).x86_64.iso $(OSNAME).aarch64.elf
 
 setup:
 	@bash setup.sh
@@ -21,20 +22,32 @@ arch:
 	@echo "Avaliable architectures"
 	@echo "x86_64 aarch64"
 help:
-	@echo "Avaliable commands"
 	@echo "make arch - show avaliable architectures"
 	@echo "make all - compile code into bootable files"
 	@echo "make setup - set up compiling environment"
 	@echo "make iso - generate iso file"
-	@echo "make clean - clean from object files"
+	@echo "make clean - clea	@echo "Avaliable commandn from object files"
 	@echo "make fullclean - execute clean and remove target files"
 	@echo "make vhd - generate vhd file"
 $(OSNAME).aarch64.elf:
 	@rm -rf temp
 	@mkdir temp
 	@mkdir temp/debug
+	@mkdir ../targets_debug
+	@mkdir ../targets_executeable
 	@cp -r arch/aarch64/* temp/
 	@cp -r temp/linker/* temp/
+
+	@cd temp
+	@bash finder.sh
+	@aarch64-linux-gnu-ld $(LDFLAGS_AARCH64) $(FILELIST_AARCH64) $(FONTLIST) -o $(OSNAME).aarch64.elf || false
+	@aarch64-linux-gnu-objdump -D $(OSNAME).aarch64.elf > $(OSNAME).aarch64.txt
+	
+	@cp $(OSNAME).aarch64.elf ../targets_executeable/
+	@cp $(OSNAME).aarch64.txt ../targets_debug
+
+	@cd ..
+	@rm -rf temp
 $(OSNAME).x86_64.iso:
 	@rm -rf temp
 	@mkdir temp
@@ -56,7 +69,7 @@ $(OSNAME).x86_64.iso:
 	@mv fonts/*.o fonts_compiled/
 	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
 	@cd debug
-	@objdump -D tunnel.x86_64.elf > tunnel.x86_64.txt
+	@objdump -D $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
 	@cd ..
 	@cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
 	@cp tunnelconfig/* .
