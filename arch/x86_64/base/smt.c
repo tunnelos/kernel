@@ -9,6 +9,7 @@ int __smt_lastmax = 0;
 uint16_t __smt_coreList[MAX_CORES] = {};
 int maincpu_tid = 1024;
 int __smt_avaliable_cores = 0;
+core_t cores[MAX_CORES - 1];
 
 void __smt_changestatus(bool status) {
     __smt_inSMTmode = status;

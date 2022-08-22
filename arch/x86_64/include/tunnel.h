@@ -17,7 +17,6 @@ typedef struct {
     int id;
 } tunnel_memory_block_t;
 typedef struct {
-    apimap_t *api_data;
     tunnel_memory_block_t meta[8320*8];
     char blockdata[8320*8][256];
     uint64_t start_point;
@@ -40,7 +39,7 @@ typedef struct {
 } tunnelos_sysinfo_t;
 #pragma pack(pop)
 
-tunnelos_sysinfo_t tunnelos_sysinfo;
+extern tunnelos_sysinfo_t tunnelos_sysinfo;
 
 #ifdef __cplusplus
 }

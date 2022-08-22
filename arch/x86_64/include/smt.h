@@ -30,7 +30,7 @@ typedef struct {
     bool exception;
 } core_t;
 
-core_t cores[MAX_CORES - 1];
+extern core_t cores[MAX_CORES - 1];
 
 #include "./tunnel.h"
 

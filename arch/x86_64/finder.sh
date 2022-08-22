@@ -54,3 +54,5 @@ rm compile.sh
 cp *.o ../ 2> /dev/null
 rm *.o -r 2> /dev/null
 cd ..
+
+echo Final linking ...

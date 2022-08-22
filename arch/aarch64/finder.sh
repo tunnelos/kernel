@@ -1,6 +1,6 @@
 cp compile.sh api/
 cp compile.sh base/
-cp compile.sh cJSON/
+# cp compile.sh cJSON/
 cp compile.sh drivers/
 cp compile.sh etc/
 cp compile.sh fonts/
@@ -18,11 +18,11 @@ bash compile.sh
 rm compile.sh
 cp *.o ../ 2> /dev/null
 rm *.o -r 2> /dev/null
-cd ../cJSON
-bash compile.sh
-rm compile.sh
-cp *.o ../ 2> /dev/null
-rm *.o -r 2> /dev/null
+# cd ../cJSON
+# bash compile.sh
+# rm compile.sh
+# cp *.o ../ 2> /dev/null
+# rm *.o -r 2> /dev/null
 cd ../drivers
 bash compile.sh
 rm compile.sh
@@ -54,3 +54,5 @@ rm compile.sh
 cp *.o ../ 2> /dev/null
 rm *.o -r 2> /dev/null
 cd ..
+
+echo Final linking ...

@@ -10,13 +10,15 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o
 	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
 	    		   easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o   \
 	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o \
-	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o cppfuncs.o
+	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o cppfuncs.o cpptest.o
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
 
 aarch64_target: clean $(OSNAME).aarch64.elf
 x86_64_target:  clean $(OSNAME).x86_64.iso
-all: x86_64_target aarch64_target
+all: 
+	make x86_64_target
+	make aarch64_target
 
 setup:
 	@bash setup.sh
