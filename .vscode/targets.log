@@ -1,16 +1,12 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # GNU Make 4.2.1
- 
 # Built for x86_64-pc-linux-gnu
- 
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
- 
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
- 
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug 22 23:15:28 2022
+# Make data base, printed on Tue Aug 23 00:02:56 2022
 
 # Variables
 
@@ -271,9 +267,9 @@ VSCODE_PID = 2035593
 
 # Directories
 
-# . (device 2049, inode 54003514): 19 files, no impossibilities.
+# . (device 2049, inode 54003514): 25 files, no impossibilities.
 
-# 19 files, no impossibilities in 1 directories.
+# 25 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -283,26 +279,98 @@ VSCODE_PID = 2035593
 
 setup:
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 24):
+#  recipe to execute (from 'Makefile', line 29):
 	@bash setup.sh
 
+ 
 .ONESHELL:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-all:
+all: x86_64_target aarch64_target
 #  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  recipe to execute (from 'Makefile', line 20):
+	@mkdir build
+	@mkdir build/debug
+	@mkdir build/executeable
+	@cp targets_debug/* build/debug -r
+	@cp targets_executeable/* build/executeable -r
+	@rm targets_executeable targets_debug -r
+	@zip targets.zip build -r9
+
+arch:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 31):
+	@echo "Avaliable architectures"
+	@echo "x86_64 aarch64"
+
+vhd:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 119):
+	@dd if=/dev/zero of=VHD.img bs=1M count=512
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-23 00:02:12.835736398
+#  File has been updated.
+#  Successfully updated.
+
+help:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 34):
+	@echo "make arch - show avaliable architectures"
+	@echo "make all - compile code into bootable files"
+	@echo "make setup - set up compiling environment"
+	@echo "make iso - generate iso file"
+	@echo "make clean - clean	
+	@echo "Avaliable commandn from object files"
+	@echo "make fullclean - execute clean and remove target files"
+	@echo "make vhd - generate vhd file"
+
+x86_64_target: clean tunnel.x86_64.iso
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
-# @ := all
+# @ := clean
 # automatic
 # % := 
 # automatic
@@ -319,74 +387,14 @@ all:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  recipe to execute (from 'Makefile', line 20):
-	make x86_64_target
-	make aarch64_target
-
-arch:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 26):
-	@echo "Avaliable architectures"
-	@echo "x86_64 aarch64"
-
-vhd:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 113):
-	@dd if=/dev/zero of=VHD.img bs=1M count=512
-
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-22 23:05:37.144365943
-#  File has been updated.
-#  Successfully updated.
-
-help:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 29):
-	@echo "make arch - show avaliable architectures"
-	@echo "make all - compile code into bootable files"
-	@echo "make setup - set up compiling environment"
-	@echo "make iso - generate iso file"
-	@echo "make clean - clea	@echo "Avaliable commandn from object files"
-	@echo "make fullclean - execute clean and remove target files"
-	@echo "make vhd - generate vhd file"
-
-x86_64_target: clean tunnel.x86_64.iso
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-.DEFAULT:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-clean:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 107):
-	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable
+	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build
 
 fullclean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 109):
+#  recipe to execute (from 'Makefile', line 115):
 	@rm -rf *.elf *.iso
 	@cp iso/$(OSNAME).x86_64.iso .
 	@rm -rf iso
@@ -395,7 +403,7 @@ tunnel.x86_64.iso:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 56):
+#  recipe to execute (from 'Makefile', line 62):
 	@rm -rf temp
 	@mkdir -p targets_debug
 	@mkdir -p targets_executeable
@@ -440,8 +448,8 @@ tunnel.x86_64.iso:
 	@rm -rfv $(OSNAME).x86_64.img
 	@cd ../
 	@rm -rf config tunnel.json
-	@cp -r debug ../targets_debug
-	@cp -r iso ../targets_executeable
+	@cp -r debug/* ../targets_debug
+	@cp -r iso/* ../targets_executeable
 	@cd ..
 	@rm -rf temp
 
@@ -454,7 +462,7 @@ tunnel.aarch64.elf:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 37):
+#  recipe to execute (from 'Makefile', line 43):
 	@rm -rf temp
 	@mkdir -p temp
 	@mkdir -p temp/debug
@@ -473,19 +481,19 @@ tunnel.aarch64.elf:
 	@rm -rf temp
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=0/34=0%
+# Load=15/1024=1%, Rehash=0, Collisions=0/36=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 34 / storage = 346 B / avg = 10 B
-# current buf: size = 8162 B / used = 346 B / count = 34 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 40 / storage = 345 B / avg = 8 B
+# current buf: size = 8162 B / used = 345 B / count = 40 / avg = 8 B
 
-# strcache performance: lookups = 57 / hit rate = 40%
+# strcache performance: lookups = 65 / hit rate = 38%
 # hash-table stats:
-# Load=34/8192=0%, Rehash=0, Collisions=1/57=2%
-# Finished Make data base on Mon Aug 22 23:15:28 2022
+# Load=40/8192=0%, Rehash=0, Collisions=1/65=2%
+# Finished Make data base on Tue Aug 23 00:02:56 2022
 
  

@@ -20,6 +20,7 @@
 #include "../include/nmi.h"
 #include "../include/systemconf.h"
 #include "../include/test.h"
+#include "../include/cpptest.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -179,6 +180,7 @@ void __main_core0init() {
         __mm_fillblocks();
 
         __test_unitest();
+        cpptest_test00();
 
         // __desktop_init();
         // __desktop_add_task("Discord");

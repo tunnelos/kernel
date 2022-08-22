@@ -7,17 +7,19 @@ void TestClass::test() {
     this->b = !this->b;
     return;
 }
-TestClass::TestClass() {
+void TestClass::onCreate() {
     this->a = 0;
     this->b = false;
 }
-TestClass::~TestClass() {
+void TestClass::onDestroy() {
     return;
 }
 
 void cpptest_test00() {
     TestClass *cl = CREATE_CLASS(TestClass);
+    cl->onCreate();
     cl->test();
+    cl->onDestroy();
     DELETE_CLASS(cl);
     return;
 }

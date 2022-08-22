@@ -16,9 +16,14 @@ FONTLIST =         text_PSF.o gui_PSF.o
 
 aarch64_target: clean $(OSNAME).aarch64.elf
 x86_64_target:  clean $(OSNAME).x86_64.iso
-all: 
-	make x86_64_target
-	make aarch64_target
+all: x86_64_target aarch64_target
+	@mkdir build
+	@mkdir build/debug
+	@mkdir build/executeable
+	@cp targets_debug/* build/debug -r
+	@cp targets_executeable/* build/executeable -r
+	@rm targets_executeable targets_debug -r
+	@zip targets.zip build -r9
 
 setup:
 	@bash setup.sh
@@ -30,7 +35,8 @@ help:
 	@echo "make all - compile code into bootable files"
 	@echo "make setup - set up compiling environment"
 	@echo "make iso - generate iso file"
-	@echo "make clean - clea	@echo "Avaliable commandn from object files"
+	@echo "make clean - clean	
+	@echo "Avaliable commandn from object files"
 	@echo "make fullclean - execute clean and remove target files"
 	@echo "make vhd - generate vhd file"
 $(OSNAME).aarch64.elf:
@@ -99,12 +105,12 @@ $(OSNAME).x86_64.iso:
 	@cd ../
 	@rm -rf config tunnel.json
 
-	@cp -r debug ../targets_debug
-	@cp -r iso ../targets_executeable
+	@cp -r debug/* ../targets_debug
+	@cp -r iso/* ../targets_executeable
 	@cd ..
 	@rm -rf temp
 clean:
-	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable
+	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build
 fullclean:
 	@rm -rf *.elf *.iso
 	@cp iso/$(OSNAME).x86_64.iso .

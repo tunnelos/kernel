@@ -12,4 +12,5 @@ temp
 targets_debug
 targets_executeable
 debug
+build
 .vscode

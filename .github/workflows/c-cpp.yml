@@ -19,10 +19,8 @@ jobs:
       run: sudo make setup && sudo apt install zip
     - name: Compile system
       run: make all
-    - name: Archive target
-      run: mkdir tbu && cp targets_debug tbu/debug -r && cp targets_executeable/tunnel.* tbu/ && zip tunnel.zip tbu -r9v
     - name: Upload target
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: tunnel.zip
-        path: ./tunnel.zip
+        name: target.zip
+        path: ./target.zip

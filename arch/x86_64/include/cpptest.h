@@ -11,8 +11,8 @@ class TestClass {
     bool b;
 
     public:
-    TestClass();
-    ~TestClass();
+    void onCreate();
+    void onDestroy();
     void test();
 };
 #pragma pack(pop)
