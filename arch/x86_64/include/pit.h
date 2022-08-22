@@ -18,6 +18,10 @@
 #define __PIT_DIVIDER 1193180
 #define __PIT_SET 0x36
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     bool avaliable: true;
     uint64_t every;
@@ -40,3 +44,7 @@ extern uint32_t __pit_IRQ0_fractions;
 extern uint32_t __pit_IRQ0_ms;
 extern uint32_t __pit_IRQ0_frequency;
 extern uint16_t __pit_reload_value;
+
+#ifdef __cplusplus
+}
+#endif

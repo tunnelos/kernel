@@ -4,6 +4,10 @@
 
 #define CMOS_YEAR 2022
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #pragma pack(push, 1)
 typedef struct {
     uint8_t second;
@@ -24,3 +28,7 @@ int __cmos_getUpdate();
 uint8_t __cmos_getRTCreg(uint8_t reg);
 void __cmos_getRTC();
 void __cmos_read(uint8_t *data_array);
+
+#ifdef __cplusplus
+}
+#endif

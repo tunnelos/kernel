@@ -18,6 +18,10 @@
     res;                                                                        \
 })
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int abs(int i);
 double fabs(double x);
 float acos(float x);
@@ -27,3 +31,7 @@ float round(float number);
 float sqrt(float number);
 float modf(float x, float *iptr);
 float acos(float x);
+
+#ifdef __cplusplus
+}
+#endif

@@ -2,6 +2,10 @@
 
 #include "unitype.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #pragma pack(push, 1)
 typedef struct {
     // Index at 0 for "functions" is init function
@@ -25,3 +29,7 @@ void __hal_init();
 
 halcategory_t *__hal_newcategory(halmember_t *members, const char *name);
 halmember_t   *__hal_newmember  (unitype_t *functions, unitype_t *variables, const char *name);
+
+#ifdef __cplusplus
+}
+#endif

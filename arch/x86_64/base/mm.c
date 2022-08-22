@@ -32,8 +32,6 @@ void __mm_fillblocks() {
     int m = 8320 * 8;
     int i = 0;
     while(i < m) {
-        tunnelos_sysinfo.mm->meta[i].next = (struct tunnel_memory_block_t *)(&tunnelos_sysinfo.mm->meta[i + 1]);
-        tunnelos_sysinfo.mm->meta[i].prev = (struct tunnel_memory_block_t *)(&tunnelos_sysinfo.mm->meta[i - 1]);
         tunnelos_sysinfo.mm->meta[i].address = &tunnelos_sysinfo.mm->blockdata[i];
         tunnelos_sysinfo.mm->meta[i].id = -1;
         tunnelos_sysinfo.mm->meta[i].have = 0;
@@ -113,8 +111,6 @@ tunnel_memory_block_t __mm_get_blockinformation(void *address) {
     bl.free = tunnelos_sysinfo.mm->meta[blk].free;
     bl.have = tunnelos_sysinfo.mm->meta[blk].have;
     bl.id = tunnelos_sysinfo.mm->meta[blk].id;
-    bl.next = tunnelos_sysinfo.mm->meta[blk].next;
-    bl.prev = tunnelos_sysinfo.mm->meta[blk].prev;
     return bl;
 }
 

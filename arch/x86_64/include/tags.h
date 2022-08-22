@@ -3,3 +3,4 @@
 #define unused
 #define placeholder
 #define work_in_progress
+#define outdated

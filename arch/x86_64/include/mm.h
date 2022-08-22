@@ -4,6 +4,10 @@
 #include "./main.h"
 #include "./tags.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int __mm_pointer;
 extern int __mm_index;
 
@@ -16,3 +20,7 @@ void *calloc(size_t size);
 void free(void *address);
 tunnel_memory_block_t __mm_get_blockinformation(void *address);
 void *realloc(void *address, size_t size);
+
+#ifdef __cplusplus
+}
+#endif

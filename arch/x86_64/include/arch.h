@@ -2,6 +2,10 @@
 
 #include "flags.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if defined(__x86_64__)
 #define GCCARCH_NUM 0
 #define GCCARCH_STR "x86_64"
@@ -30,4 +34,8 @@ extern const char *__arch_envlookup [3];
 #if OPTIMIZE == 0
 const char *__arch_getarch();
 const char *__arch_getenvironment();
+#endif
+
+#ifdef __cplusplus
+}
 #endif

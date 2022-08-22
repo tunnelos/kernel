@@ -4,6 +4,10 @@
 
 #define jmp goto
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 uint8_t inb(uint16_t port);
 uint16_t inw(uint16_t port);
 uint32_t inl(uint16_t port);
@@ -20,3 +24,7 @@ void wait_ns(uint128_t ns);
 void insl(uint16_t reg, uint32_t *buffer, int quads);
 int __tools_get_cpu();
 extern void __tools_int_test(uint8_t interrupt_number);
+
+#ifdef __cplusplus
+}
+#endif

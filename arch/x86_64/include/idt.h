@@ -5,8 +5,11 @@
 
 #define IDT_INTERRUPT_CMOS 8
 
-#pragma pack(push, 1)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+#pragma pack(push, 1)
 typedef struct {
 	uint16_t isr_low;
 	uint16_t kernel_cs;
@@ -38,7 +41,6 @@ typedef struct {
 	bool critical;
 	bool active;
 } interrupt_t;
-
 #pragma pack(pop)
 
 __attribute__((aligned(0x10))) extern idt_entry_t __idt_idt[256];
@@ -56,3 +58,7 @@ void __idt_init();
 
 extern void __cli();
 extern void __sti();
+
+#ifdef __cplusplus
+}
+#endif

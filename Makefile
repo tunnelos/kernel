@@ -10,11 +10,13 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o
 	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
 	    		   easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o   \
 	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o \
-	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o
+	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o cppfuncs.o
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
 
-all: clean $(OSNAME).x86_64.iso $(OSNAME).aarch64.elf
+aarch64_target: clean $(OSNAME).aarch64.elf
+x86_64_target:  clean $(OSNAME).x86_64.iso
+all: x86_64_target aarch64_target
 
 setup:
 	@bash setup.sh
@@ -31,10 +33,10 @@ help:
 	@echo "make vhd - generate vhd file"
 $(OSNAME).aarch64.elf:
 	@rm -rf temp
-	@mkdir temp
-	@mkdir temp/debug
-	@mkdir ../targets_debug
-	@mkdir ../targets_executeable
+	@mkdir -p temp
+	@mkdir -p temp/debug
+	@mkdir -p targets_debug
+	@mkdir -p targets_executeable
 	@cp -r arch/aarch64/* temp/
 	@cp -r temp/linker/* temp/
 
@@ -50,12 +52,14 @@ $(OSNAME).aarch64.elf:
 	@rm -rf temp
 $(OSNAME).x86_64.iso:
 	@rm -rf temp
-	@mkdir temp
-	@mkdir temp/debug
-	@mkdir temp/iso
-	@mkdir temp/iso/tmp
-	@mkdir temp/iso/tmp/mkbootimg
-	@mkdir temp/iso/tmp/sys
+	@mkdir -p targets_debug
+	@mkdir -p targets_executeable
+	@mkdir -p temp
+	@mkdir -p temp/debug
+	@mkdir -p temp/iso
+	@mkdir -p temp/iso/tmp
+	@mkdir -p temp/iso/tmp/mkbootimg
+	@mkdir -p temp/iso/tmp/sys
 	@cp -r arch/x86_64/* temp/
 	@cp -r temp/linker/* temp/
 	@cd temp
@@ -98,8 +102,7 @@ $(OSNAME).x86_64.iso:
 	@cd ..
 	@rm -rf temp
 clean:
-	@rm -rf *.o fonts/*.o tunnelconfig/*.o
-	@rm -rf temp
+	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable
 fullclean:
 	@rm -rf *.elf *.iso
 	@cp iso/$(OSNAME).x86_64.iso .

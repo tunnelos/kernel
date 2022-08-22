@@ -3,6 +3,10 @@
 #include "./stdint.h"
 #define MAX_CORES 8 + 1
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern bool __smt_inSMTmode;
 extern int __smt_tasks;
 extern uint16_t __smt_coreList[MAX_CORES];
@@ -33,3 +37,7 @@ core_t cores[MAX_CORES - 1];
 void __smt_changestatus(bool status);
 void __smt_run();
 smt_task_t *__smt_create_task(void (*runner)(int id));
+
+#ifdef __cplusplus
+}
+#endif

@@ -20,6 +20,10 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern volatile unsigned char _binary_text_psf_start;
 extern volatile unsigned char _binary_gui_psf_start;
 
@@ -36,3 +40,7 @@ typedef struct {
 } __attribute__((packed)) psf2_t;
 
 extern uint8_t fb;
+
+#ifdef __cplusplus
+}
+#endif

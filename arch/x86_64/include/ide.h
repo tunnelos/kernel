@@ -91,6 +91,10 @@
 #define ATA_DMA_SUPPORTED 1
 #define ATA_DMA_UNSUPPORTED 0
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     uint16_t base;
     uint16_t ctrl;
@@ -136,3 +140,7 @@ uint8_t __ide_polling(uint8_t channel, bool advanced);
 void __ide_error(uint32_t drive, uint8_t err);
 
 void __ide_get_access(ide_rw_t data);
+
+#ifdef __cplusplus
+}
+#endif

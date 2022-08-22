@@ -22,6 +22,10 @@
 #define PIC_READ_IRR    0x0A    /* OCW3 irq ready next CMD read */
 #define PIC_READ_ISR    0x0B    /* OCW3 irq service next CMD read */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void __pic_eoi(uint8_t irq);
 void __pic_remap(int *offset);
 extern void __pic_disable();
@@ -30,3 +34,7 @@ void __pic_unmask(uint8_t irq);
 uint16_t __pic_get_irq_reg(int ocw3);
 uint16_t __pic_get_irr();
 uint16_t __pic_get_isr();
+
+#ifdef __cplusplus
+}
+#endif

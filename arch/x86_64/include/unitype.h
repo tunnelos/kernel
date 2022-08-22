@@ -15,6 +15,10 @@
 
 #pragma pack(push, 1)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct unitype_t unitype_t;
 struct unitype_t {
 	void *p;
@@ -36,3 +40,7 @@ unitype_t *__uni_createbase(char *c, char t);
 void __uni_delete(unitype_t *args);
 unitype_t *__uni_find(unitype_t *args, const char *name);
 #pragma pack(pop)
+
+#ifdef __cplusplus
+}
+#endif

@@ -3,6 +3,10 @@
 #include "./stdint.h"
 #include "./smt.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     //renderer parametres
     int wx;
@@ -42,3 +46,7 @@ void __window_renderer(int id);
 void __window_init();
 void __window_save_context(char *old_context, window_t *new_context);
 void __window_read_old_ctx(char *old_context, window_t *crt_context);
+
+#ifdef __cplusplus
+}
+#endif

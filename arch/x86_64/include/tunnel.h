@@ -5,14 +5,16 @@
 #include "../bootboot/dist/bootboot.h"
 #include "../api/tos.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #pragma pack(push, 1)
 typedef struct {
     bool free;
     void *address;
     int have;
     int id;
-    struct tunnel_memory_block_t *next;
-    struct tunnel_memory_block_t *prev;
 } tunnel_memory_block_t;
 typedef struct {
     apimap_t *api_data;
@@ -39,3 +41,7 @@ typedef struct {
 #pragma pack(pop)
 
 tunnelos_sysinfo_t tunnelos_sysinfo;
+
+#ifdef __cplusplus
+}
+#endif

@@ -2,12 +2,17 @@
 
 #include "./main.h" 
 
-//standart text
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// ASCII font
 void puts(const char *str, uint32_t color, int x, int y);
 void putc(const char c, uint32_t color, int x, int y);
 
 int sprintf(char *str, const char *fmt, ...);
 
+// ASCII font with GUI additions in transparent mode
 void puts_gui(const char *str, uint32_t color, int x, int y);
 void putc_gui(const char c, uint32_t color, int x, int y);
 
@@ -22,3 +27,7 @@ char *itoalong(uint64_t num, char *buffer, int base, int x, int y, int color, bo
 char itoh(int num, bool upper, int x, int y, int color, bool use_additional);
 char itoc(int num);
 char* strrev(char* src);
+
+#ifdef __cplusplus
+}
+#endif

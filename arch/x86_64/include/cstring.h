@@ -1,6 +1,10 @@
 #pragma once
 #include "./stdint.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int strlen(const char *str);
 char *tolower(char *data);
 char tolowerchar(char data);
@@ -12,3 +16,7 @@ char *strrchr(const char *s, char c);
 double strtod(const char *nptr, char **endptr);
 char *strcat(char *dest, const char *src);
 char *strncat(char *dest, const char *src, size_t n);
+
+#ifdef __cplusplus
+}
+#endif

@@ -7,6 +7,13 @@ for f in *.c ; do
         gcc ${CFLAGS} -c ${f%.c}.c -o "${f%.c}".o; 
     fi
 done
+for t in *.cpp ; do
+    if [ "$t" != '*.cpp' ]
+    then
+        echo Compiling ${t%.cpp}.cpp in x86_64 codebase ...;
+        g++ ${CFLAGS} -c ${t%.cpp}.cpp -o "${t%.cpp}".o; 
+    fi
+done
 for g in *.psf ; do 
     if [ "$g" != '*.psf' ]
     then

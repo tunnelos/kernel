@@ -24,7 +24,7 @@ done
 for h in *.asm ; do
     if [ "$h" != '*.asm' ]
     then
-        echo Assembling ${h%.asm}.asm ... in aarch64 codebase ...;
+        echo Assembling ${h%.asm}.asm in aarch64 codebase ...;
         aarch64-linux-gnu-as ${h%.asm}.asm -mcpu=cortex-a53 -o ${h%.asm}_ASM.o
     fi
 done
