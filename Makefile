@@ -110,7 +110,7 @@ $(OSNAME).x86_64.iso:
 	@cd ..
 	@rm -rf temp
 clean:
-	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build
+	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
 fullclean:
 	@rm -rf *.elf *.iso
 	@cp iso/$(OSNAME).x86_64.iso .
