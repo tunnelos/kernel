@@ -22,5 +22,5 @@ jobs:
     - name: Upload target
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: target.zip
-        path: ./target.zip
+        name: targets.zip
+        path: ./targets.zip
