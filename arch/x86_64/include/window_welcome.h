@@ -11,6 +11,7 @@ extern "C" {
 extern window_t __wWelcome_context;
 extern char *__wWelcome_old_context;
 
+// "Welcome" window
 void __wWelcome_start();
 
 #ifdef __cplusplus

@@ -1,6 +1,8 @@
 make all --dry-run --keep-going --print-directory
 make: Entering directory '/home/dog/backup/TunnelOS'
-rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build
+ 
+rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
+ 
 rm -rf temp
 mkdir -p targets_debug
 mkdir -p targets_executeable
@@ -49,6 +51,7 @@ cp -r debug/* ../targets_debug
 cp -r iso/* ../targets_executeable
 cd ..
 rm -rf temp
+ 
 rm -rf temp
 mkdir -p temp
 mkdir -p temp/debug
@@ -65,6 +68,7 @@ cp tunnel.aarch64.elf ../targets_executeable/
 cp tunnel.aarch64.txt ../targets_debug
 cd ..
 rm -rf temp
+ 
 mkdir build
 mkdir build/debug
 mkdir build/executeable

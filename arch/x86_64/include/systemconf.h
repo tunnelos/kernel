@@ -9,6 +9,7 @@ extern "C" {
 
 // extern volatile unsigned char _binary_tunnelconfig_system_json_start;
 extern cJSON *config_json;
+// Parses JSON system configuration string
 void __systemconf_init();
 
 #ifdef __cplusplus

@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+// Simple window
 typedef struct {
     //renderer parametres
     int wx;
@@ -39,12 +40,18 @@ typedef struct {
 extern window_t *__window_windowlist[32];
 extern bool __window_used[32];
 
+// Creates window
 void __window_create(window_t *window_settings);
+// Deletes window by id
 void __window_remove(int id);
 
+// Renders window by id
 void __window_renderer(int id);
+// Prepares window system for working
 void __window_init();
+// Saves window's framebuffer
 void __window_save_context(char *old_context, window_t *new_context);
+// Copies window's framebuffer into main framebuffer
 void __window_read_old_ctx(char *old_context, window_t *crt_context);
 
 #ifdef __cplusplus

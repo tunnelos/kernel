@@ -3,6 +3,11 @@
     "files.associations": {
         "armio.h": "c",
         "stdint.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "panic.h": "c",
+        "stdio.h": "c",
+        "flags.h": "c",
+        "pic.h": "c",
+        "tools.h": "c"
     }
 }

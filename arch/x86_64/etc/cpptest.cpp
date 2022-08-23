@@ -16,10 +16,9 @@ void TestClass::onDestroy() {
 }
 
 void cpptest_test00() {
-    TestClass *cl = CREATE_CLASS(TestClass);
-    cl->onCreate();
+    TestClass *cl = nullptr;
+    TUNNEL_CREATE_CLASS(TestClass, cl);
     cl->test();
-    cl->onDestroy();
-    DELETE_CLASS(cl);
+    TUNNEL_DELETE_CLASS(cl);
     return;
 }

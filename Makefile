@@ -24,6 +24,7 @@ all: x86_64_target aarch64_target
 	@cp targets_executeable/* build/executeable -r
 	@rm targets_executeable targets_debug -r
 	@zip targets.zip build -r9
+	@rm debug iso fonts_compiled -rf
 
 setup:
 	@bash setup.sh
@@ -76,9 +77,6 @@ $(OSNAME).x86_64.iso:
 	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
 	@strip $(STRIPFLAGS_X86_64) $(OSNAME).x86_64.elf
 	@readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
-	@rm -rf fonts_compiled
-	@mkdir fonts_compiled
-	@mv fonts/*.o fonts_compiled/
 	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
 	@cd debug
 	@objdump -D $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt

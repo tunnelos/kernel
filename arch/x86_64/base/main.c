@@ -21,6 +21,7 @@
 #include "../include/systemconf.h"
 #include "../include/test.h"
 #include "../include/cpptest.h"
+#include "../include/assert.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -181,6 +182,7 @@ void __main_core0init() {
 
         __test_unitest();
         cpptest_test00();
+        assert(5 == 1);
 
         // __desktop_init();
         // __desktop_add_task("Discord");

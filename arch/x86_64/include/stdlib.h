@@ -10,10 +10,13 @@ extern "C" {
 
 extern int __stdlib_seed;
 
+// Set seed to rand function
 void srand(int seed);
+// Generates random value
 int rand();
 
 #if ENABLE_TRANDOM > 0
+// RNG based on PIT's output
 extern int TUNNEL_RANDOM();
 #endif
 

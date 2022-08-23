@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 extern unitype_t *__test_univariable;
+// Unitype variable test
 void __test_unitest();
 
 #ifdef __cplusplus
