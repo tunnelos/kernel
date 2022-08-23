@@ -52,7 +52,6 @@ int __mm_findoffset(int blocks) {
         if(o >= 8320 * 8) return -1;
         //find free blocks on this offset
         while(tunnelos_sysinfo.mm->meta[o + p].free) p++;
-        __serial_write_fmt("[TEST] %d %d\n", o, p);
         if(blocks <= p) return o;
         else {
             if(p == 0) p++;
@@ -61,7 +60,6 @@ int __mm_findoffset(int blocks) {
             goto repeat;
         }
     return -1;
-    // return 0;
 }
 void *calloc(size_t size) {
     void *ret = malloc(size);

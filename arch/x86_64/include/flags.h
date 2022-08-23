@@ -1,6 +1,9 @@
 #pragma once
 
+// COMPILE SETTINGS
+
 #define OPTIMIZE 1
-#define EXT2SUPPORT 1
-#define NETWORKSUPPORT 1
+#define EXT2_SUPPORT 1
+#define NETWORK_SUPPORT 1
 #define INTERNAL_FUNCS_IN_HEADERS 0
+#define ENABLE_TEST 0

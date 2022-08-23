@@ -14,7 +14,7 @@ extern int __mm_index;
 void *memcpy(void *dest, const void *src, size_t n);
 void memset(void *dest, int c, size_t n);
 void __mm_fillblocks();
-work_in_progress int __mm_findoffset(int blocks);
+int __mm_findoffset(int blocks);
 void *malloc(size_t size);
 void *calloc(size_t size);
 void free(void *address);

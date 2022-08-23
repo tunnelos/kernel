@@ -8,6 +8,9 @@
         "stdio.h": "c",
         "flags.h": "c",
         "pic.h": "c",
-        "tools.h": "c"
+        "tools.h": "c",
+        "rtc.h": "c",
+        "systemconf.h": "c",
+        "coreshell.h": "c"
     }
 }

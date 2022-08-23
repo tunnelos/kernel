@@ -2,6 +2,7 @@
 #include "../include/cppfuncs.hpp"
 #include "../include/mm.h"
 
+#if ENABLE_TEST == 1
 void TestClass::test() {
     this->a++;
     this->b = !this->b;
@@ -22,3 +23,4 @@ void cpptest_test00() {
     TUNNEL_DELETE_CLASS(cl);
     return;
 }
+#endif
