@@ -4,7 +4,7 @@ This is a multicore text-based Operating System without using paging nor PIT int
 
 **Used materials and source code**
 -
-- Firefly OS Fork (PS/2 keyboard and serial driver)
+- Firefly OS Fork (PS/2 keyboard and serial drivers)
 - GLIBC (math functions)
 - OSDev
 - STB Image header (unused ATM)
