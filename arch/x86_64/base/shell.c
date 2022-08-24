@@ -107,8 +107,6 @@ void __shell_draw_taskbar(int id){
 }
 void __shell_keyboard_input(int id){
     if(!(inb(KPS2_SR) & KPS2_OB)) {
-        // scancodePub = 0;
-        // current_key = '?';
         return;
     }
 
@@ -125,7 +123,7 @@ window_t windowtest;
 void _shell__create_shell(int id){
     __stdio_margin = 0;
     __window_init();
-    //clear screen в конце функции инициализируем пасхальную штуку
+
     int mx = 80, my = 29;
     int i1 = 1,  i2 = 0;
     while(i1 < my){

@@ -11,6 +11,10 @@
         "tools.h": "c",
         "rtc.h": "c",
         "systemconf.h": "c",
-        "coreshell.h": "c"
+        "coreshell.h": "c",
+        "ide.h": "c",
+        "stdlib.h": "c",
+        "tunnel.h": "c",
+        "keyboard_ps2.h": "c"
     }
 }

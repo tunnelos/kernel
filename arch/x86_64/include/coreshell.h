@@ -1,6 +1,7 @@
 #pragma once
 
 #include "flags.h"
+#include "stdint.h"
 
 #pragma pack(push, 1)
 typedef struct {
@@ -10,15 +11,12 @@ typedef struct {
 
 enum DrawTask {
     Rectangle = 0,
-    Text = 1,
-    Pixel = 2
+    Text, Pixel
 };
 enum DrawState {
     Idle = 0,
-    Unused = 1,
-    Active = 2
+    Unused, Active,
 };
-
 typedef struct {
     vector2d_t pos;
     vector2d_t size;
@@ -29,6 +27,29 @@ typedef struct {
     enum DrawTask task;
     enum DrawState state;
 } drawtask_t;
+
+enum CoreshellInstallationState {
+    NotInstalled = 0,
+    NotConfigured, Ready
+};
+typedef struct {
+    bool loginWithoutPassword;
+    bool useAccount;
+} coreshell_uperms_t;
+typedef struct {
+    char name[64];
+    char password[16];
+    int uid;
+    coreshell_uperms_t permissions;
+    bool avaliable;
+} coreshell_user_t;
+typedef struct {
+    char signature[16];
+    enum CoreshellInstallationState installstate;
+    coreshell_user_t users[4];
+    char freeSpace[144];
+} coreshell_hddsettings_t;
+
 #pragma pack(pop)
 
 #ifdef __cplusplus
@@ -44,7 +65,18 @@ void __coreshell_init_coreRenderer();
 void __coreshell_init_coreIOHandler();
 // Core 0
 void __coreshell_init_coreExecuter();
+
+// Installation stages
+void __coreshell_install_stage1();
+void __coreshell_install_stage2()
+
 #endif
+
+coreshell_hddsettings_t *__coreshell_createSettings();
+
+vector2d_t alignText(const char *text);
+void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color);
+
 
 void __coreshell_init_all();
 
