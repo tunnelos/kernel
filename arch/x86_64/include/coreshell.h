@@ -68,7 +68,8 @@ void __coreshell_init_coreExecuter();
 
 // Installation stages
 void __coreshell_install_stage1();
-void __coreshell_install_stage2()
+void __coreshell_install_stage2();
+void __coreshell_install_stage3();
 
 #endif
 
@@ -76,7 +77,8 @@ coreshell_hddsettings_t *__coreshell_createSettings();
 
 vector2d_t alignText(const char *text);
 void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color);
-
+void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols);
+void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage);
 
 void __coreshell_init_all();
 

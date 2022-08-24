@@ -4,6 +4,9 @@
 
 #define jmp goto
 
+#define check_flag(flags, n) ((flags) & bit(n))
+#define bit(n) (1<<(n))
+
 #ifdef __cplusplus
 extern "C" {
 #endif

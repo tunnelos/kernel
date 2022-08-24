@@ -41,6 +41,8 @@ typedef struct {
 
 extern tunnelos_sysinfo_t tunnelos_sysinfo;
 
+void __tunnel_reboot();
+
 #ifdef __cplusplus
 }
 #endif
