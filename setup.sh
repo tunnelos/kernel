@@ -36,7 +36,7 @@ while getopts 'qbvhr' SHELLARGUMENT; do
 			;;
 		v)
 			echo "+ Tunnel OS Setup Script"
-			echo "$ Version: 1.3"
+			echo "$ Version: 1.31"
 			exit 0
 			;;
 		r)
@@ -79,8 +79,12 @@ then
 	NO_PACKAGES=1
 fi
 
-rm -f /usr/include/stdarg.h*
-rm -f /usr/include/stdarg.h
+if [ $VERBOSE -eq 1 ]
+then
+rm -vf /usr/include/stdarg.h /usr/include/cpuid.h
+else
+rm -vf /usr/include/stdarg.h /usr/include/cpuid.h
+fi
 
 if [ $NO_PACKAGES -eq 0 ]
 then
@@ -88,9 +92,7 @@ then
 	if [ $VERBOSE -eq 1 ]
 	then
 		apt-get install $PACKAGE_SET -y;
-	fi
-	if [ $VERBOSE -eq 0 ]
-	then
+	else
 		apt-get -qq install -o=Dpkg::Use-Pty=0 $PACKAGE_SET -y 1> /dev/null;
 	fi
 fi
@@ -100,10 +102,15 @@ echo "* Downloading stdarg.h"
 if [ $VERBOSE -eq 1 ]
 then
 	wget https://sites.uclouvain.be/SystInfo/usr/include/stdarg.h
-fi
-if [ $VERBOSE -eq 0 ]
-then
+else
 	wget https://sites.uclouvain.be/SystInfo/usr/include/stdarg.h -q
+fi
+echo "* Downloading cpuid.h"
+if [ $VERBOSE -eq 1 ]
+then
+	wget https://sites.uclouvain.be/SystInfo/usr/include/cpuid.h
+else
+	wget https://sites.uclouvain.be/SystInfo/usr/include/cpuid.h -q
 fi
 
 cd $CDIR
