@@ -1,3 +1,6 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+
 #include "../include/coreshell.h"
 #include "../include/tools.h"
 #include "../include/tunnel.h"
@@ -8,6 +11,7 @@
 #include "../include/stdint.h"
 #include "../include/keyboard_ps2.h"
 #include "../include/tunnel.h"
+#include "../include/bmp.h"
 
 drawtask_t *__coreshell_drawtasks;
 coreshell_hddsettings_t *__coreshell_settings;
@@ -25,6 +29,7 @@ coreshell_hddsettings_t *__coreshell_createSettings()
         i++;
     }
     ret->installstate = NotInstalled;
+    ret->rev = 0x10;
     return ret;
 }
 vector2d_t alignText(const char *text)
@@ -80,6 +85,45 @@ void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
         i++;
     }
 }
+void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
+    int x = pos.x;
+    int y = pos.y;
+    int xm = image->header.width_px + pos.x;
+    int ym = image->header.height_px + pos.y; 
+    int p = 0;
+    char col[4] = { //ARGB
+        0x00, image->data[p + 0], image->data[p + 1], image->data[p + 2]
+    };
+    while(x < xm) {
+        while(y < ym) {
+            col[1] = image->data[p + 0];
+            col[2] = image->data[p + 1];
+            col[3] = image->data[p + 2];
+            *((uint32_t*)((uint64_t)&fb + (y * tunnelos_sysinfo.bootboot.fb_scanline) + (x * 4))) = *(uint32_t *)&col;
+            y++;
+            p += 3;
+        }
+        x++;
+        y = pos.y;
+    }
+}
+void __gui_drawImage32(BMPImage *image, vector2d_t pos) {
+    int x = pos.x;
+    int y = pos.y;
+    int xm = image->header.width_px + pos.x;
+    int ym = image->header.height_px + pos.y; 
+    int p = 0;
+    int *imd = (int *)&image->data;
+    while(x < xm) {
+        while(y < ym) {
+            *((uint32_t*)((uint64_t)&fb + (y * tunnelos_sysinfo.bootboot.fb_scanline) + (x * 4))) = imd[p];
+            y++;
+            p++;
+        }
+        x++;
+        y = pos.y;
+    }
+}
 
 void __coreshell_install_stage3() {
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
@@ -118,7 +162,7 @@ void __coreshell_install_stage2() {
     char *buffer = __coreshell_settings->users[0].name;
     int bufferI = 0;
     bool isEnter = false;
-    __gui_drawInputBar((vector2d_t){1, 4}, buffer, 64);
+    __gui_drawInputBar((vector2d_t){1, 4}, buffer, 16);
     putc_gui(12, COLOR_DARK_GRAY, 1, 4);
     while(!isEnter) {
         wait(1);
@@ -127,12 +171,12 @@ void __coreshell_install_stage2() {
         } else if (__coreshell_currentKey[0] == 0x0E) {
             if(bufferI != 0) bufferI--;
             buffer[bufferI] = 0;
-            __gui_drawInputBar((vector2d_t){1, 4}, buffer, 64);
+            __gui_drawInputBar((vector2d_t){1, 4}, buffer, 16);
             putc_gui(12, COLOR_DARK_GRAY, 1 + bufferI, 4);
-        } else if (__coreshell_currentKey[1] != '?' && __coreshell_currentKey[1] != 0 && bufferI < 64){
+        } else if (__coreshell_currentKey[1] != '?' && __coreshell_currentKey[1] != 0 && bufferI < 16){
             buffer[bufferI] =__coreshell_currentKey[1];
             bufferI++;
-            __gui_drawInputBar((vector2d_t){1, 4}, buffer, 64);
+            __gui_drawInputBar((vector2d_t){1, 4}, buffer, 16);
             putc_gui(12, COLOR_DARK_GRAY, 1 + bufferI, 4);
         }
     }
@@ -198,7 +242,7 @@ void __coreshell_install_stage1()
         __gui_drawRectangle((vector2d_t){2, 5}, (vector2d_t){76, 3}, COLOR_BLACK);
         __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, p1);
         int m = sectorsToFormat;
-        void *blankData = malloc(512);
+        void *blankData = calloc(512);
         while (i < m)
         {
             p1 = ((float)i / (float)m) * (float)100;
@@ -235,15 +279,144 @@ void __coreshell_install_stage1()
     }
     else
     {
+        __tunnel_shutdown();
+    }
+}
+
+void __coreshell_onDesktop(coreshell_user_t *user) {
+    void *imageBGTest = calloc(33 * 512);
+    //void *imageBGTest2 = calloc(33 * 512);
+    int p = (int)imageBGTest;
+    __coreshell_settings_write.lba = 1;
+    __coreshell_settings_write.rw = false;
+    __coreshell_settings_write.sectors = 33;
+    __coreshell_settings_write.buffer = p;
+    __ide_get_access(__coreshell_settings_write);
+    // //__coreshell_settings_write.lba = 34;
+    // //__coreshell_settings_write.buffer = (int)imageBGTest2;
+    // //__ide_get_access(__coreshell_settings_write);
+    // // while(i < 1836) {
+    // //     __coreshell_settings_write.lba = 1 + i;
+    // //     __coreshell_settings_write.buffer = p + ip;
+    // //     i++;
+    // //     ip += 512;
+    // //     __ide_get_access(__coreshell_settings_write);
+    // // }
+    // __coreshell_settings_write.lba = 0;
+    // __coreshell_settings_write.buffer = (int)__coreshell_settings;
+    // __coreshell_settings_write.rw = true;
+    // __coreshell_settings_write.sectors = 1;
+    // BMPImage *img = (BMPImage *)imageBGTest;
+    // //BMPImage *img2 = (BMPImage *)imageBGTest2;
+    // int x = 100;
+    // int y = 100;
+    //__gui_drawImage32((BMPImage *)imageBGTest2, (vector2d_t){x, y});
+    __coreshell_install_stage3();
+    //__gui_drawImage32(img, (vector2d_t){1, 1});
+    // while(1) {
+    //     wait(2);
+    //     __gui_drawImage32(img2, (vector2d_t){x, y});
+    //     x++;
+    //     y++;
+    //     __gui_drawImage32(img, (vector2d_t){x, y});
+    // }
+}
+
+void __coreshell_loginscreen() {
+    char *ubuffer = (char *)calloc(16);
+    char *pbuffer = (char *)calloc(16);
+    uloop:
+    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
+    puts_gui("Login", COLOR_BLACK, alignText("Login").x, 1);
+    puts_gui("Please, enter username", COLOR_DARK_GREEN, 1, 3);
+    puts_gui("Created users:", COLOR_DARK_GREEN, 2, 6);
+    int i = 0;
+    int ix = 18;
+    while(i < 4) {
+        if(!__coreshell_settings->users[i].avaliable) {
+            __gui_drawInputBar((vector2d_t){ix, 6}, __coreshell_settings->users[i].name, 14);
+            ix += 15;
+        }
+        i++;
+    }
+    int bufferI = 0;
+    bool isEnter = false;
+    __gui_drawInputBar((vector2d_t){1, 4}, ubuffer, 16);
+    putc_gui(12, COLOR_DARK_GRAY, 1, 4);
+    while(!isEnter) {
+        wait(1);
+        if (__coreshell_currentKey[0] == 0x1C && bufferI != 0) {
+            isEnter = true;
+        } else if (__coreshell_currentKey[0] == 0x0E) {
+            if(bufferI != 0) bufferI--;
+            ubuffer[bufferI] = 0;
+            __gui_drawInputBar((vector2d_t){1, 4}, ubuffer, 16);
+            putc_gui(12, COLOR_DARK_GRAY, 1 + bufferI, 4);
+        } else if (__coreshell_currentKey[1] != '?' && __coreshell_currentKey[1] != 0 && bufferI < 16){
+            ubuffer[bufferI] =__coreshell_currentKey[1];
+            bufferI++;
+            __gui_drawInputBar((vector2d_t){1, 4}, ubuffer, 16);
+            putc_gui(12, COLOR_DARK_GRAY, 1 + bufferI, 4);
+        }
+    }
+    i = 0;
+    coreshell_user_t *user = NULL;
+    while(i < 4) {
+        if(strncmp(ubuffer, __coreshell_settings->users[i].name, 16) == 0) {
+            user = &__coreshell_settings->users[i];
+        }
+        i++;
+    }
+    if(user == NULL) {
+        memset(ubuffer, 0, 16);
+        jmp uloop;
+    }
+    bool isIncorrect = false;
+    ploop:
+    isEnter = false;
+    bufferI = 0;
+    if(user->permissions.loginWithoutPassword) {
+        free(pbuffer);
+        free(ubuffer);
+        __coreshell_onDesktop(user);
+    } else {
         __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
-        puts_gui("Tunnel OS: Drive formatting", COLOR_BLACK, alignText("Tunnel OS: Drive formatting").x, 1);
-        puts_gui("Exiting...", COLOR_GREEN, 1, 3);
+        puts_gui("Login", COLOR_BLACK, alignText("Login").x, 1);
+        puts_gui("Please, enter password", COLOR_DARK_GREEN, 1, 3);
+        if(isIncorrect) puts_gui("Password is incorrect!", COLOR_RED, 1, 6);
+        __gui_drawInputBar((vector2d_t){1, 4}, pbuffer, 16);
+        putc_gui(12, COLOR_DARK_GRAY, 1, 4);
+        while(!isEnter) {
+            wait(1);
+            if (__coreshell_currentKey[0] == 0x1C && bufferI != 0) {
+                isEnter = true;
+            } else if (__coreshell_currentKey[0] == 0x0E) {
+                if(bufferI != 0) bufferI--;
+                pbuffer[bufferI] = 0;
+                __gui_drawInputBar((vector2d_t){1, 4}, pbuffer, 16);
+                putc_gui(12, COLOR_DARK_GRAY, 1 + bufferI, 4);
+            } else if (__coreshell_currentKey[1] != '?' && __coreshell_currentKey[1] != 0 && bufferI < 16){
+                pbuffer[bufferI] =__coreshell_currentKey[1];
+                bufferI++;
+                __gui_drawInputBar((vector2d_t){1, 4}, pbuffer, 16);
+                putc_gui(12, COLOR_DARK_GRAY, 1 + bufferI, 4);
+            }
+        }
+        if(strncmp(pbuffer, user->password, 16) == 0) {
+            free(ubuffer);
+            free(pbuffer);
+            __coreshell_onDesktop(user);
+        } else {
+            memset(pbuffer, 0, 16);
+            isIncorrect = true;
+            jmp ploop;
+        }
     }
 }
 
 void __coreshell_init_coreExecuter()
 {
-    __coreshell_drawtasks = (drawtask_t *)malloc(1024 * sizeof(drawtask_t));
+    __coreshell_drawtasks = (drawtask_t *)calloc(1024 * sizeof(drawtask_t));
     int i = 0;
     while (i < 1024)
     {
@@ -280,12 +453,17 @@ void __coreshell_init_coreExecuter()
         }
         else
         {
+            __coreshell_settings_write.rw = true;
             if(__coreshell_settings->installstate == NotConfigured) {
+                __coreshell_settings->turnedOnTimes++;
+                __ide_get_access(__coreshell_settings_write);
                 __coreshell_install_stage2();
             } else if (__coreshell_settings->installstate == NotInstalled) {
                 __coreshell_install_stage1();
             } else {
-                printf(COLOR_GREEN, 1, 1, "It works!");
+                __coreshell_settings->turnedOnTimes++;
+                __ide_get_access(__coreshell_settings_write);
+                __coreshell_loginscreen();
             }
         }
     }
@@ -295,6 +473,7 @@ void __coreshell_init_coreExecuter()
     }
 
     int secs = 0;
+    __tunnel_shutdown();
     while (1)
     {
         wait(1000 / 10);
@@ -363,3 +542,4 @@ void __coreshell_init_all()
     }
     }
 }
+#pragma GCC diagnostic pop

@@ -65,7 +65,14 @@ void io_wait() {
     outb(0x80, 0);
     return;
 }
-void wait(uint64_t ms) { wait_ns(ms * 900); }
+void wait(uint64_t ms) { 
+    uint128_t i = 0;
+    while(i < ms * 900) {
+        io_wait();
+        i++;
+    }
+    return;
+}
 void wait_ns(uint128_t ns) {
     uint128_t i = 0;
     while(i < ns) {

@@ -56,6 +56,7 @@ void _start(){
         tunnelos_sysinfo.cores++;
         __cli();
         __idt_init();
+        __sti();
         __sse_init();
         __pic_unmask(0);
         __pit_init();
@@ -90,11 +91,6 @@ void __main_core0init() {
     if(s) {
         tunnelos_sysinfo.free_memory_location = (uint8_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         tunnelos_sysinfo.free_memory_location_size = ((MMapEnt *)(&bootboot.mmap + 4))->size;
-        if(tunnelos_sysinfo.free_memory_location_size < 16*1024*1024 + 8){
-            __stdio_margin = 1;
-            crash((const char *)PANIC_NOT_ENOUGH_MEMORY_STRING, PANIC_NOT_ENOUGH_MEMORY_NUMBER, false);
-            while(1);
-        }
 
         __serial_write_fmt("CPU %d -> tos > Memory Check complete\r\n", __tools_get_cpu() - 1);
         __stdio_margin = 0;

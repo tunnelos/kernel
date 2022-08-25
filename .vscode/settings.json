@@ -15,6 +15,7 @@
         "ide.h": "c",
         "stdlib.h": "c",
         "tunnel.h": "c",
-        "keyboard_ps2.h": "c"
+        "keyboard_ps2.h": "c",
+        "bmp.h": "c"
     }
 }

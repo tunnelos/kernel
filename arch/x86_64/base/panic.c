@@ -1,7 +1,6 @@
 #include "../include/panic.h"
 #include "../include/screen.h"
 #include "../include/ide.h"
-#include "../include/smt.h"
 #include "../include/idt.h"
 
 const char *pcb(bool j) {
@@ -30,24 +29,23 @@ void crash(const char *str, uint16_t id, bool interrupt) {
     mapedram -= (sizeof(t->mm->blockdata) + sizeof(t->mm->meta) + sizeof(t->mm->start_point));
     
     if(!interrupt) {//Allocated 
-        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * SMT : %s  | AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
-            pcb(__smt_inSMTmode), pcb(t->avx), pcb(t->sse), pcb(t->sse2), pcb(t->rtc),
+            pcb(t->avx), pcb(t->sse), pcb(t->sse2), pcb(t->rtc),
             pcb(t->interrupts), pcb(t->nmi), pcb(t->pit), pcb(t->ide),
             t->cores
         );
     } else {
-        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * SMT : %s  | AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
-            pcb(__smt_inSMTmode), pcb(t->avx), pcb(t->sse), pcb(t->sse2), pcb(t->rtc),
+            pcb(t->avx), pcb(t->sse), pcb(t->sse2), pcb(t->rtc),
             pcb(t->interrupts), pcb(t->nmi), pcb(t->pit), pcb(t->ide),
             t->cores, current_interrupt.interrupt_id, pcb(current_interrupt.critical)
         );
     }
-    __smt_changestatus(false);
     while(1);
 }

@@ -3,6 +3,8 @@
 
 tunnelos_sysinfo_t tunnelos_sysinfo;
 
+//const char *compile_timestamp = __TIMESTAMP__;
+
 void __tunnel_reboot() {
     uint8_t t;
     __cli();
@@ -14,4 +16,9 @@ void __tunnel_reboot() {
     hlt:
     asm volatile("hlt");
     jmp hlt;
+}
+void __tunnel_shutdown() {
+    outw(0xB004, 0x2000);
+    outw(0x604, 0x2000);
+    outw(0x4004, 0x3400);
 }

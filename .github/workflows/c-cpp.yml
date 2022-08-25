@@ -16,7 +16,7 @@ jobs:
     - name: Clone submodules
       run: git submodule init && git submodule update --init --recursive
     - name: Prepare environment
-      run: sudo make setup && sudo apt install zip
+      run: sudo bash setup.sh -b && sudo apt install zip
     - name: Compile system
       run: make all
     - name: Upload target

@@ -4,14 +4,13 @@ LDFLAGS_X86_64  = -nostdlib -nostartfiles -T link.ld
 LDFLAGS_AARCH64 = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
-FILELIST_X86_64 =  main.o stdio.o tunnel.o shell.o cstring.o cint.o panic.o mm.o nmi.o api.o  \
-				   smt.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o window.o fs.o  \
-	    		   window_welcome.o shell_mouse.o ide.o event.o fpu_ASM.o path.o hal.o ui.o   \
+FILELIST_X86_64 =  main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o\
+				   keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o \
+	    		   ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
 	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
-	    		   easter.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o   \
-	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o pic.o trnd.o unitype.o \
-	    		   placeholder.o system_JSON.o tunnel_JSON.o network.o cppfuncs.o cpptest.o   \
-				   coreshell.o
+	    		   math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
+	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o       \
+	    		   placeholder.o system_JSON.o                                               
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
 
