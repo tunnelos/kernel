@@ -51,17 +51,11 @@ typedef enum {
     GCCMax02 = 0xFF
 } __attribute__ ((packed)) FATAttribute;
 
-// // Size Checks
-
-// #if sizeof(MediaDescriptor) != 1
-// #error Invalid size of enum MediaDescriptor
-// #endif
-// #if sizeof(FATSignature) != 1
-// #error Invalid size of enum FATSignature
-// #endif
-// #if sizeof(FATAttribute) != 1
-// #error Invalid size of enum FATAttribute
-// #endif
+enum FATType {
+    FAT12 = 0,
+    FAT16,
+    FAT32
+};
 
 typedef struct {
     uint8_t onLoadCode[3];
@@ -73,14 +67,16 @@ typedef struct {
     uint16_t reservedSectors;
     uint8_t fat;
     uint16_t rootDirEntries;
+    // FAT16
     uint16_t sectors;
     MediaDescriptor descriptor;
-    uint16_t fat16_sectors;
+    uint16_t fat16Table;
     // Sectors Per Track
     uint16_t spt;
     uint16_t heads;
     uint32_t hiddenSectors;
-    uint32_t largeSectorCount;
+    // FAT32
+    uint32_t totalSectors;
 } bpb_t;
 
 typedef struct {
@@ -98,7 +94,8 @@ typedef fat12_t fat16_t;
 
 typedef struct {
     bpb_t bpb;
-    uint16_t sectorsPerFAT;
+    // FAT32
+    uint16_t tableSize;
     uint16_t flags;
     uint16_t fatVersion;
     uint32_t rootCluster;
@@ -126,7 +123,7 @@ typedef struct {
 
 typedef struct {
     char name[8];
-    char ext[3];
+    char ext[4];
 } fat_filename;
 typedef struct {
     fat_filename filename;
@@ -155,7 +152,9 @@ typedef struct {
 } fat_lfn;
 #pragma pack(pop)
 
-void __fs_readFAT();
+// Returns if read was successful or not
+bool __fs_readFATCheck(uint8_t drive);
+enum FATType __fs_getFATType(uint8_t drive);
 
 #ifdef __cplusplus
 }
