@@ -1,6 +1,5 @@
 #include "../include/idt.h"
 #include "../include/tools.h"
-#include "../include/smt.h"
 #include "../include/rtc.h"
 #include "../include/cmos.h"
 #include "../include/panic.h"

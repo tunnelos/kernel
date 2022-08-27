@@ -4,8 +4,6 @@
 #include "../include/stdio.h"
 #include "../include/tunnel.h"
 #include "../include/panic.h"
-#include "../include/smt.h"
-#include "../include/shell.h"
 #include "../include/tools.h"
 #include "../include/serial.h"
 #include "../include/idt.h"

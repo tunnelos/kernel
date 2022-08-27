@@ -1,7 +1,6 @@
 #pragma once
 
 #include "./stdint.h"
-#include "./smt.h"
 #include "../bootboot/dist/bootboot.h"
 #include "../api/tos.h"
 
@@ -26,7 +25,6 @@ typedef struct {
     uint8_t *free_memory_location;
     uint64_t free_memory_location_size;
     tunnel_memory_map_t *mm;
-    smt_task_t software_tasks[256];
     bool avx;
     bool sse;
     bool sse2;
@@ -43,6 +41,8 @@ extern tunnelos_sysinfo_t tunnelos_sysinfo;
 
 void __tunnel_shutdown();
 void __tunnel_reboot();
+void push(int x);
+int pop();
 
 #ifdef __cplusplus
 }

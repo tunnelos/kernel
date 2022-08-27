@@ -22,3 +22,9 @@ void __tunnel_shutdown() {
     outw(0x604, 0x2000);
     outw(0x4004, 0x3400);
 }
+
+void push(int x) { }
+int pop() {
+    int x;
+    return x;
+}
