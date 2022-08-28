@@ -6,6 +6,8 @@ extern "C" {
 
 #include "stdint.h"
 
+#define TUNNELFS_1 0x10
+
 #pragma pack(push, 1)
 
 typedef enum {
@@ -150,7 +152,58 @@ typedef struct {
     uint16_t zero;
     char entryCharacters2[4];
 } fat_lfn;
+
+typedef struct {
+    char signature[8];
+
+    int sectorsAvaliable;
+    int totalSectors;
+    int lastFreeSectorID;
+    int lastFreeSectorSize;
+
+    int tableSector;
+    int tableSize; //in sectors
+
+    int filesCreated;
+
+    uint8_t revision;
+
+    char freeSpace[475];
+} tunnelfs_bootsector_t;
+
+typedef struct {
+    char filename[16];
+    char extension[4];
+    int sectorSize;
+    int realSize;
+    int sectorID;
+} tunnelfs_filemetadata_t;
+typedef struct {
+    tunnelfs_filemetadata_t files[8192];
+} tunnelfs_table_t;
+
+typedef struct {
+    tunnelfs_bootsector_t *bootsector;
+    tunnelfs_table_t *table;
+    uint8_t drive;
+} tunnelfs_t;
+
 #pragma pack(pop)
+
+enum SectorAction {
+    Read = 0,
+    Write
+};
+
+void *__fs_makeSectorAction(int sID, int sSize, void *buffer, enum SectorAction action, uint8_t drive);
+
+bool __fs_tunnelFindFS(uint8_t drive);
+tunnelfs_t __fs_tunnelCreateFS(int *percentage, uint8_t drive);
+int __fs_tunnelFindFileMeta(char *name, char *extension, tunnelfs_t fsInstance);
+uint8_t *__fs_tunnelReadDataFromMeta(int id, tunnelfs_t fsInstance);
+int __fs_tunnelAllocateFile(char *name, char *extension, int sSize, tunnelfs_t fsInstance);
+void __fs_tunnelFreeFile(int fID, tunnelfs_t fsInstance);
+void __fs_tunnelSaveFile(int fID, uint8_t *buffer, tunnelfs_t fsInstance);
 
 // Returns if read was successful or not
 bool __fs_readFATCheck(uint8_t drive);

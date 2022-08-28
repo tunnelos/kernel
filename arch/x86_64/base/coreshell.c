@@ -18,6 +18,9 @@ drawtask_t *__coreshell_drawtasks;
 coreshell_hddsettings_t *__coreshell_settings;
 ide_rw_t __coreshell_settings_write;
 int __coreshell_currentKey[2];
+int __coreshell_percentage = 0;
+bool __coreshell_inGUI = false;
+bool __coreshell_requestFormat = false;
 
 coreshell_hddsettings_t *__coreshell_createSettings()
 {
@@ -214,74 +217,52 @@ void __coreshell_install_stage2() {
 
 void __coreshell_install_stage1()
 {
-    // __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
-    // puts_gui("Tunnel OS", COLOR_BLACK, alignText("Tunnel OS").x, 1);
-    // puts_gui("Do you want to format hard drive?", COLOR_BLACK, 1, 3);
-    // puts_gui(" - Yes: press Enter", COLOR_RED, 1, 4);
-    // puts_gui(" - No : press Right Shift", COLOR_GREEN, 1, 5);
-    // bool KeyYes = false;
-    // bool KeyNo = false;
-    // int i = 0;
-    // while ((KeyYes != true) && (KeyNo != true))
-    // {
-    //     wait(1);    
-    //     if (__coreshell_currentKey[0] == 0x1C)
-    //         KeyYes = true;
-    //     if (__coreshell_currentKey[0] == 0x36)
-    //         KeyNo = true;
-    // }
-    // if (KeyYes)
-    // {
-    //     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
-    //     puts_gui("Tunnel OS: Drive formatting", COLOR_BLACK, alignText("Tunnel OS: Drive formatting").x, 1);
-    //     puts_gui("Formatting hard drive...", COLOR_RED, 1, 3);
-    //     int sectorsToFormat = (__ide_devices[0].size * 1024 / 512 / 2);
-    //     i = 0;
+    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
+    puts_gui("Tunnel OS", COLOR_BLACK, alignText("Tunnel OS").x, 1);
+    puts_gui("Do you want to create TunnelFS?", COLOR_BLACK, 1, 3);
+    puts_gui(" - Yes: press Enter", COLOR_RED, 1, 4);
+    puts_gui(" - No : press Right Shift", COLOR_GREEN, 1, 5);
+    bool KeyYes = false;
+    bool KeyNo = false;
+    while ((KeyYes != true) && (KeyNo != true))
+    {
+        wait(1);    
+        if (__coreshell_currentKey[0] == 0x1C)
+            KeyYes = true;
+        if (__coreshell_currentKey[0] == 0x36)
+            KeyNo = true;
+    }
+    if (KeyYes)
+    {
+        __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
+        puts_gui("Tunnel OS: Formatting", COLOR_BLACK, alignText("Tunnel OS: Drive formatting").x, 1);
+        puts_gui("Creating TunnelFS...", COLOR_DARK_GREEN, 1, 3);
 
-    //     float p1 = 0;
-    //     float p2 = 0;
-    //     __gui_drawRectangle((vector2d_t){2, 5}, (vector2d_t){76, 3}, COLOR_BLACK);
-    //     __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, p1);
-    //     int m = sectorsToFormat;
-    //     void *blankData = calloc(512);
-    //     while (i < m)
-    //     {
-    //         p1 = ((float)i / (float)m) * (float)100;
-    //         if (p2 != p1)
-    //         {
-    //             p2 = p1;
-    //             __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, (int)p1);
-    //         }
-    //         __coreshell_settings_write.lba = i;
-    //         __coreshell_settings_write.buffer = (uint32_t)blankData;
-    //         __ide_get_access(__coreshell_settings_write);
-    //         i++;
-    //     }
-    //     free(__coreshell_settings);
-    //     __coreshell_settings = __coreshell_createSettings();
-    //     __coreshell_settings->installstate = NotConfigured;
-    //     __coreshell_settings_write.lba = 0;
-    //     __coreshell_settings_write.buffer = (uint32_t)__coreshell_settings;
-    //     __ide_get_access(__coreshell_settings_write);
-    //     free(blankData);
-    //     __gui_drawRectangle((vector2d_t){1, 3}, (vector2d_t){25, 1}, COLOR_WHITE);
-    //     puts_gui("Format complete", COLOR_GREEN, 1, 3);
-    //     __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, 100);
-    //     puts_gui("Let's configure this installation ", COLOR_BLACK, 1, 10);
-    //     puts_gui("Press Enter to continue", COLOR_DARK_GREEN, 1, 11);
-    //     KeyYes = false;
-    //     while (KeyYes != true)
-    //     {
-    //         wait(1);
-    //         if (__coreshell_currentKey[0] == 0x1C)
-    //             KeyYes = true;
-    //     }
-    //     __coreshell_install_stage2();
-    // }
-    // else
-    // {
-    //     __tunnel_shutdown();
-    // }
+        __gui_drawRectangle((vector2d_t){2, 5}, (vector2d_t){76, 3}, COLOR_BLACK);
+        __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, __coreshell_percentage);
+        __coreshell_requestFormat = true;
+        while(__coreshell_percentage != 100) {
+            __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, __coreshell_percentage);
+        }
+        __gui_drawRectangle((vector2d_t){1, 3}, (vector2d_t){25, 1}, COLOR_WHITE);
+        puts_gui("TunnelFS installation complete", COLOR_GREEN, 1, 3);
+        __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, 100);
+        // puts_gui("Let's configure this installation ", COLOR_BLACK, 1, 10);
+        // puts_gui("Press Enter to continue", COLOR_DARK_GREEN, 1, 11);
+        // KeyYes = false;
+        // while (KeyYes != true)
+        // {
+        //     wait(1);
+        //     if (__coreshell_currentKey[0] == 0x1C)
+        //         KeyYes = true;
+        // }
+        // __coreshell_install_stage2();
+        while(1);
+    }
+    else
+    {
+        __tunnel_shutdown();
+    }
 }
 
 void __coreshell_onDesktop(coreshell_user_t *user) {
@@ -382,7 +363,7 @@ void __coreshell_loginscreen() {
 
 void __coreshell_init_coreExecuter()
 {
-    __coreshell_drawtasks = (drawtask_t *)calloc(1024 * sizeof(drawtask_t));
+    //__coreshell_drawtasks = (drawtask_t *)calloc(1024 * sizeof(drawtask_t));
     int i = 0;
     while (i < 1024)
     {
@@ -390,19 +371,24 @@ void __coreshell_init_coreExecuter()
         i++;
     }
     i = 0;
-    __coreshell_settings = __coreshell_createSettings();
+    //__coreshell_settings = __coreshell_createSettings();
 
     if (__ide_devices[0].connected)
     {
-        if(__fs_readFATCheck(0)) {
-            printf(COLOR_DARK_GREEN, 1, 1, "Good. %d", __fs_getFATType(0));
+        // if(__fs_readFATCheck(0)) {
+        //     printf(COLOR_DARK_GREEN, 1, 1, "Good. %d", __fs_getFATType(0));
+        //     while(1);
+        // } else {
+        //     printf(COLOR_RED, 1, 1, "Bad.");
+        //     while(1);
+        // }
+        if(__fs_tunnelFindFS(0)) {
+            printf(COLOR_DARK_GREEN, 1, 1, "Good.");
             while(1);
         } else {
-            printf(COLOR_RED, 1, 1, "Bad.");
-            while(1);
+            __coreshell_install_stage1();
         }
     }
-    int secs = 0;
     __tunnel_shutdown();
 }
 void __coreshell_init_coreIOHandler()
@@ -433,6 +419,11 @@ void __coreshell_init_coreIOHandler()
 }
 void __coreshell_init_coreRenderer()
 {
+    while(!__coreshell_requestFormat);
+    if(!__coreshell_inGUI) {
+        __fs_tunnelCreateFS(&__coreshell_percentage, 0);
+        __coreshell_requestFormat = false;
+    }
     while (1)
     {
         wait(5);

@@ -15,7 +15,7 @@ This is a multicore text-based Operating System without using paging nor PIT int
 **Supported architectures**
 -
 - `x86_64`
-- `aarch64` **(Work In Progress)**
+- `aarch64` **(No more maintained)**
 
 **Authors**<br>
 -

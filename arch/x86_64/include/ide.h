@@ -110,6 +110,7 @@ typedef struct {
     uint16_t capabilities;
     uint32_t cmd_set;
     uint8_t addressing_mode;
+    // In kilobits;
     uint32_t size;
     uint8_t model[41];
 } ide_dev_t;
