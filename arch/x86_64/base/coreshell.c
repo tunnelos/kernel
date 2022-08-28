@@ -22,6 +22,8 @@ int __coreshell_percentage = 0;
 bool __coreshell_inGUI = false;
 bool __coreshell_requestFormat = false;
 
+tunnelfs_t fsInstance;
+
 coreshell_hddsettings_t *__coreshell_createSettings()
 {
     coreshell_hddsettings_t *ret = (coreshell_hddsettings_t *)calloc(sizeof(coreshell_hddsettings_t));
@@ -421,7 +423,7 @@ void __coreshell_init_coreRenderer()
 {
     while(!__coreshell_requestFormat);
     if(!__coreshell_inGUI) {
-        __fs_tunnelCreateFS(&__coreshell_percentage, 0);
+        fsInstance = __fs_tunnelCreateFS(&__coreshell_percentage, 0);
         __coreshell_requestFormat = false;
     }
     while (1)

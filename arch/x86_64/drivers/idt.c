@@ -46,7 +46,6 @@ void __idt_interrupt_handler(int interrupt_id) {
             if(!tunnelos_sysinfo.rtc) {
                 __nmi_init();
                 __rtc_init();
-                __nmi_init();
                 tunnelos_sysinfo.rtc = true;
             }
             if(__cmos_firstInt) {

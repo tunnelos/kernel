@@ -277,7 +277,7 @@ void __ide_get_access(ide_rw_t data) {
                 err = __ide_polling(channel, true);
                 if(err) return;
                 asm volatile("mov %%ax, %%es" : : "a"(data.selector));
-                asm volatile("rep insw" : : "c"(words), "d"(bus), "D"(data.buffer));
+                asm volatile("rep insd" : : "c"(words), "d"(bus), "D"(data.buffer));
                 data.buffer += (words * 2);
                 i++;
             }
@@ -286,7 +286,7 @@ void __ide_get_access(ide_rw_t data) {
             while(i < data.sectors) {
                 __ide_polling(channel, 0);
                 asm volatile("mov %%ax, %%ds" : : "a"(data.selector));
-                asm volatile("rep outsw" : : "c"(words), "d"(bus), "S"(data.buffer));
+                asm volatile("rep outsd" : : "c"(words), "d"(bus), "S"(data.buffer));
                 data.buffer += (words * 2);
                 i++;
             }

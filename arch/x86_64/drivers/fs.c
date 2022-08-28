@@ -6,7 +6,7 @@
 bool __fs_readFATCheck(uint8_t drive) {   
     ide_rw_t ideAction;
     uint8_t *buffer = (uint8_t *)malloc(512);
-    ideAction.buffer = (int)buffer;
+    ideAction.buffer = (uint64_t)buffer;
     ideAction.drive = drive;
     ideAction.lba = 0;
     ideAction.rw = false;
@@ -23,7 +23,7 @@ bool __fs_readFATCheck(uint8_t drive) {
 enum FATType __fs_getFATType(uint8_t drive) {
     ide_rw_t ideAction;
     uint8_t *buffer = (uint8_t *)malloc(512);
-    ideAction.buffer = (int)buffer;
+    ideAction.buffer = (uint64_t)buffer;
     ideAction.drive = drive;
     ideAction.lba = 0;
     ideAction.rw = false;
@@ -57,7 +57,7 @@ void *__fs_makeSectorAction(int sID, int sSize, void *buffer, enum SectorAction 
     assert(buffer);
 
     ide_rw_t ideAction;
-    ideAction.buffer = (int)buffer;
+    ideAction.buffer = (uint64_t)buffer;
     ideAction.drive = drive;
     ideAction.lba = sID;
     ideAction.rw = (action == Read) ? false : true;
@@ -116,11 +116,16 @@ tunnelfs_t __fs_tunnelCreateFS(int *percentage, uint8_t drive) {
         boot->revision = TUNNELFS_1;
 
         res.bootsector = (tunnelfs_bootsector_t *)buffer;
-        res.table = (tunnelfs_table_t *)malloc(boot->tableSize * 512);
+        res.table = (tunnelfs_table_t *)calloc(boot->tableSize * 512);
         res.drive = drive;
         
         __fs_makeSectorAction(i, 1, buffer, Write, drive);
 
+        while(i < boot->tableSize) {
+            __fs_makeSectorAction(i + boot->tableSector, 1, res.table + (i * 512), Read, drive);
+            i++;
+        }
+        i = 0;
         while(i < boot->tableSize) {
             __fs_makeSectorAction(i + boot->tableSector, 1, res.table + (i * 512), Write, drive);
             i++;
