@@ -7,19 +7,19 @@ extern "C" {
 #endif
 
 #pragma pack(push, 1)
-typedef struct {
+typedef struct halmember_t {
     // Index at 0 for "functions" is init function
     unitype_t *functions;
     unitype_t *variables;
     const char *name;
 } halmember_t;
 
-typedef struct {
+typedef struct halcategory_t {
     halmember_t *members;
     const char *name;
 } halcategory_t;
 
-typedef struct {
+typedef struct halstructure_t {
     halcategory_t *categories;
 } halstructure_t;
 #pragma pack(pop)

@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-typedef struct {
+typedef struct pit_timer_t {
     bool avaliable: true;
     uint64_t every;
     bool multiple;

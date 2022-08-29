@@ -10,7 +10,7 @@ extern "C" {
 #endif
 
 #pragma pack(push, 1)
-typedef struct {
+typedef struct idt_entry_t {
 	uint16_t isr_low;
 	uint16_t kernel_cs;
 	uint8_t	ist;
@@ -20,7 +20,7 @@ typedef struct {
 	uint32_t reserved;
 } idt_entry_t;
 
-typedef struct {
+typedef struct interrupt_frame_t {
 	uint64_t rip;
 	uint64_t cs;
 	uint64_t flags;
@@ -30,12 +30,12 @@ typedef struct {
 	uint64_t interrupt_id;
 } interrupt_frame_t;
 
-typedef struct {
+typedef struct idtr_t {
 	uint16_t limit;
 	uint64_t base;
 } idtr_t;
 
-typedef struct {
+typedef struct interrupt_t {
 	int interrupt_id;
 	interrupt_frame_t *frame;
 	bool critical;

@@ -37,7 +37,7 @@ extern const char __uhci_legacy[2];
 extern "C" {
 #endif
 
-typedef struct {
+typedef struct uhci_descriptor_t {
     uint32_t next;
     uint32_t status;
     uint32_t packet;

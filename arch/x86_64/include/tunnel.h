@@ -9,18 +9,18 @@ extern "C" {
 #endif
 
 #pragma pack(push, 1)
-typedef struct {
+typedef struct tunnel_memory_block_t {
     bool free;
     void *address;
     int have;
     int id;
 } tunnel_memory_block_t;
-typedef struct {
+typedef struct tunnel_memory_map_t {
     tunnel_memory_block_t meta[8320*8];
     char blockdata[8320*8][256];
     uint64_t start_point;
 } tunnel_memory_map_t;
-typedef struct {
+typedef struct tunnelos_sysinfo_t {
     BOOTBOOT bootboot;
     uint8_t *free_memory_location;
     uint64_t free_memory_location_size;

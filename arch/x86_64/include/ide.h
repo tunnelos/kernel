@@ -95,13 +95,13 @@
 extern "C" {
 #endif
 
-typedef struct {
+typedef struct ide_channel_reg_t {
     uint16_t base;
     uint16_t ctrl;
     uint16_t bmide;
     uint8_t no_int;
 } ide_channel_reg_t;
-typedef struct {
+typedef struct ide_dev_t {
     bool connected;
     uint8_t channel;
     uint8_t drive;
@@ -114,7 +114,7 @@ typedef struct {
     uint32_t size;
     uint8_t model[41];
 } ide_dev_t;
-typedef struct {
+typedef struct ide_rw_t {
     //0 - read | 1 - write
     bool rw;
     uint8_t drive;

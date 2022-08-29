@@ -5,7 +5,7 @@
 #include "bmp.h"
 
 #pragma pack(push, 1)
-typedef struct {
+typedef struct vector2d_t {
     int x;
     int y;
 } vector2d_t;
@@ -18,7 +18,7 @@ enum DrawState {
     Idle = 0,
     Unused, Active,
 };
-typedef struct {
+typedef struct drawtask_t {
     vector2d_t pos;
     vector2d_t size;
     
@@ -33,11 +33,11 @@ enum CoreshellInstallationState {
     NotInstalled = 0,
     NotConfigured, Ready
 };
-typedef struct {
+typedef struct coreshell_uperms_t {
     bool loginWithoutPassword;
     bool useAccount;
 } coreshell_uperms_t;
-typedef struct {
+typedef struct coreshell_user_t {
     char name[16];
     char password[16];
     int uid;
@@ -45,7 +45,7 @@ typedef struct {
     bool avaliable;
     char reserved[47];
 } coreshell_user_t;
-typedef struct {
+typedef struct coreshell_hddsettings_t {
     char signature[16];
     enum CoreshellInstallationState installstate;
     coreshell_user_t users[4];

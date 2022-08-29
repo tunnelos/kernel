@@ -6,17 +6,17 @@
 extern "C" {
 #endif
 
-typedef struct{
+typedef struct ui_t {
     /* data */
 } ui_t;
 
-typedef struct {
+typedef struct ui_dev_t {
 
 } ui_dev_t;
-typedef struct {
+typedef struct ui_theme_t {
 
 } ui_theme_t;
-typedef struct {
+typedef struct ui_col_t {
     int primary;
     int secondary;
     int tertiary;

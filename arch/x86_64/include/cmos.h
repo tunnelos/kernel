@@ -9,7 +9,7 @@ extern "C" {
 #endif
 
 #pragma pack(push, 1)
-typedef struct {
+typedef struct cmos_t {
     uint8_t second;
     uint8_t minute;
     uint8_t hour;

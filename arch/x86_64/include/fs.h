@@ -59,7 +59,7 @@ enum FATType {
     FAT32
 };
 
-typedef struct {
+typedef struct bpb_t {
     uint8_t onLoadCode[3];
     char oem[8];
     // Bytes Per Sector
@@ -81,7 +81,7 @@ typedef struct {
     uint32_t totalSectors;
 } bpb_t;
 
-typedef struct {
+typedef struct fat12_t {
     bpb_t bpb;
     uint8_t drive;
     uint8_t winNTFlags;
@@ -94,7 +94,7 @@ typedef struct {
 } fat12_t;
 typedef fat12_t fat16_t;
 
-typedef struct {
+typedef struct fat32_t {
     bpb_t bpb;
     // FAT32
     uint16_t tableSize;
@@ -113,7 +113,7 @@ typedef struct {
     uint8_t bootCode[420];
     uint16_t bootablePartitionSignature;
 } fat32_t;
-typedef struct {
+typedef struct fat32_fsinfo_t {
     uint32_t signature1;
     uint8_t reserved1[480];
     uint32_t signature2;
@@ -123,11 +123,11 @@ typedef struct {
     uint32_t signature3;
 } fat32_fsinfo_t;
 
-typedef struct {
+typedef struct fat_filename {
     char name[8];
     char ext[4];
 } fat_filename;
-typedef struct {
+typedef struct fat_directory {
     fat_filename filename;
     FATAttribute attributes;
     uint8_t winNTReserved;
@@ -142,7 +142,7 @@ typedef struct {
     uint16_t entry_firstClusterNum2;
     uint32_t size;
 } fat_directory;
-typedef struct {
+typedef struct fat_lfn {
     uint8_t order;
     char entryCharacters0[10];
     FATAttribute attribute;
@@ -153,7 +153,7 @@ typedef struct {
     char entryCharacters2[4];
 } fat_lfn;
 
-typedef struct {
+typedef struct tunnelfs_bootsector_t {
     char signature[8];
 
     int sectorsAvaliable;
@@ -171,18 +171,18 @@ typedef struct {
     char freeSpace[475];
 } tunnelfs_bootsector_t;
 
-typedef struct {
+typedef struct tunnelfs_filemetadata_t {
     char filename[16];
     char extension[4];
     int sectorSize;
     int realSize;
     int sectorID;
 } tunnelfs_filemetadata_t;
-typedef struct {
+typedef struct tunnelfs_table_t {
     tunnelfs_filemetadata_t files[8192];
 } tunnelfs_table_t;
 
-typedef struct {
+typedef struct tunnelfs_t {
     tunnelfs_bootsector_t *bootsector;
     tunnelfs_table_t *table;
     uint8_t drive;

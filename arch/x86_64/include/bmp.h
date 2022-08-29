@@ -9,7 +9,7 @@ extern "C" {
 #endif
 
 #pragma pack(push, 1)
-typedef struct {             // Total: 54 bytes
+typedef struct BMPHeader {    // Total: 54 bytes
   uint16_t  type;             // Magic identifier: 0x4d42
   uint32_t  size;             // File size in bytes
   uint16_t  reserved1;        // Not used
@@ -28,7 +28,7 @@ typedef struct {             // Total: 54 bytes
   uint32_t  important_colors; // Important colors 
 } BMPHeader;
 
-typedef struct {
+typedef struct BMPImage {
   BMPHeader header;
   unsigned char* data; 
 } BMPImage;
