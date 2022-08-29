@@ -72,11 +72,11 @@ void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color)
         y = pos.y;
     }
 }
-void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage)
+void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, int col)
 {
     float t = (float)percentage / (float)100;
     float x = t * (float)maxSize.x;
-    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, COLOR_GREEN);
+    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col);
 }
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY);
@@ -241,14 +241,25 @@ void __coreshell_install_stage1()
         puts_gui("Creating TunnelFS...", COLOR_DARK_GREEN, 1, 3);
 
         __gui_drawRectangle((vector2d_t){2, 5}, (vector2d_t){76, 3}, COLOR_BLACK);
-        __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, __coreshell_percentage);
+        __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, __coreshell_percentage, COLOR_GREEN);
         __coreshell_requestFormat = true;
         while(__coreshell_percentage != 100) {
-            __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, __coreshell_percentage);
+            wait(5);
+            __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, __coreshell_percentage, COLOR_GREEN);
         }
-        __gui_drawRectangle((vector2d_t){1, 3}, (vector2d_t){25, 1}, COLOR_WHITE);
-        puts_gui("TunnelFS installation complete", COLOR_GREEN, 1, 3);
-        __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, 100);
+        if(fsInstance.bootsector == NULL) {
+            puts_gui("Error occured while TFS installtion.", COLOR_RED, 1, 3);
+            __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, 100, COLOR_RED);
+        } else {
+            int test = __fs_tunnelAllocateFile("test            ", "txt ", 1, fsInstance);
+            uint8_t *b = __fs_tunnelReadDataFromMeta(test, fsInstance);
+            b[0] = 0xAA;
+            __fs_tunnelSaveFile(test, b, fsInstance);
+            
+            __gui_drawRectangle((vector2d_t){1, 3}, (vector2d_t){25, 1}, COLOR_WHITE);
+            puts_gui("TunnelFS installation complete", COLOR_DARK_GREEN, 1, 3);
+            __gui_drawProgressBar((vector2d_t){2, 5}, (vector2d_t){76, 3}, 100, COLOR_GREEN);
+        }
         // puts_gui("Let's configure this installation ", COLOR_BLACK, 1, 10);
         // puts_gui("Press Enter to continue", COLOR_DARK_GREEN, 1, 11);
         // KeyYes = false;
@@ -386,6 +397,7 @@ void __coreshell_init_coreExecuter()
         // }
         if(__fs_tunnelFindFS(0)) {
             printf(COLOR_DARK_GREEN, 1, 1, "Good.");
+            __coreshell_install_stage1();
             while(1);
         } else {
             __coreshell_install_stage1();

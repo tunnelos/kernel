@@ -17,6 +17,7 @@
         "tunnel.h": "c",
         "keyboard_ps2.h": "c",
         "bmp.h": "c",
-        "assert.h": "c"
+        "assert.h": "c",
+        "fs.h": "c"
     }
 }

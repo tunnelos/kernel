@@ -6,7 +6,7 @@
 bool __fs_readFATCheck(uint8_t drive) {   
     ide_rw_t ideAction;
     uint8_t *buffer = (uint8_t *)malloc(512);
-    ideAction.buffer = (uint64_t)buffer;
+    ideAction.buffer = (uint32_t)buffer;
     ideAction.drive = drive;
     ideAction.lba = 0;
     ideAction.rw = false;
@@ -23,7 +23,7 @@ bool __fs_readFATCheck(uint8_t drive) {
 enum FATType __fs_getFATType(uint8_t drive) {
     ide_rw_t ideAction;
     uint8_t *buffer = (uint8_t *)malloc(512);
-    ideAction.buffer = (uint64_t)buffer;
+    ideAction.buffer = (uint32_t)buffer;
     ideAction.drive = drive;
     ideAction.lba = 0;
     ideAction.rw = false;
@@ -57,7 +57,7 @@ void *__fs_makeSectorAction(int sID, int sSize, void *buffer, enum SectorAction 
     assert(buffer);
 
     ide_rw_t ideAction;
-    ideAction.buffer = (uint64_t)buffer;
+    ideAction.buffer = (uint32_t)buffer;
     ideAction.drive = drive;
     ideAction.lba = sID;
     ideAction.rw = (action == Read) ? false : true;
@@ -121,15 +121,15 @@ tunnelfs_t __fs_tunnelCreateFS(int *percentage, uint8_t drive) {
         
         __fs_makeSectorAction(i, 1, buffer, Write, drive);
 
-        while(i < boot->tableSize) {
-            __fs_makeSectorAction(i + boot->tableSector, 1, res.table + (i * 512), Read, drive);
-            i++;
-        }
-        i = 0;
-        while(i < boot->tableSize) {
-            __fs_makeSectorAction(i + boot->tableSector, 1, res.table + (i * 512), Write, drive);
-            i++;
-        }
+        // while(i < boot->tableSize) {
+        //     __fs_makeSectorAction(i + boot->tableSector, 1, res.table + (i * 512), Read, drive);
+        //     i++;
+        // }
+        // i = 0;
+        // while(i < boot->tableSize) {
+        //     __fs_makeSectorAction(i + boot->tableSector, 1, res.table + (i * 512), Write, drive);
+        //     i++;
+        // }
 
         if(percentage) {
             *percentage = 100;
@@ -141,6 +141,9 @@ tunnelfs_t __fs_tunnelCreateFS(int *percentage, uint8_t drive) {
         res.bootsector = NULL;
         res.drive = -1;
         res.table = NULL;
+        if(percentage) {
+            *percentage = 100;
+        }
         return res;
     }
 }
@@ -169,7 +172,7 @@ uint8_t *__fs_tunnelReadDataFromMeta(int id, tunnelfs_t fsInstance) {
     }
 
     return buffer;
-}
+}   
 int __fs_tunnelAllocateFile(char *name, char *extension, int sSize, tunnelfs_t fsInstance) {
     assert(name); assert(extension); assert(fsInstance.bootsector); assert(fsInstance.table);
 
@@ -187,7 +190,7 @@ int __fs_tunnelAllocateFile(char *name, char *extension, int sSize, tunnelfs_t f
 
                 memcpy(fsInstance.table->files[i].filename, name, 16);
                 memcpy(fsInstance.table->files[i].extension, extension, 16);
-
+    
                 __fs_makeSectorAction(0, 1, fsInstance.bootsector, Write, fsInstance.drive);
                 int i2 = 0;
                 while(i2 < fsInstance.bootsector->tableSize) {
