@@ -38,8 +38,7 @@ help:
 	@echo "make all - compile code into bootable files"
 	@echo "make setup - set up compiling environment"
 	@echo "make iso - generate iso file"
-	@echo "make clean - clean	
-	@echo "Avaliable commandn from object files"
+	@echo "make clean - clean"
 	@echo "make fullclean - execute clean and remove target files"
 	@echo "make vhd - generate vhd file"
 $(OSNAME).aarch64.elf:
@@ -75,6 +74,15 @@ $(OSNAME).x86_64.iso:
 	@cp -r temp/linker/* temp/
 	@cd temp
 
+	@cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
+	@cp tunnelconfig/* .
+	@cp config iso/tmp/sys/
+	@cd iso/tmp/mkbootimg/mkbootimg
+	@make all &
+
+	@cd ../../../../
+	@echo ------------------------- $$!
+
 	@bash finder.sh
 	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
 	@strip $(STRIPFLAGS_X86_64) $(OSNAME).x86_64.elf
@@ -83,11 +91,8 @@ $(OSNAME).x86_64.iso:
 	@cd debug
 	@objdump -D $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
 	@cd ..
-	@cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
-	@cp tunnelconfig/* .
-	@cp config iso/tmp/sys/
+	@wait $($$!)
 	@cd iso/tmp/mkbootimg/mkbootimg
-	@make all
 	@cp ../../../../$(OSNAME).x86_64.elf . -r
 	@cp ../../../../$(OSNAME).json . -r
 	@./mkbootimg check $(OSNAME).x86_64.elf
