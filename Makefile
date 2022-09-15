@@ -79,9 +79,7 @@ $(OSNAME).x86_64.iso:
 	@cp config iso/tmp/sys/
 	@cd iso/tmp/mkbootimg/mkbootimg
 	@make all &
-
 	@cd ../../../../
-	@echo ------------------------- $$!
 
 	@bash finder.sh
 	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false

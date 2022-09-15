@@ -106,7 +106,10 @@ tasks[${taskI}]=$!
 taskI=$((taskI+1))
 
 for task in ${tasks[*]}; do
-        wait $task
+        if [ "$task" != '[]' ]
+        then
+                wait $task
+        fi
 done
 
 echo Final linking ...
