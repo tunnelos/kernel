@@ -9,7 +9,7 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o a
 	    		   ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
 	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
 	    		   math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
-	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o       \
+	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o \
 	    		   placeholder.o system_JSON.o                                          
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
@@ -18,6 +18,10 @@ FONTLIST =         text_PSF.o gui_PSF.o
 
 aarch64_target: clean $(OSNAME).aarch64.elf
 x86_64_target:  clean $(OSNAME).x86_64.iso
+x86_64_postbuild:
+	@./build/executeable/Lin_genAPI.bin build/debug/tunnel.x86_64.symboltable.txt resources/function_list-x86_64.text resources/function_list-x86_64.name.text
+	@cp api.h api/x86_64/
+	@rm api.h
 all: x86_64_target aarch64_target
 	@mkdir build
 	@mkdir build/debug
@@ -25,7 +29,8 @@ all: x86_64_target aarch64_target
 	@cp targets_debug/* build/debug -rf
 	@cp targets_executeable/* build/executeable -rf
 	@rm targets_executeable targets_debug debug iso fonts_compiled -rf
-	@zip targets.zip build -r9 -qq
+	@make x86_64_postbuild
+	@zip targets.zip build api -r9 -qq
 setup:
 	@bash setup.sh
 arch:

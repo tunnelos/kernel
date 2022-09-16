@@ -118,8 +118,7 @@ int main(int argc, char const *argv[])
     fgets(funl, 16384, funp);
     fgets(fnnl, 16384, fnnp);
     newlines -= 6;
-    printf("\n%d entries\n", newlines);
-
+    
     fclose(symp);
     fclose(funp);
     fclose(fnnp);
@@ -174,21 +173,45 @@ int main(int argc, char const *argv[])
     char **funElements = split(funl, ':');
     char **funNameElements = split(fnnl, ':');
     i = 0;
+    strcat(apiBuffer, "#pragma once\n#include \"./api_definitions.h\"\n\n");
     while(funElements[i] != NULL) {
         strcat(apiBuffer, funElements[i]);
+        strcat(apiBuffer, ";\n");
+        // symbol_table_entry_t *entry = findEntryByName(symbolTable, funNameElements[i]);
+        
+        // if(entry == NULL) {
+        //     strcat(apiBuffer, " = (void *)0;\n");
+        // } else {
+        //     strcat(apiBuffer, " = (void *)0x");
+        //     strcat(apiBuffer, entry->address);
+        //     strcat(apiBuffer, ";\n");
+        // }
+        // //printf("%s\n", funElements[i]);
+        i++;
+    }
+    i = 0;
+    strcat(apiBuffer, "\ntypedef void (*voidf)();\n\n");
+    strcat(apiBuffer, "\nvoid __api_setValues() {\n");
+    //*(voidf*)&self.ctor = method;
+    while(funElements[i] != NULL) {
+        strcat(apiBuffer, "    *(voidf*)&");
+        strcat(apiBuffer, funNameElements[i]);
+        strcat(apiBuffer, " = (voidf)");
         symbol_table_entry_t *entry = findEntryByName(symbolTable, funNameElements[i]);
+        
         if(entry == NULL) {
-            strcat(apiBuffer, " = (void *)0;\n");
+            strcat(apiBuffer, "0;\n");
         } else {
-            strcat(apiBuffer, " = (void *)0x");
+            strcat(apiBuffer, "0x");
             strcat(apiBuffer, entry->address);
             strcat(apiBuffer, ";\n");
         }
-        //printf("%s\n", funElements[i]);
+        // //printf("%s\n", funElements[i]);
         i++;
     }
 
-    printf(apiBuffer);
+    strcat(apiBuffer, "}");
+
     fputs(apiBuffer, outp);
 
     free(symt - 1);

@@ -18,6 +18,7 @@
         "keyboard_ps2.h": "c",
         "bmp.h": "c",
         "assert.h": "c",
-        "fs.h": "c"
+        "fs.h": "c",
+        "stb_image.h": "c"
     }
 }
