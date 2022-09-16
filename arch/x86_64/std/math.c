@@ -44,9 +44,9 @@ int pow(int x, int y){
     int result = x;
     if(y != 0){
         for(int i = 1; i < y; i++){
-            result *= x; 
+            result *= x;
         }
-    } else{
+    } else {
         result = 1;
     }
 

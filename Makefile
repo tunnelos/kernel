@@ -10,7 +10,7 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o a
 	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
 	    		   math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
 	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o       \
-	    		   placeholder.o system_JSON.o                                               
+	    		   placeholder.o system_JSON.o                                          
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
 
@@ -22,12 +22,10 @@ all: x86_64_target aarch64_target
 	@mkdir build
 	@mkdir build/debug
 	@mkdir build/executeable
-	@cp targets_debug/* build/debug -r
-	@cp targets_executeable/* build/executeable -r
-	@rm targets_executeable targets_debug -r
-	@zip targets.zip build -r9
-	@rm debug iso fonts_compiled -rf
-
+	@cp targets_debug/* build/debug -rf
+	@cp targets_executeable/* build/executeable -rf
+	@rm targets_executeable targets_debug debug iso fonts_compiled -rf
+	@zip targets.zip build -r9 -qq
 setup:
 	@bash setup.sh
 arch:
@@ -83,8 +81,11 @@ $(OSNAME).x86_64.iso:
 
 	@bash finder.sh
 	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
-	@strip $(STRIPFLAGS_X86_64) $(OSNAME).x86_64.elf
+	@cp *.bin iso/
+	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.notstriped.elf
+	@objdump -t tunnel.x86_64.elf > debug/$(OSNAME).x86_64.symboltable.txt
 	@readelf -hls $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
+	@strip $(STRIPFLAGS_X86_64) $(OSNAME).x86_64.elf
 	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.elf
 	@cd debug
 	@objdump -D $(OSNAME).x86_64.elf > $(OSNAME).x86_64.txt
@@ -115,7 +116,7 @@ $(OSNAME).x86_64.iso:
 clean:
 	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
 fullclean:
-	@rm -rf *.elf *.iso
+	@rm -rf *.elf *.iso */bin
 	@cp iso/$(OSNAME).x86_64.iso .
 	@rm -rf iso
 vhd:

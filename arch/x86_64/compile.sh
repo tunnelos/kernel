@@ -1,4 +1,4 @@
-CFLAGS="-Wall -fpic -ffreestanding -fno-stack-protector -nostdinc -nostdlib -mno-red-zone -Wno-shift-count-overflow -I./bootboot/dist/ -I./include -I/usr/include"
+CFLAGS="-Wall -fpic -ffreestanding -fno-stack-protector -nostdinc -nostdlib -mno-red-zone -Wno-shift-count-overflow -g -I./bootboot/dist/ -I./include -I/usr/include"
 
 tasks=[]
 taskI=0

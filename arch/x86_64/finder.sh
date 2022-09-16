@@ -66,6 +66,13 @@ CompileTunnelConfig() {
         cp *.o ../ 2> /dev/null
         rm *.o -r 2> /dev/null
 }
+CompileLinuxBinaries() {
+        cd ${tmpPWD}/linux
+        bash compileLinuxBinaries.sh
+        rm compileLinuxBinaries.sh
+        cp *.bin ../ 2> /dev/null
+        rm *.bin -r 2> /dev/null
+}
 
 cp compile.sh api/
 cp compile.sh base/
@@ -76,6 +83,7 @@ cp compile.sh fonts/
 cp compile.sh software/
 cp compile.sh std/
 cp compile.sh tunnelconfig/
+cp compileLinuxBinaries.sh linux/
 
 CompileAPI &
 tasks[${taskI}]=$!
@@ -102,6 +110,9 @@ CompileSTD &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
 CompileTunnelConfig &
+tasks[${taskI}]=$!
+taskI=$((taskI+1))
+CompileLinuxBinaries &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
 

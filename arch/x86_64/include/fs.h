@@ -192,7 +192,7 @@ typedef struct tunnelfs_t {
 
 enum SectorAction {
     Read = 0,
-    Write
+    Write = 1
 };
 
 void *__fs_makeSectorAction(int sID, int sSize, void *buffer, enum SectorAction action, uint8_t drive);
