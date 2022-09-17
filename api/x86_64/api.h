@@ -175,8 +175,7 @@ unitype_t *(* __uni_find)(unitype_t *args, const char *name);
 
 typedef void (*voidf)();
 
-
-void __api_setValues() {
+inline void __api_setValues() {
     *(voidf*)&__api_init = (voidf)0xffffffffffe04dd6;
     *(voidf*)&__arch_getarch = (voidf)0;
     *(voidf*)&__arch_getenvironment = (voidf)0;

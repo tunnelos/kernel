@@ -177,22 +177,11 @@ int main(int argc, char const *argv[])
     while(funElements[i] != NULL) {
         strcat(apiBuffer, funElements[i]);
         strcat(apiBuffer, ";\n");
-        // symbol_table_entry_t *entry = findEntryByName(symbolTable, funNameElements[i]);
-        
-        // if(entry == NULL) {
-        //     strcat(apiBuffer, " = (void *)0;\n");
-        // } else {
-        //     strcat(apiBuffer, " = (void *)0x");
-        //     strcat(apiBuffer, entry->address);
-        //     strcat(apiBuffer, ";\n");
-        // }
-        // //printf("%s\n", funElements[i]);
         i++;
     }
     i = 0;
     strcat(apiBuffer, "\ntypedef void (*voidf)();\n\n");
-    strcat(apiBuffer, "\nvoid __api_setValues() {\n");
-    //*(voidf*)&self.ctor = method;
+    strcat(apiBuffer, "inline void __api_setValues() {\n");
     while(funElements[i] != NULL) {
         strcat(apiBuffer, "    *(voidf*)&");
         strcat(apiBuffer, funNameElements[i]);
@@ -206,7 +195,6 @@ int main(int argc, char const *argv[])
             strcat(apiBuffer, entry->address);
             strcat(apiBuffer, ";\n");
         }
-        // //printf("%s\n", funElements[i]);
         i++;
     }
 
