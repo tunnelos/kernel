@@ -27,6 +27,8 @@ double fabs(double x);
 float acos(float x);
 int pow(int x, int y);
 int floor(float x);
+float floorf(float x);
+double floord(double x);
 float round(float number);
 float sqrt(float number);
 float modf(float x, float *iptr);

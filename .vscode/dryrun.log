@@ -1,4 +1,4 @@
-make all --dry-run --always-make --keep-going --print-directory
+make all --dry-run --keep-going --print-directory
 make: Entering directory '/home/dog/backup/TunnelOS'
 rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
 rm -rf temp
@@ -20,7 +20,7 @@ cd iso/tmp/mkbootimg/mkbootimg
 make all &
 cd ../../../../
 bash finder.sh
-ld -nostdlib -nostartfiles -T link.ld main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o placeholder.o system_JSON.o                                           text_PSF.o gui_PSF.o -o tunnel.x86_64.elf || false
+ld -nostdlib -nostartfiles -T link.ld main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o placeholder.o system_JSON.o float.o                                   text_PSF.o gui_PSF.o -o tunnel.x86_64.elf || false
 cp *.bin iso/
 cp tunnel.x86_64.elf debug/tunnel.x86_64.notstriped.elf
 objdump -t tunnel.x86_64.elf > debug/tunnel.x86_64.symboltable.txt
@@ -52,6 +52,7 @@ cp -r debug/* ../targets_debug
 cp -r iso/* ../targets_executeable
 cd ..
 rm -rf temp
+ 
 rm -rf temp
 mkdir -p temp
 mkdir -p temp/debug

@@ -18,7 +18,7 @@ This is a multicore text-based Operating System without using paging nor PIT int
 - `aarch64` **(No more maintained)**
 
 **Code statistics**
-- `x86_64` codebase - **`6154d` lines of code**
+- `x86_64` codebase - **`6192` lines of code**
 - `aarch64` codebase - **`498` lines of code**
 
 **Authors**<br>

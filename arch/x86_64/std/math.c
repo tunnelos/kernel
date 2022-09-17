@@ -56,6 +56,15 @@ int pow(int x, int y){
 int floor(float x){
     return (int)x;
 }
+float floorf(float x) {
+    return (float)floor(x);
+}
+double floord(double x) {
+    return (double)((int64_t)x);
+}
+long double floorl(long double x) {
+    return (long double)((int128_t)x);
+}
 
 float modf(float x, float *iptr){
     union {

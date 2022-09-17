@@ -10,7 +10,7 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o a
 	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
 	    		   math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
 	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o \
-	    		   placeholder.o system_JSON.o                                          
+	    		   placeholder.o system_JSON.o float.o                                  
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         text_PSF.o gui_PSF.o
 
