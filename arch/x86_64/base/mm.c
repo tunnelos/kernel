@@ -32,6 +32,7 @@ void __mm_fillblocks() {
     int m = 8320 * 8;
     int i = 0;
     while(i < m) {
+        __serial_write_fmt("CPU %d -> tos > Clean %d.\n", __tools_get_cpu() - 1, i);
         tunnelos_sysinfo.mm->meta[i].address = &tunnelos_sysinfo.mm->blockdata[i];
         tunnelos_sysinfo.mm->meta[i].id = -1;
         tunnelos_sysinfo.mm->meta[i].have = 0;

@@ -10,6 +10,7 @@ const char *pcb(bool j) {
 
 void crash(const char *str, uint16_t id, bool interrupt) {
     printf(COLOR_RED, 0, 0, "PANIC\n\n * Reason: %s", str);
+    if(interrupt) __hlt();
     int ides = 0;
     int i = 0;
     while(i < 4) {
@@ -47,5 +48,5 @@ void crash(const char *str, uint16_t id, bool interrupt) {
             t->cores, current_interrupt.interrupt_id, pcb(current_interrupt.critical)
         );
     }
-    while(1);
+
 }

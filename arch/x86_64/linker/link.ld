@@ -2,6 +2,7 @@ mmio        = 0xfffffffff8000000;              /* these are configurable for lev
 fb          = 0xfffffffffc000000;
 bootboot    = 0xffffffffffe00000;
 environment = 0xffffffffffe01000;
+
 /* initstack = 1024; */
 PHDRS
 {

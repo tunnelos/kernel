@@ -58,6 +58,8 @@ void __idt_init();
 
 extern void __cli();
 extern void __sti();
+extern void __hlt();
+extern int  __read_error_code();
 
 #ifdef __cplusplus
 }

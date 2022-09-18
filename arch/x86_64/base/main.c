@@ -72,17 +72,19 @@ void _start(){
         while(mmap_ent < (uint8_t *)(&bootboot) + (&bootboot)->size) {
             __serial_write_fmt("CPU %d -> tos > Check memory type: %d\n", __tools_get_cpu() - 1, MMapEnt_Type(mmap_ent));
             if(MMapEnt_Type(mmap_ent) == MMAP_FREE) {
-                tunnelos_sysinfo.mm = (tunnel_memory_map_t *)(mmap_ent->ptr);
-                tunnelos_sysinfo.mm->start_point = mmap_ent->size;
-                tunnelos_sysinfo.free_memory_location = (uint8_t *)mmap_ent->ptr;
                 tunnelos_sysinfo.free_memory_location_size = mmap_ent->size;
                 __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\n", __tools_get_cpu() - 1, tunnelos_sysinfo.free_memory_location_size / 1024);
-                if(tunnelos_sysinfo.free_memory_location_size / 1024 > 19000) break;
+                if(tunnelos_sysinfo.free_memory_location_size / 1024 > 19000) {
+                    __serial_write_fmt("CPU %d -> tos > Found one\n", __tools_get_cpu() - 1);
+                    break;
+                }
                 //break;
             }
 
             mmap_ent++;
         }
+
+        tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((void *)0x0000000400000000);
 
         // tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         // tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
@@ -92,13 +94,15 @@ void _start(){
         tunnelos_sysinfo.nmi = false;
         tunnelos_sysinfo.ide = true;
         __main_core0init();
+        __serial_write_fmt("CPU %d -> tos > 4.\n", __tools_get_cpu() - 1);
         //__serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\n", __tools_get_cpu() - 1, tunnelos_sysinfo.free_memory_location_size / 1024);
         __main_core0complete = true;
     } else {
         tunnelos_sysinfo.cores++;
     }
+    __serial_write_fmt("CPU %d -> tos > 5s.\n", __tools_get_cpu() - 1);
     while(!__main_core0complete);
-    __coreshell_init_all();
+    //__coreshell_init_all();
 }
 
 void __main_core0init() {
@@ -106,10 +110,13 @@ void __main_core0init() {
 
     if(s) {
         __stdio_margin = 0;
+        __serial_write_fmt("CPU %d -> tos > 1.\n", __tools_get_cpu() - 1);
         __mm_fillblocks();
 
         #if ENABLE_TEST == 1
+        __serial_write_fmt("CPU %d -> tos > 2.\n", __tools_get_cpu() - 1);
         __test_unitest();
+        __serial_write_fmt("CPU %d -> tos > 3.\n", __tools_get_cpu() - 1);
         cpptest_test00();
         #endif
 

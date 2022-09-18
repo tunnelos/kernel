@@ -1,5 +1,8 @@
 global __cli
 global __sti
+global __hlt
+global __read_error_code
+global __get_stack
 global __pit_eoi
 global __tools_int_test
 
@@ -8,6 +11,14 @@ __cli:
     ret
 __sti:
     sti
+    ret
+__hlt:
+    hlt
+__read_error_code:
+    mov eax, dword [rsp-4]
+    ret
+__get_stack:
+    mov rax, rsp
     ret
 __pit_eoi:
     mov al, 0x20

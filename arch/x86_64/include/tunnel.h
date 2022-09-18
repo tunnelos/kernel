@@ -43,6 +43,7 @@ void __tunnel_shutdown();
 void __tunnel_reboot();
 void push(int x);
 int pop();
+extern uint8_t *__get_stack();
 
 #ifdef __cplusplus
 }
