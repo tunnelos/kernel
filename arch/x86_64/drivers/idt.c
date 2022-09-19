@@ -6,6 +6,7 @@
 #include "../include/tunnel.h"
 #include "../include/nmi.h"
 #include "../include/tunnel.h"
+#include "../include/pit.h"
 
 idt_entry_t __idt_idt[256];
 idtr_t __idt_idtr;
@@ -42,8 +43,13 @@ void __idt_interrupt_handler(int interrupt_id) {
     current_interrupt.critical = false;
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.frame = current_iframe;
-    __serial_write_fmt("CPU %d -> tos > Interrupt %d!\n * RIP = %l %X\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
+    if(interrupt_id != IDT_INTERRUPT_PIT) __serial_write_fmt("CPU %d -> tos > Interrupt %d!\n * RIP = %l %X\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
     switch(interrupt_id) {
+        case IDT_INTERRUPT_PIT: {
+            __pit_event_timer();
+            __pit_eoi();
+            break;
+        }
         case IDT_INTERRUPT_CMOS: {
             if(!tunnelos_sysinfo.rtc) {
                 __nmi_init();

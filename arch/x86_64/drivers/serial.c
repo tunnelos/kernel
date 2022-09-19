@@ -1,6 +1,7 @@
 #include "../include/serial.h"
 
-bool __serial_lock = false;
+bool __serial_lock  = false;
+bool __serial_lock2 = false;
 
 int __serial_got_signal() {
     return inb(PORT + 5) & 1;
@@ -17,7 +18,10 @@ void __serial_write_char(char a){
     outb(PORT, a);
 }
 void __serial_write_raw(const char *data, uint64_t size) {
+    while(__serial_lock2);
+    __serial_lock2 = true;
     for (uint64_t i = 0; i < size; i++) __serial_write_char(data[i]);
+    __serial_lock2 = false;
     return;
 }
 void __serial_write_fmt(const char *fmt, ...) {

@@ -3,6 +3,7 @@
 #include "./stdint.h"
 #include "./serial.h"
 
+#define IDT_INTERRUPT_PIT  0
 #define IDT_INTERRUPT_CMOS 8
 
 #ifdef __cplusplus

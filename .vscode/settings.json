@@ -23,6 +23,7 @@
         "math.h": "c",
         "float.h": "c",
         "tags.h": "c",
-        "idt.h": "c"
+        "idt.h": "c",
+        "mm.h": "c"
     }
 }
