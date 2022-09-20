@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Sep 19 08:02:37 2022
+# Make data base, printed on Mon Sep 19 13:16:42 2022
 
 # Variables
 
@@ -18,6 +18,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 DESKTOP_SESSION = xfce
 # default
 .SHELLFLAGS := -c
+ 
 # environment
 PROVIDE_FULLSTACK_ACTION = true
 # environment
@@ -91,7 +92,7 @@ THREE_SCALE_USER_TOKEN = 207c527cfc2a6b8dcf4fa43ad7a976da
 # environment
 WINDOWID = 37802288
 # makefile (from 'Makefile', line 7)
-FILELIST_X86_64 = main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o placeholder.o system_JSON.o float.o                                  
+FILELIST_X86_64 = main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o placeholder.o system_JSON.o float.o gui.o speaker.o                               
 # environment
 XDG_MENU_PREFIX = xfce-
 # environment
@@ -275,7 +276,6 @@ VSCODE_PID = 1208489
 
 # Files
 
- 
 setup:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -294,6 +294,7 @@ all: x86_64_target aarch64_target
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
+ 
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
@@ -336,7 +337,7 @@ vhd:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-09-18 11:01:42.513154671
+#  Last modified 2022-09-19 13:16:35.865293521
 #  File has been updated.
 #  Successfully updated.
 
@@ -510,6 +511,6 @@ tunnel.aarch64.elf:
 # strcache performance: lookups = 64 / hit rate = 43%
 # hash-table stats:
 # Load=36/8192=0%, Rehash=0, Collisions=1/64=2%
-# Finished Make data base on Mon Sep 19 08:02:37 2022
+# Finished Make data base on Mon Sep 19 13:16:42 2022
 
  

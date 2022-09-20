@@ -2,7 +2,6 @@
 
 #include "./stdint.h"
 #include "../bootboot/dist/bootboot.h"
-#include "../api/tos.h"
 
 #ifdef __cplusplus
 extern "C" {

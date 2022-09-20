@@ -23,8 +23,11 @@ void __tunnel_shutdown() {
     outw(0x4004, 0x3400);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wuninitialized"
 void push(int x) { }
 int pop() {
     int x;
     return x;
 }
+#pragma GCC diagnostic pop

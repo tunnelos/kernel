@@ -30,8 +30,7 @@ typedef struct pit_timer_t {
     uint64_t next_on;
 } pit_timer_t;
 
-extern uint64_t current_tick;
-
+void __pit_setOnIntCallback(bool (* callback)(uint128_t));
 void __pit_event_timer();
 uint16_t __pit_count();
 void __pit_set_count(uint16_t count);

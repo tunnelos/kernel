@@ -3,13 +3,6 @@ taskI=0
 
 tmpPWD=$PWD
 
-CompileAPI() {
-	cd ${tmpPWD}/api
-	bash compile.sh
-	rm compile.sh
-	cp *.o ../ 2> /dev/null
-	rm *.o -r 2> /dev/null
-}
 CompileBase() {
         cd ${tmpPWD}/base
         bash compile.sh
@@ -45,6 +38,13 @@ CompileFonts() {
         cp *.o ../ 2> /dev/null
         rm *.o -r 2> /dev/null
 }
+CompileSounddata() {
+        cd ${tmpPWD}/sounddata
+        bash compile.sh
+        rm compile.sh
+        cp *.o ../ 2> /dev/null
+        rm *.o -r 2> /dev/null
+}
 CompileSoftware() {
         cd ${tmpPWD}/software
         bash compile.sh
@@ -74,20 +74,17 @@ CompileLinuxBinaries() {
         rm *.bin -r 2> /dev/null
 }
 
-cp compile.sh api/
 cp compile.sh base/
 cp compile.sh cJSON/
 cp compile.sh drivers/
 cp compile.sh etc/
 cp compile.sh fonts/
+cp compile.sh sounddata/
 cp compile.sh software/
 cp compile.sh std/
 cp compile.sh tunnelconfig/
 cp compileLinuxBinaries.sh linux/
 
-CompileAPI &
-tasks[${taskI}]=$!
-taskI=$((taskI+1))
 CompileBase &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
@@ -100,7 +97,10 @@ taskI=$((taskI+1))
 CompileETC &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
-CompileFonts
+CompileFonts &
+tasks[${taskI}]=$!
+taskI=$((taskI+1))
+CompileSounddata &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
 CompileSoftware &

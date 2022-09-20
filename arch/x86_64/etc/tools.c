@@ -1,4 +1,5 @@
 #include "../include/tools.h"
+#include "../include/idt.h"
 #include <cpuid.h>
 
 uint8_t inb(uint16_t port) {
@@ -80,6 +81,14 @@ void wait_ns(uint128_t ns) {
         i++;
     }
     return;
+}
+void accwait(uint64_t ms) {
+    uint64_t i = 0;
+    while(i < ms) {
+        __sti();
+        __hlt();
+        i++;
+    }
 }
 
 void insl(uint16_t reg, uint32_t *buffer, int quads) {

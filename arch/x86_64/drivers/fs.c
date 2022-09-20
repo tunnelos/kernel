@@ -3,6 +3,8 @@
 #include "../include/mm.h"
 #include "../include/assert.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
 bool __fs_readFATCheck(uint8_t drive) {   
     ide_rw_t ideAction;
     uint8_t *buffer = (uint8_t *)malloc(512);
@@ -241,3 +243,4 @@ void __fs_tunnelSaveFile(int fID, uint8_t *buffer, tunnelfs_t fsInstance) {
 
     return;
 }
+#pragma GCC diagnostic pop

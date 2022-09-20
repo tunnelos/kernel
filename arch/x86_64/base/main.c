@@ -57,6 +57,7 @@ void _start(){
         __sti();
         __sse_init();
         __pic_unmask(0);
+        __coreshell_init();
         __pit_init();
         __ide_init(bars);
         if(__cpuid_check_avx() || __cpuid_check_avx2()) {
@@ -69,7 +70,7 @@ void _start(){
 
         MMapEnt *mmap_ent = &bootboot.mmap;
 
-        while(mmap_ent < (uint8_t *)(&bootboot) + (&bootboot)->size) {
+        while(mmap_ent < (MMapEnt *)(&bootboot) + (&bootboot)->size) {
             __serial_write_fmt("CPU %d -> tos > Check memory type: %d\n", __tools_get_cpu() - 1, MMapEnt_Type(mmap_ent));
             if(MMapEnt_Type(mmap_ent) == MMAP_FREE) {
                 tunnelos_sysinfo.free_memory_location_size = mmap_ent->size;
@@ -100,7 +101,6 @@ void _start(){
         tunnelos_sysinfo.cores++;
     }
     while(!__main_core0complete);
-    __coreshell_init_all();
 }
 
 void __main_core0init() {

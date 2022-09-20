@@ -30,6 +30,15 @@ for g in *.psf ; do
         taskI=$((taskI+1));
     fi
 done
+for m in *.snd ; do 
+    if [ "$m" != '*.snd' ]
+    then
+        echo Linking ${m%.snd}.snd in x86_64 codebase ...;
+        ld -r -b binary -o ${m%.snd}_SND.o ${m%.snd}.snd &
+        tasks[${taskI}]=$!;
+        taskI=$((taskI+1));
+    fi
+done
 for j in *.json; do
     if [ "$j" != '*.json' ]
     then
@@ -43,7 +52,7 @@ for h in *.asm ; do
     if [ "$h" != '*.asm' ]
     then
         echo Assembling ${h%.asm}.asm in x86_64 codebase ...;
-        nasm -felf64 ${h%.asm}.asm -o ${h%.asm}_ASM.o &
+        nasm -felf64 ${h%.asm}.asm -w-orphan-labels -o ${h%.asm}_ASM.o &
         tasks[${taskI}]=$!;
         taskI=$((taskI+1));
     fi

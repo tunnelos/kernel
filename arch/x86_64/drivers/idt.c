@@ -20,17 +20,9 @@ void __idt_exception_handler(int interrupt_id) {
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.critical = true;
     current_interrupt.frame = current_iframe;
-    __serial_write_fmt("CPU %d -> tos > Exception %d!\n * RIP = %l %X\n * Error Code = %d\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip, errorCode);
+    if(interrupt_id != 8) __serial_write_fmt("CPU %d -> tos > Exception %d!\n * RIP = %l %X\n * Error Code = %d\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip, errorCode);
     switch(interrupt_id) {
-        case IDT_INTERRUPT_CMOS: {
-            if(__cmos_firstInt) {
-                __cmos_getRTC();
-                __cmos_firstInt = false;
-            }
-            outb(RTC_REGISTER_B_OUT, 0x0C);
-            inb(RTC_REGISTER_B_IN);
-            break;
-        }
+        case 8: return;
         default: {
             crash(PANIC_UNEXPECTED_INTERRUPT_STRING, PANIC_UNEXPECTED_INTERRUPT_NUMBER, true);
             break;
@@ -43,7 +35,7 @@ void __idt_interrupt_handler(int interrupt_id) {
     current_interrupt.critical = false;
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.frame = current_iframe;
-    if(interrupt_id != IDT_INTERRUPT_PIT) __serial_write_fmt("CPU %d -> tos > Interrupt %d!\n * RIP = %l %X\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
+    if(interrupt_id != IDT_INTERRUPT_PIT && interrupt_id != IDT_INTERRUPT_CMOS) __serial_write_fmt("CPU %d -> tos > Interrupt %d!\n * RIP = %l %X\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
     switch(interrupt_id) {
         case IDT_INTERRUPT_PIT: {
             __pit_event_timer();

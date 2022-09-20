@@ -45,6 +45,13 @@ CompileFonts() {
     cp *.o ../ 2> /dev/null
     rm *.o -r 2> /dev/null
 }
+CompileSounddata() {
+    cd ${tmpPWD}/sounddata
+    bash compile.sh
+    rm compile.sh
+    cp *.o ../ 2> /dev/null
+    rm *.o -r 2> /dev/null
+}
 CompileSoftware() {
     cd ${tmpPWD}/software
     bash compile.sh
@@ -73,6 +80,7 @@ cp compile.sh base/
 cp compile.sh drivers/
 cp compile.sh etc/
 cp compile.sh fonts/
+cp compile.sh sounddata/
 cp compile.sh software/
 cp compile.sh std/
 cp compile.sh tunnelconfig/
@@ -92,7 +100,10 @@ taskI=$((taskI+1))
 CompileETC &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
-CompileFonts
+CompileFonts &
+tasks[${taskI}]=$!
+taskI=$((taskI+1))
+CompileSounddata &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
 CompileSoftware &
@@ -108,7 +119,7 @@ taskI=$((taskI+1))
 for task in ${tasks[*]}; do
     if [ "$task" != '[]' ]
     then
-         wait $task
+        wait $task
     fi
 done
 

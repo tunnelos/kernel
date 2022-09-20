@@ -6,8 +6,8 @@
 extern "C" {
 #endif
 
-bool __coreshell_onPIT(uint128_t t);
-void __coreshell_init();
+void __speaker_playSound(uint32_t frequency);
+void __speaker_stopSound();
 
 #ifdef __cplusplus
 }

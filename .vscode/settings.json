@@ -24,6 +24,13 @@
         "float.h": "c",
         "tags.h": "c",
         "idt.h": "c",
-        "mm.h": "c"
+        "mm.h": "c",
+        "pit.h": "c",
+        "screen.h": "c",
+        "gui.h": "c",
+        "speaker.h": "c",
+        "sounds.h": "c",
+        "cmos.h": "c",
+        "string.h": "c"
     }
 }

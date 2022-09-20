@@ -21,6 +21,15 @@ for g in *.psf ; do
         taskI=$((taskI+1));
     fi
 done
+for m in *.snd ; do 
+    if [ "$m" != '*.snd' ]
+    then
+        echo Linking ${m%.snd}.snd in x86_64 codebase ...;
+        aarch64-linux-gnu-ld -r -b binary -o ${m%.snd}_SND.o ${m%.snd}.snd &
+        tasks[${taskI}]=$!;
+        taskI=$((taskI+1));
+    fi
+done
 for j in *.json; do
     if [ "$j" != '*.json' ]
     then
