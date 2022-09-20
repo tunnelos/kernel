@@ -6,15 +6,12 @@
 extern "C" {
 #endif
 
-// ASCII font
-void puts(const char *str, uint32_t color, int x, int y);
-void putc(const char c, uint32_t color, int x, int y);
-
 int sprintf(char *str, const char *fmt, ...);
 
 // ASCII font with GUI additions in transparent mode
-void puts_gui(const char *str, uint32_t color, int x, int y);
-void putc_gui(const char c, uint32_t color, int x, int y);
+void puts(const char *str, uint32_t color, int x, int y);
+// ASCII font with GUI additions in transparent mode
+void putc(const char c, uint32_t color, int x, int y);
 
 void printf(uint32_t color, int x, int y, const char *fmt, ...);
 

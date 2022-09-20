@@ -12,7 +12,8 @@ FILELIST_X86_64 =  main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o a
 	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o \
 	    		   placeholder.o system_JSON.o float.o gui.o speaker.o sounds.o
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
-FONTLIST =         text_PSF.o gui_PSF.o test_SND.o
+FONTLIST =         gui_PSF.o
+SNDLIST_X86_64   = test_SND.o coreshell_installationstage0_SND.o
 
 .PHONY: all
 
@@ -85,7 +86,7 @@ $(OSNAME).x86_64.iso:
 	@cd ../../../../
 
 	@bash finder.sh
-	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
+	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) ${SNDLIST_X86_64} -o $(OSNAME).x86_64.elf || false
 	@cp *.bin iso/
 	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.notstriped.elf
 	@objdump -t tunnel.x86_64.elf > debug/$(OSNAME).x86_64.symboltable.txt

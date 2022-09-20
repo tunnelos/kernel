@@ -15,10 +15,10 @@ void __ui_init(){
 void __ui_window_create(uint32_t color, int x, int y, int width, int height) {
     for (int i = y; i < height; i++) {
         for (int j = x; j < width; i++) {
-            putc_gui('\x08', color, i, j);
+            putc('\x08', color, i, j);
 
             if ((i - y) == 1 && (j - x) == width) {
-                putc_gui('X', COLOR_BLACK, i, j);
+                putc('X', COLOR_BLACK, i, j);
             }
         }
     }
@@ -29,6 +29,6 @@ void __ui_window_init() {
         for(int x = 0; x < SCREEN_WIDTH; x++){
             putc('\x08', __ui_colors.primary, x, y);
         }
-        putc_gui('x', COLOR_BLACK, 79, 0);
+        putc('x', COLOR_BLACK, 79, 0);
     }
 }

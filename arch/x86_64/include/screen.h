@@ -24,7 +24,6 @@
 extern "C" {
 #endif
 
-extern volatile unsigned char _binary_text_psf_start;
 extern volatile unsigned char _binary_gui_psf_start;
 
 typedef struct __attribute__((packed)) psf2_t {

@@ -14,10 +14,10 @@ typedef struct {
 void __sounds_initThread();
 void __sounds_queueSoundData(pcspeaker_sound_t *soundArray);
 
-// Will add later
-// pcspeaker_sound_t *__sounds_getCurrentArray();
-// void __sounds_stopSound();
-// void __sounds_pauseSound();
+pcspeaker_sound_t *__sounds_getCurrentArray();
+void __sounds_stopSound();
+void __sounds_pauseSound();
+void __sounds_resumeSound();
 
 #ifdef __cplusplus
 }

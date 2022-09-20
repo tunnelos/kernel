@@ -31,6 +31,8 @@
         "speaker.h": "c",
         "sounds.h": "c",
         "cmos.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "arch.h": "c",
+        "ui.h": "c"
     }
 }

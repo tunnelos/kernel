@@ -29,9 +29,7 @@ __pit_init:
    mov rbp, rsp
    mov rsi, 9
    mov rdi, __pit_log0
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax, 0
 
    pushaq
@@ -50,9 +48,7 @@ __pit_init:
    
    mov rsi, 9
    mov rdi, __pit_log1
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax, 0
    mov eax,3579545
    mov edx,0                   ;edx:eax = 3579545
@@ -63,9 +59,7 @@ __pit_init:
  .l1:
    mov rsi, 9
    mov rdi, __pit_log3
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax, 0
    mov ebx,3
    mov edx,0                   ;edx:eax = 3579545 * 256 / frequency
@@ -84,9 +78,7 @@ __pit_init:
    mov ebx,eax                  ;ebx = reload value
    mov rsi, 9
    mov rdi, __pit_log4
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax,3579545
    mov edx,0                   ;edx:eax = 3579545
    div ebx                     ;eax = 3579545 / reload_value, edx = remainder
@@ -96,9 +88,7 @@ __pit_init:
  .l3:
    mov rsi, 9
    mov rdi, __pit_log3
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax, 0
    mov ebx,3
    mov edx,0                   ;edx:eax = 3579545 / reload_value
@@ -123,9 +113,7 @@ __pit_init:
    
    mov rsi, 9
    mov rdi, __pit_log4
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax, 0
    pop rbx                     ;ebx = reload_value
    mov eax,0xDBB3A062            ;eax = 3000 * (2^42) / 3579545
@@ -141,9 +129,7 @@ __pit_init:
    
    mov rsi, 9
    mov rdi, __pit_log2
-   call __serial_write_raw
    mov rdi, 10
-   call __serial_write_char
    mov eax, 0
    pushfq
    cli                        ;Disabled interrupts (just in case)

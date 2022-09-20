@@ -2,6 +2,9 @@
 #include "../include/screen.h"
 #include "../include/ide.h"
 #include "../include/idt.h"
+#include "../include/gui.h"
+#include "../include/screen.h"
+#include "../include/mm.h"
 
 const char *pcb(bool j) {
     if(!j) return "false";
@@ -9,8 +12,10 @@ const char *pcb(bool j) {
 }
 
 void crash(const char *str, uint16_t id, bool interrupt) {
-    printf(COLOR_RED, 0, 0, "PANIC\n\n * Reason: %s", str);
-    if(interrupt) __hlt();
+    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
+    printf(COLOR_WHITE, 1, 3, "Reason: %s", str);
+    vector2d_t a = alignText("PANIC");
+    puts("PANIC", COLOR_WHITE, a.x, 2);
     int ides = 0;
     int i = 0;
     while(i < 4) {
@@ -28,9 +33,8 @@ void crash(const char *str, uint16_t id, bool interrupt) {
     }
     //calculate memory map size
     mapedram -= (sizeof(t->mm->blockdata) + sizeof(t->mm->meta) + sizeof(t->mm->start_point));
-    
     if(!interrupt) { 
-        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+        printf(COLOR_WHITE, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
@@ -39,7 +43,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
             t->cores
         );
     } else {
-        printf(COLOR_YELLOW, 0, 3, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX: %s  | SSE       : %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+        printf(COLOR_WHITE, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
@@ -48,5 +52,5 @@ void crash(const char *str, uint16_t id, bool interrupt) {
             t->cores, current_interrupt.interrupt_id, pcb(current_interrupt.critical)
         );
     }
-
+    __hlt();
 }

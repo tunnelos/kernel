@@ -11,7 +11,7 @@ int __desktop_ids[10];
 string __desktop_titles[25];
 
 void __desktop_init() {
-    __serial_write_fmt("CPU 0 -> tos -> DESKTOP > Creating desktop...\n");
+    __serial_write_fmt("CPU 0 -> tos -> DESKTOP > Creating desktop...\r\n");
     for(int j = 0; j < 30; j++){
         for(int i = 0; i < 80; i++){
             if(j == 0){
@@ -21,7 +21,7 @@ void __desktop_init() {
             }
         }
     }
-    putc_gui('+', COLOR_WHITE, 0, 0);
+    putc('+', COLOR_WHITE, 0, 0);
     for(int j = 1; j < 30; j++){
         for(int i = 0; i < 10; i++){
             putc('\x08', COLOR_GRAY, i, j);
@@ -30,9 +30,9 @@ void __desktop_init() {
     for(int i = 0; i < 10; i++){
         putc('\x08', COLOR_LIGHT_GREEN, i, 2);
     }
-    puts_gui("Apps", COLOR_WHITE, 1, 2);
-    puts_gui("Games", COLOR_WHITE, 1, 3);
-    puts_gui("System", COLOR_WHITE, 1, 4);
+    puts("Apps", COLOR_WHITE, 1, 2);
+    puts("Games", COLOR_WHITE, 1, 3);
+    puts("System", COLOR_WHITE, 1, 4);
 
     while(true);
 }
@@ -59,7 +59,7 @@ void __desktop_render_tasks(){
         for(int j = 0; j < i; j++){
             calculateX += strlen(__desktop_titles[__desktop_ids[i]]);
         }
-        puts_gui(__desktop_titles[__desktop_ids[i]], COLOR_WHITE, calculateX, 0);
+        puts(__desktop_titles[__desktop_ids[i]], COLOR_WHITE, calculateX, 0);
         calculateX = 2;
     }
 }

@@ -43,10 +43,10 @@ void _start(){
     tunnelos_sysinfo.bootboot = bootboot;
 
     if(__tools_get_cpu() == bootboot.bspid + 1) {
-        __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\n", __tools_get_cpu() - 1);
+        __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
 
         if(!__cpuid_check_sse()) {
-            __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!\n", __tools_get_cpu() - 1);
+            __serial_write_fmt("CPU %d -> tos > SSE is unavaliable!\r\n", __tools_get_cpu() - 1);
             while(1);
         }
 
@@ -57,27 +57,25 @@ void _start(){
         __sti();
         __sse_init();
         __pic_unmask(0);
-        __coreshell_init();
-        __pit_init();
         __ide_init(bars);
         if(__cpuid_check_avx() || __cpuid_check_avx2()) {
             tunnelos_sysinfo.avx = true;
             __avx_init();
         } else {
             tunnelos_sysinfo.avx = false;
-            __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\n", __tools_get_cpu() - 1, __cpuid_check_avx(), __cpuid_check_avx2());
+            __serial_write_fmt("CPU %d -> tos > AVX is unavaliable! (%d %d)\r\n", __tools_get_cpu() - 1, __cpuid_check_avx(), __cpuid_check_avx2());
         }
 
         MMapEnt *mmap_ent = &bootboot.mmap;
 
         while(mmap_ent < (MMapEnt *)(&bootboot) + (&bootboot)->size) {
-            __serial_write_fmt("CPU %d -> tos > Check memory type: %d\n", __tools_get_cpu() - 1, MMapEnt_Type(mmap_ent));
+            __serial_write_fmt("CPU %d -> tos > Check memory type: %d\r\n", __tools_get_cpu() - 1, MMapEnt_Type(mmap_ent));
             if(MMapEnt_Type(mmap_ent) == MMAP_FREE) {
                 tunnelos_sysinfo.free_memory_location_size = mmap_ent->size;
                 tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((void *)(mmap_ent->ptr));
-                __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\n", __tools_get_cpu() - 1, tunnelos_sysinfo.free_memory_location_size / 1024);
+                __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\r\n", __tools_get_cpu() - 1, tunnelos_sysinfo.free_memory_location_size / 1024);
                 if(tunnelos_sysinfo.free_memory_location_size / 1024 > 19000) {
-                    __serial_write_fmt("CPU %d -> tos > Found one at address %l 0x%X\n", __tools_get_cpu() - 1, mmap_ent->ptr);
+                    __serial_write_fmt("CPU %d -> tos > Found one at address %l 0x%X\r\n", __tools_get_cpu() - 1, mmap_ent->ptr);
                     break;
                 }
                 //break;
@@ -115,6 +113,8 @@ void __main_core0init() {
         cpptest_test00();
         #endif
 
+        __coreshell_init();
+        __pit_init();
         // __desktop_init();
         // __desktop_add_task("Discord");
         // __desktop_add_task("VSCode");
@@ -127,7 +127,7 @@ void __main_core0init() {
         // for(y=0;y<20;y++) { for(x=0;x<20;x++) { *((uint32_t*)(&fb + s*(y+20) + (x+80)*4))=0x000000FF; } }
         
     } else {
-        __serial_write_fmt("CPU %d -> tos > Framebuffer error! Please, restart your PC.\n", __tools_get_cpu() - 1);
+        __serial_write_fmt("CPU %d -> tos > Framebuffer error! Please, restart your PC.\r\n", __tools_get_cpu() - 1);
         while(1);
     }
 }

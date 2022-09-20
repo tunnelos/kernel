@@ -32,6 +32,9 @@ void __pic_remap(int *offset) {
  
 	outb(PIC1_DATA, a1);   // restore saved masks.
 	outb(PIC2_DATA, a2);
+    
+    outb(0x21, 0xFF);
+    outb(0xA1, 0xFF);
 }
 void __pic_mask(uint8_t irq) {
     uint16_t port;

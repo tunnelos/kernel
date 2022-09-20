@@ -21,13 +21,10 @@ extern "C" {
 #endif
 
 extern char __keyboard_ps2_lookuptable[256];
-extern bool __keyboard_ps2_ascii_only[256];
 extern char __keyboard_ps2_buffer[256];
 extern char *sc_name[256];
-extern uint16_t __keyboard_ps2_buffer_pointer;
 
 bool __keyboard_ps2_init();
-void __keyboard_ps2_append_cin(char c);
 
 #ifdef __cplusplus
 }

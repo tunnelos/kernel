@@ -32,7 +32,7 @@ void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color)
     {
         while (y < ym)
         {
-            puts("\x08", color, x, y);
+            puts("\x13", color, x, y);
             y++;
         }
         x++;
@@ -52,7 +52,7 @@ void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     while(i < maxSymbols) {
         if(buffer[i] != 0) {
             b[0] = buffer[i];
-            puts_gui(b, COLOR_BLACK, pos.x, pos.y);
+            puts(b, COLOR_BLACK, pos.x, pos.y);
             pos.x++;
         }
         i++;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "./mm.h"
+
 #ifndef ENABLE_TRANDOM
 #define ENABLE_TRANDOM 1
 #endif
