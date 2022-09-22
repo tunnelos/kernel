@@ -5,7 +5,7 @@ extern "C" {
 #endif
 
 #pragma pack(push, 1)
-typedef struct {
+typedef struct pcspeaker_sound_t {
     unsigned short frequency;
     unsigned int soundticks;
 } pcspeaker_sound_t;
