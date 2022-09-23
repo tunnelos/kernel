@@ -51,7 +51,8 @@ bool __sounds_thread(uint128_t tick) {
             __sounds_dataP++;
             return true;
         }
-        if(__sounds_queue[__sounds_queueP][__sounds_dataP].frequency < 18) {
+        uint16_t sfreq = __sounds_queue[__sounds_queueP][__sounds_dataP].frequency;
+        if(sfreq < 18 || sfreq > 1193180) {
             __speaker_stopSound(); // Prevent crash
             __sounds_dataTick++;
 
