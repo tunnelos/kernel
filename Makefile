@@ -5,12 +5,12 @@ LDFLAGS_AARCH64 = -nostdlib -nostartfiles -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST_X86_64 =  main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o\
-				   keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o \
-	    		   ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
-	    		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
-	    		   math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
-	    		   encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o \
-	    		   placeholder.o system_JSON.o float.o gui.o speaker.o sounds.o
+		   keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o \
+		   ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
+		   cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
+		   math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
+		   sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o \
+		   placeholder.o system_JSON.o float.o gui.o speaker.o sounds.o
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =         gui_PSF.o
 SNDLIST_X86_64   = test_SND.o coreshell_installationstage0_SND.o
