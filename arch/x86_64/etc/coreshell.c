@@ -19,19 +19,49 @@ int __coreshell_remaps[2] = {0x20, 0x28};
 
 bool __coreshell_ideError = false;
 
-void __coreshell_install_selectDrive() {}
-void __coreshell_install_base() {}
+char *testval1 = "aaa";
+char *testval2 = "bbb";
+char *testval3 = "ccc";
+char *testval4 = "ddd";
+char *testvalues0[2] = {};
+char *testvalues1[2] = {};
 
+void __coreshell_install_base(int drive_number) {
+    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
+    vector2d_t a = alignText("Coreshell Configuration");
+    puts("Coreshell Configuration", 0, a.x, 1);
+    puts("You need to create an ", 0, 1, 3);
+    puts("account ", COLOR_YELLOW, 23, 3);
+    puts("for logging in.", COLOR_BLACK, 31, 3);
+    return;
+}
+int __coreshell_install_selectDrive() {
+    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
+    vector2d_t a = alignText("Coreshell Configuration");
+    puts("Coreshell Configuration", 0, a.x, 1);
+    puts("Lets select drive where configuration will be stored on.", 0, 1, 3);
+    gui_table_t tabletest;
+    tabletest.columnCount = 2;
+    testvalues0[0] = testval1;
+    testvalues0[1] = testval2;
+    testvalues1[0] = testval3;
+    testvalues1[1] = testval4;
+    tabletest.row0Values = testvalues0;
+    tabletest.row1Values = testvalues1;
+    __gui_drawTable((vector2d_t){1, 5}, 35, 35, tabletest);
+    return 0;
+}
 bool __coreshell_onPIT2(uint128_t tick) {
     if(inb(0x64) & 1) {
         uint8_t scancode = inb(0x60);
         if(!(scancode & 0x80)) {
             if(scancode == 28) {
                 if(__coreshell_ideError) {
-                    __coreshell_install_selectDrive();
+            	    //__coreshell_install_base(-1);
+                     __coreshell_install_selectDrive();
                     return false;
                 } else {
-                    __coreshell_install_base();
+                    __coreshell_install_base(__coreshell_install_selectDrive());
                     return false;
                 }
             }

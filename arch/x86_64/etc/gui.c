@@ -4,6 +4,7 @@
 #include "../include/stdint.h"
 #include "../include/stdio.h"
 #include "../include/cstring.h"
+#include "../include/serial.h"
 
 vector2d_t alignText(const char *text)
 {
@@ -48,15 +49,49 @@ void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, i
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY);
     int i = 0;
+    int l = strlen(buffer);
     char b[2] = {' ', 0};
     while(i < maxSymbols) {
-        if(buffer[i] != 0) {
-            b[0] = buffer[i];
-            puts(b, COLOR_BLACK, pos.x, pos.y);
-            pos.x++;
+	if(buffer) {
+	    if(buffer[i] != 0 || i < l) {
+        	b[0] = buffer[i];
+        	puts(b, COLOR_BLACK, pos.x, pos.y);
+        	pos.x++;
+    	    }
         }
         i++;
     }
+}
+void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table) {
+    vector2d_t tpos = pos;
+    row0w++;
+    row1w++;
+    __gui_drawRectangle(pos, (vector2d_t){row0w + row1w + 1, table.columnCount * 3}, COLOR_WHITE);
+    __gui_drawRectangle(pos, (vector2d_t){row0w + row1w + 1, 1}, COLOR_BLACK);
+    __gui_drawRectangle(pos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK);
+    tpos.x += row0w + row1w + 1;
+    __gui_drawRectangle(tpos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK);
+    tpos.y += table.columnCount * 3 + table.columnCount;
+    tpos.x = pos.x;
+    int i = 0;
+    tpos = pos;
+    while(i < table.columnCount) {
+	tpos.x = pos.x;
+	__gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
+	tpos.y++;
+	tpos.x++;
+	__gui_drawInputBar(tpos, table.row0Values[i], row0w);
+	tpos.x += row0w;
+	__gui_drawInputBar(tpos, table.row1Values[i], row1w);
+	tpos.y += 2;
+	i++;
+    }
+    tpos.x = pos.x;
+    __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
+    tpos.x = pos.x + row0w;
+    tpos.y = pos.y + 1;
+    __gui_drawRectangle(tpos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK);
+    return;
 }
 void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
     int x = pos.x;
