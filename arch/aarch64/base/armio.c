@@ -1,7 +1,5 @@
 #include "../include/armio.h"
 
-#if GCCARCH_NUM == 1 
-
 void __armio_write(long reg, uint32_t value){
     *(volatile uint32_t *)reg = value;
 }
@@ -38,5 +36,3 @@ void __armio_uart_write_text(char *text){
         __armio_uart_write_byte_blocking_actual(*text++);
     }
 }
-
-#endif

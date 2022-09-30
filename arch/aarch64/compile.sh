@@ -43,7 +43,7 @@ for h in *.asm ; do
     if [ "$h" != '*.asm' ]
     then
         echo Assembling ${h%.asm}.asm in aarch64 codebase ...;
-        aarch64-linux-gnu-as ${h%.asm}.asm -mcpu=cortex-a53 -o ${h%.asm}_ASM.o &
+        aarch64-linux-gnu-as ${h%.asm}.asm -mcpu=cortex-a57 -o ${h%.asm}_ASM.o &
         tasks[${taskI}]=$!;
         taskI=$((taskI+1));
     fi
