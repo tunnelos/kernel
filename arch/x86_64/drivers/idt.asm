@@ -13,9 +13,8 @@ isr_stub_%+%1:
     mov qword [current_iframe], rax
     call __idt_exception_handler
     pop rbp
-    iretq 
+    iretq
 %endmacro
-; if writing for 64-bit, use iretq instead
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
     push rbp
