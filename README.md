@@ -1,5 +1,5 @@
 # Welcome to Tunnel OS.
-This is a multicore text-based Operating System without using paging nor PIT interrupts for switching tasks
+This is a multicore text-based Operating System.
 <br>
 
 **Used materials and source code**
@@ -15,12 +15,12 @@ This is a multicore text-based Operating System without using paging nor PIT int
 **Compileable architectures**
 -
 - `x86_64`
-- `aarch64` **(No more maintained)**
+- `aarch64` **(Some progress is showed up)**
 
 **Code statistics**
-- `x86_64` codebase - **`6192` lines of code**
-- `aarch64` codebase - **`498` lines of code**
+- `x86_64` codebase - **`5608` lines of code**
+- `aarch64` codebase - **`535` lines of code**
 
 **Authors**<br>
 -
-*SergeyMC9730 (dogotrigger), Kolyah35 (Kolyah35), Sazix1337 (SaziX)*
+*`SergeyMC9730 (dogotrigger), Kolyah35 (Kolyah35), Sazix1337 (SaziX)`*
