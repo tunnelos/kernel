@@ -12,20 +12,8 @@ SECTIONS
         *(COMMON)
         __bss_end = .;
     }
+    __bss_size = (__bss_end - __bss_start)>>3;
     _end = .;
 
    /DISCARD/ : { *(.comment) *(.gnu*) *(.note*) *(.eh_frame*) }
 }
-__bss_size = (__bss_end - __bss_start)>>3;
-/*
-ENTRY(_start)
-SECTIONS {
-    . = 0x40000000;
-    .startup . : { boot_ASM.o(.text) }
-    .text : { *(.text) }
-    .data : { *(.data) }
-    .bss : { *(.bss COMMON) }
-    . = ALIGN(8);
-    . += 0x1000; /* 4kB of stack memory */
-    stack_top = .;
-}*/

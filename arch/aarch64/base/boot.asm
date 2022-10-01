@@ -18,12 +18,4 @@ _start:
     sub     w2, w2, #1
     cbnz    w2, 3b
 4:  bl      main
-    ; In case it does return, halt the master core too
     b       1b
-
-; .global _start
-; _start:
-;     ldr x30, =stack_top
-;     mov sp, x30
-;     bl main
-;     b .

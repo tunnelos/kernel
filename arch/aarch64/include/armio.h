@@ -9,7 +9,7 @@
 #define NONE 0
 
 enum {
-    PERIPHERAL_BASE = 0xFE000000,                   // Peripheral base for Cortex-A72 is 0xFE000000
+    PERIPHERAL_BASE = 0x3F000000,                   // Peripheral base for Cortex-A72 is 0xFE000000
     GDFSEL0         = PERIPHERAL_BASE + 0x200000,
     GPSET0          = PERIPHERAL_BASE + 0x20001C,
     GPCLR0          = PERIPHERAL_BASE + 0x200028,
