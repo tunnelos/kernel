@@ -14,7 +14,15 @@ bool __sounds_paused = false;
 bool __sounds_pause = false;
 bool __sounds_isPlaying = false;
 
+uint64_t prevs = 0;
+uint64_t currs = 0;
+
 bool __sounds_thread(uint128_t tick) {
+    //currs = (uint64_t)tick / 100;
+    //if(prevs != currs) {
+	//__serial_write_fmt("Second: %d\r\n", currs);
+	//prevs = currs;
+    //}
     if(__sounds_queueP == 64) __sounds_queueP = 0;
     if(__sounds_queue[__sounds_queueP] == NULL) return true;
     if(__sounds_pause) {
@@ -98,6 +106,6 @@ void __sounds_resumeSound() {
 }
 
 void __sounds_initThread() {
-    __pit_setOnIntCallback(__sounds_thread);
+    __pit_setPostInterrupt(__sounds_thread);
     return;
 }

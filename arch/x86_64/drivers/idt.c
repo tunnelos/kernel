@@ -20,7 +20,7 @@ void __idt_exception_handler(int interrupt_id) {
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.critical = true;
     current_interrupt.frame = current_iframe;
-    if(interrupt_id != 8) __serial_write_fmt("CPU %d -> tos > Exception %d!\r\n * RIP = %l %X\r\n * Error Code = %d\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip, errorCode);
+    if(interrupt_id != 0) __serial_write_fmt("CPU %d -> tos > Exception %d!\r\n * RIP = %l %X\r\n * Error Code = %d\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip, errorCode);
     switch(interrupt_id) {
         case 8: return;
         case 18: return;
@@ -36,7 +36,7 @@ void __idt_interrupt_handler(int interrupt_id) {
     current_interrupt.critical = false;
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.frame = current_iframe;
-    if(interrupt_id != IDT_INTERRUPT_PIT && interrupt_id != IDT_INTERRUPT_CMOS) __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n * RIP = %l %X\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
+    if(interrupt_id != IDT_INTERRUPT_PIT) __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n * RIP = %l %X\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
     switch(interrupt_id) {
         case IDT_INTERRUPT_PIT: {
             __pit_event_timer();

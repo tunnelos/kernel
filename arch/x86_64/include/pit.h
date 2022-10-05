@@ -22,20 +22,14 @@
 extern "C" {
 #endif
 
-typedef struct pit_timer_t {
-    bool avaliable: true;
-    uint64_t every;
-    bool multiple;
-    void (*callback)(void);
-    uint64_t next_on;
-} pit_timer_t;
-
 void __pit_setOnIntCallback(bool (* callback)(uint128_t));
+void __pit_setPostInterrupt(bool (* callback)(uint128_t));
 void __pit_event_timer();
 uint16_t __pit_count();
 void __pit_set_count(uint16_t count);
 extern void __pit_init();
 extern void __pit_eoi();
+bool __pit_waitTicks(uint64_t ticks, uint128_t ct);
 
 extern uint16_t __pit_system_timer_fractions;
 extern uint32_t __pit_system_timer_ms;

@@ -12,8 +12,8 @@
 
 uint32_t pit0_col;
 
-unsigned char _binary_test_snd_start;
-unsigned char _binary_coreshell_installationstage0_snd_start;
+unsigned char _binary_hello_snd_start;
+unsigned char _binary_error_snd_start;
 
 int __coreshell_remaps[2] = {0x20, 0x28};
 
@@ -85,7 +85,7 @@ bool __coreshell_onPIT(uint128_t tick) {
                     i++;
                 }
                 if(!devices) {
-                    __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_coreshell_installationstage0_snd_start);
+                    __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_error_snd_start);
                     __sounds_resumeSound();
                     puts("ERROR", COLOR_RED, 1, 3);
                     puts("There is no IDE devices connected to this computer.", COLOR_BLACK, 1, 4);
@@ -103,7 +103,7 @@ bool __coreshell_onPIT(uint128_t tick) {
 void __coreshell_init() {
     __pit_setOnIntCallback(__coreshell_onPIT);
     __sounds_initThread();
-    __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_test_snd_start);
+    __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_hello_snd_start);
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
     vector2d_t a = alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
