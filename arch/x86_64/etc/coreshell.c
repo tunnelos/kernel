@@ -48,7 +48,7 @@ int __coreshell_install_selectDrive() {
     testvalues1[1] = testval4;
     tabletest.row0Values = testvalues0;
     tabletest.row1Values = testvalues1;
-    __gui_drawTable((vector2d_t){1, 5}, 35, 35, tabletest);
+    __gui_drawTable((vector2d_t){3, 5}, 35, 35, tabletest);
     return 0;
 }
 bool __coreshell_onPIT2(uint128_t tick) {
@@ -103,7 +103,7 @@ bool __coreshell_onPIT(uint128_t tick) {
 void __coreshell_init() {
     __pit_setOnIntCallback(__coreshell_onPIT);
     __sounds_initThread();
-    __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_hello_snd_start);
+    //__sounds_queueSoundData((pcspeaker_sound_t *)&_binary_hello_snd_start);
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
     vector2d_t a = alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);

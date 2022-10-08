@@ -5,13 +5,12 @@
 #include "../include/gui.h"
 #include "../include/screen.h"
 #include "../include/mm.h"
+#include "../include/speaker.h"
 
-const char *pcb(bool j) {
-    if(!j) return "false";
-    return "true ";
-}
+#define pcb(x) (x) ? "true" : "false"
 
 void crash(const char *str, uint16_t id, bool interrupt) {
+    __speaker_stopSound();
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
     printf(COLOR_WHITE, 1, 3, "Reason: %s", str);
     vector2d_t a = alignText("PANIC");

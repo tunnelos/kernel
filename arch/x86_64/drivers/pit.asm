@@ -25,7 +25,7 @@ __pit_log4                db "Reload value"
 section .text
 
 __pit_init:
-   mov ebx, 100
+   mov ebx, 100000
    mov rbp, rsp
    mov rsi, 9
    mov rdi, __pit_log0

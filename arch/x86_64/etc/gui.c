@@ -50,14 +50,14 @@ void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY);
     int i = 0;
     int l = strlen(buffer);
-    char b[2] = {' ', 0};
     while(i < maxSymbols) {
-	if(buffer) {
-	    if(buffer[i] != 0 || i < l) {
-        	b[0] = buffer[i];
-        	puts(b, COLOR_BLACK, pos.x, pos.y);
-        	pos.x++;
-    	    }
+        if(buffer) {
+            if(buffer[i] != 0 || i < l) {
+                putc(buffer[i], COLOR_BLACK, pos.x, pos.y);
+                pos.x++;
+            } else {
+                return;
+            }
         }
         i++;
     }
