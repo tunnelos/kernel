@@ -59,6 +59,8 @@ char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_ad
     int counter = 0;
     int digit = 0;
     
+    if(num == 0) return "0";
+
     while(num != 0 && counter < buffer_size){
         digit = (num % base);
         if(digit > 9){
@@ -89,6 +91,16 @@ char *itoalong(uint64_t num, char *buffer, int base, int x, int y, int color, bo
 
     buffer[counter] = '\0';
     return strrev(buffer);
+}
+
+char *stditoa(int num, char *buffer, int base) {
+    return itoa(num, buffer, base, 0, 0, 0, false);
+}
+char *stditoalong(uint64_t num, char *buffer, int base) {
+    return itoalong(num, buffer, base, 0, 0, 0, false);
+}
+char stditoh(int num, bool upper) {
+    return itoh(num, upper, 0, 0, 0, false);
 }
 
 int sprintf(char *str, const char *fmt, ...) {

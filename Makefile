@@ -1,7 +1,7 @@
 .ONESHELL:
 
-LDFLAGS_X86_64  = -nostdlib -nostartfiles -T link.ld
-LDFLAGS_AARCH64 = -nostdlib -nostartfiles -T link.ld
+LDFLAGS_X86_64  = -nostdlib  -T link.ld
+LDFLAGS_AARCH64 = -nostdlib  -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST_X86_64 =   main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o ui.o      \

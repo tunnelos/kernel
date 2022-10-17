@@ -22,6 +22,11 @@ extern bool terminal_block;
 char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_additional);
 char *itoalong(uint64_t num, char *buffer, int base, int x, int y, int color, bool use_additional);
 char itoh(int num, bool upper, int x, int y, int color, bool use_additional);
+
+char *stditoa(int num, char *buffer, int base);
+char *stditoalong(uint64_t num, char *buffer, int base);
+char stditoh(int num, bool upper);
+
 char itoc(int num);
 char* strrev(char* src);
 

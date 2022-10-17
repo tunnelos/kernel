@@ -125,6 +125,9 @@ char *strrchr(const char *s, char c) {
 int strcmp(const char *s1, const char *s2) {
     return strncmp(s1, s2, strlen(s1));
 }
+// char *strnstcat(char *dest, const char *src, size_t n, size_t startPoint) {
+
+// }
 char *strncat(char *dest, const char *src, size_t n) {
     size_t dest_len = strlen(dest);
     size_t i = 0;
@@ -132,6 +135,7 @@ char *strncat(char *dest, const char *src, size_t n) {
         dest[dest_len + i] = src[i];
         i++;
     }
+    dest_len = strlen(dest);
     dest[dest_len + 1] = 0;
     return dest;
 }
