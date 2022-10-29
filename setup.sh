@@ -20,7 +20,7 @@ while getopts 'qbvhr' SHELLARGUMENT; do
 			;;
 		b)
 			echo "! Build Toolchain will be installed."
-			PACKAGE_SET="${PACKAGE_SET_INFO} gcc iat make nasm build-essential binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu"
+			PACKAGE_SET="${PACKAGE_SET_INFO} gcc iat make nasm build-essential binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu zip"
 			PACKAGE_SET_INFO2="Build Toolchain (x86_64 and aarch64)"
 			PACKAGE_SET_TOOL=1
 			;;
@@ -36,7 +36,7 @@ while getopts 'qbvhr' SHELLARGUMENT; do
 			;;
 		v)
 			echo "+ Tunnel OS Setup Script"
-			echo "$ Version: 1.31"
+			echo "$ Version: 1.32"
 			exit 0
 			;;
 		r)
