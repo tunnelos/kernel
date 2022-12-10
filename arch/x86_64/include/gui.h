@@ -18,7 +18,8 @@ typedef struct gui_table_t {
 extern "C" {
 #endif
 
-vector2d_t alignText(const char *text);
+vector2d_t __gui_alignText(const char *text);
+void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const char *text);
 void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color);
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols);
 void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, int color);

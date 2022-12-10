@@ -27,7 +27,7 @@ char *testvalues1[2] = {};
 
 void __coreshell_install_base(int drive_number) {
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
-    vector2d_t a = alignText("Coreshell Configuration");
+    vector2d_t a = __gui_alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
     puts("You need to create an ", 0, 1, 3);
     puts("account ", COLOR_YELLOW, 23, 3);
@@ -54,7 +54,7 @@ char *__coreshell_getDrive(uint8_t id) {
 }
 int __coreshell_install_selectDrive() {
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
-    vector2d_t a = alignText("Coreshell Configuration");
+    vector2d_t a = __gui_alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
     puts("Lets select drive where configuration will be stored on.", 0, 1, 3);
     gui_table_t tabletest;
@@ -101,7 +101,7 @@ bool __coreshell_onPIT(uint128_t tick) {
                 if(!devices) {
                     __coreshell_installStage = 1;
                     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
-                    vector2d_t a = alignText("Coreshell Configuration");
+                    vector2d_t a = __gui_alignText("Coreshell Configuration");
                     puts("Coreshell Configuration", 0, a.x, 1);
                     __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_error_snd_start);
                     __sounds_resumeSound();
@@ -125,11 +125,12 @@ void __coreshell_init() {
     __sounds_initThread();
     //__sounds_queueSoundData((pcspeaker_sound_t *)&_binary_hello_snd_start);
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
-    vector2d_t a = alignText("Coreshell Configuration");
+    vector2d_t a = __gui_alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
-    puts("Welcome to the Tunnel OS. This is a singlecore", 0, 1, 4);
-    puts("text-based 64-bit operating system made by", 0, 1, 5);
-    puts("@SergeyMC9730 (GitHub)", 0, 1, 6);
+    __gui_drawText((vector2d_t){1, 4}, (vector2d_t){80, 30}, COLOR_BLACK, "Welcome to the Tunnel OS. This is a singlecore text-based 64-bit operating system made by @SergeyMC9730 (GitHub)");
+    // puts("Welcome to the Tunnel OS. This is a singlecore", 0, 1, 4);
+    // puts("text-based 64-bit operating system made by", 0, 1, 5);
+    // puts("@SergeyMC9730 (GitHub)", 0, 1, 6);
     puts("Press Enter to continue", COLOR_DARK_GREEN, 1, 8);
     __pic_remap(__coreshell_remaps);
 }

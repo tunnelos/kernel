@@ -1,57 +1,6 @@
-make all --dry-run --keep-going --print-directory
-make: Entering directory '/home/dog/backup/TunnelOS'
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/dog/Source/TunnelOS'
 rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
-rm -rf temp
-mkdir -p targets_debug
-mkdir -p targets_executeable
-mkdir -p temp
-mkdir -p temp/debug
-mkdir -p temp/iso
-mkdir -p temp/iso/tmp
-mkdir -p temp/iso/tmp/mkbootimg
-mkdir -p temp/iso/tmp/sys
-cp -r arch/x86_64/* temp/
-cp -r temp/linker/* temp/
-cd temp
-cp bootboot/mkbootimg iso/tmp/mkbootimg/ -r
-cp tunnelconfig/* .
-cp config iso/tmp/sys/
-cd iso/tmp/mkbootimg/mkbootimg
-make all &
-cd ../../../../
-bash finder.sh
-ld -nostdlib -nostartfiles -T link.ld main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o placeholder.o system_JSON.o float.o gui.o speaker.o                                text_PSF.o gui_PSF.o -o tunnel.x86_64.elf || false
-cp *.bin iso/
-cp tunnel.x86_64.elf debug/tunnel.x86_64.notstriped.elf
-objdump -t tunnel.x86_64.elf > debug/tunnel.x86_64.symboltable.txt
-readelf -hls tunnel.x86_64.elf > tunnel.x86_64.txt
-strip -K mmio -K fb -K bootboot -K environment -K initstack tunnel.x86_64.elf
-cp tunnel.x86_64.elf debug/tunnel.x86_64.elf
-cd debug
-objdump -D tunnel.x86_64.elf > tunnel.x86_64.txt
-cd ..
-wait 
-cd iso/tmp/mkbootimg/mkbootimg
-cp ../../../../tunnel.x86_64.elf . -r
-cp ../../../../tunnel.json . -r
-./mkbootimg check tunnel.x86_64.elf
-mkdir boot
-cp ../../sys boot/ -r
-cp tunnel.x86_64.elf boot/sys/core -r
-./mkbootimg tunnel.json tunnel.x86_64.img
-mv tunnel.x86_64.img ../../../tunnel.x86_64.img -v
-cd ../../../
-rm -rf tmp
-iat tunnel.x86_64.img tunnel.x86_64.iso
-du -h tunnel.x86_64.iso
-du -h ../tunnel.x86_64.elf
-rm -rfv tunnel.x86_64.img
-cd ../
-rm -rf config tunnel.json
-cp -r debug/* ../targets_debug
-cp -r iso/* ../targets_executeable
-cd ..
-rm -rf temp
 rm -rf temp
 mkdir -p temp
 mkdir -p temp/debug
@@ -61,20 +10,12 @@ cp -r arch/aarch64/* temp/
 cp -r temp/linker/* temp/
 cd temp
 bash finder.sh
-aarch64-linux-gnu-ld -nostdlib -nostartfiles -T link.ld boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o text_PSF.o gui_PSF.o -o tunnel.aarch64.elf || false
+aarch64-linux-gnu-ld -nostdlib  -T link.ld boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o gui_PSF.o -o tunnel.aarch64.elf || false
 aarch64-linux-gnu-objdump -D tunnel.aarch64.elf > tunnel.aarch64.txt
 
 cp tunnel.aarch64.elf ../targets_executeable/
 cp tunnel.aarch64.txt ../targets_debug
 cd ..
 rm -rf temp
-mkdir build
-mkdir build/debug
-mkdir build/executeable
-cp targets_debug/* build/debug -rf
-cp targets_executeable/* build/executeable -rf
-rm targets_executeable targets_debug debug iso fonts_compiled -rf
-make x86_64_postbuild
-zip targets.zip build api -r9 -qq
-make: Leaving directory '/home/dog/backup/TunnelOS'
+make: Leaving directory '/home/dog/Source/TunnelOS'
  

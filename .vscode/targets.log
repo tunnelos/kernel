@@ -1,264 +1,286 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-# GNU Make 4.2.1
+# GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
-# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Sep 19 13:16:42 2022
+# Make data base, printed on Sat Dec 10 20:21:04 2022
 
 # Variables
 
-# automatic
-<D = $(patsubst %/,%,$(dir $<))
-# automatic
-?F = $(notdir $?)
 # environment
-DESKTOP_SESSION = xfce
-# default
-.SHELLFLAGS := -c
- 
+GDK_BACKEND = x11
 # environment
-PROVIDE_FULLSTACK_ACTION = true
+LC_ALL = C
 # environment
-XDG_SESSION_CLASS = user
+GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-XDG_SESSION_TYPE = x11
+SSH_AGENT_LAUNCHER = gnome-keyring
 # environment
-GTK3_MODULES = xapp-gtk3-module
-# automatic
-?D = $(patsubst %/,%,$(dir $?))
-# automatic
-@D = $(patsubst %/,%,$(dir $@))
-# environment
-XAUTHORITY = /home/dog/.Xauthority
-# environment
-GDMSESSION = xfce
-# default
-MAKE_VERSION := 4.2.1
-# makefile
-CURDIR := /home/dog/backup/TunnelOS
-# makefile
-SHELL = /bin/sh
-# environment
-GDM_LANG = en_US
-# environment
-VTE_VERSION = 6003
-# environment
-VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
-# environment
-_ = /usr/bin/code
-# environment
-XDG_CONFIG_DIRS = /etc/xdg/xdg-xfce:/etc/xdg:/etc/xdg
-# makefile (from 'Makefile', line 1)
-MAKEFILE_LIST :=  Makefile
-# automatic
-@F = $(notdir $@)
-# 'override' directive
-GNUMAKEFLAGS := 
-# environment
-MANDATORY_PATH = /usr/share/gconf/xfce.mandatory.path
-# environment
-XDG_DATA_DIRS = /usr/share/xfce4:/home/dog/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop:/usr/share
-# environment
-__GL_SYNC_DISPLAY_DEVICE = DP-0
-# makefile (from 'Makefile', line 15)
-FONTLIST = text_PSF.o gui_PSF.o
-# environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
-# environment
-LESSOPEN = | /usr/bin/lesspipe %s
+SNAP_INSTANCE_KEY = 
 # environment
 LC_NAME = ru_RU.UTF-8
 # environment
-VSCODE_CWD = /home/dog/backup/TunnelOS
+LC_NUMERIC = ru_RU.UTF-8
 # environment
-XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
+VSCODE_CWD = /home/dog/Source/TunnelOS
+# makefile (from 'Makefile', line 4)
+LDFLAGS_AARCH64 = -nostdlib  -T link.ld
+# environment
+WINDOWPATH = 2
+# makefile (from 'Makefile', line 15)
+FONTLIST = gui_PSF.o
+# environment
+UBUNTU_MENUPROXY = 1
+# environment
+LC_ADDRESS = ru_RU.UTF-8
 # default
-MAKE_HOST := x86_64-pc-linux-gnu
+MAKE_COMMAND := make
 # environment
-PATH = /home/dog/.local/bin:/home/dog/.cargo/bin:/home/dog/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/dog/GD/SPWN/SPWN-language/target/release
-# makefile (from 'Makefile', line 6)
-OSNAME = tunnel
+QT_ACCESSIBILITY = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
 # environment
-GOLANG_EXECUTABLE = go
+SNAP_INSTANCE_NAME = code
 # environment
-SESSION_MANAGER = local/dogotrigger:@/tmp/.ICE-unix/2978,unix/dogotrigger:/tmp/.ICE-unix/2978
+GDK_PIXBUF_MODULEDIR = /snap/code/114/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # environment
-XDG_RUNTIME_DIR = /run/user/1000
-# environment
-THREE_SCALE_USER_TOKEN = 207c527cfc2a6b8dcf4fa43ad7a976da
-# environment
-WINDOWID = 37802288
-# makefile (from 'Makefile', line 7)
-FILELIST_X86_64 = main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o api.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o path.o event.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o encoder.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o placeholder.o system_JSON.o float.o gui.o speaker.o                               
-# environment
-XDG_MENU_PREFIX = xfce-
-# environment
-ELECTRON_RUN_AS_NODE = 1
-# makefile (from 'Makefile', line 3)
-LDFLAGS_X86_64 = -nostdlib -nostartfiles -T link.ld
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+.VARIABLES := 
 # environment
-UUID = d23142ea-723c-4ba4-9dd9-6c8e8ed74a50
+PWD = /home/dog/Source/TunnelOS
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
 # environment
-XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/dog
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/share/gnome:/home/dog/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# makefile (from 'Makefile', line 16)
+SNDLIST_X86_64 = hello_SND.o error_SND.o
 # environment
-LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
-# environment
-XDG_SESSION_DESKTOP = xfce
-# environment
-SSH_AUTH_SOCK = /tmp/ssh-p5aJbyg2aZ67/agent.2978
+OLDPWD = /home/dog/Source
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = :0.0
+VSCODE_CODE_CACHE_PATH = /home/dog/.config/Code/CachedData/5235c6bb189b60b01b1f49062f4ffa42384f8c91
 # environment
-PWD = /home/dog/TunnelOS
+LANG = C
 # environment
-QT_QPA_PLATFORMTHEME = qt5ct
+XAUTHORITY = /run/user/1000/gdm/Xauthority
 # default
 .LOADED := 
+# default
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # environment
-XDG_SEAT = seat0
+GNOME_TERMINAL_SERVICE = :1.118
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/dog/Source/TunnelOS
 # environment
-SSH_AGENT_PID = 3342
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
-ORIGINAL_XDG_CURRENT_DESKTOP = XFCE
+LESSOPEN = | /usr/bin/lesspipe %s
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
 # environment
-GTK_MODULES = gail:atk-bridge
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# environment
+SNAP_REEXEC = 
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 36353
+# environment
+XDG_SESSION_TYPE = x11
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from 'Makefile', line 6)
+OSNAME = tunnel
+# environment
+__GL_SYNC_DISPLAY_DEVICE = DP-1
+# environment
+SESSION_MANAGER = local/dog:@/tmp/.ICE-unix/33643,unix/dog:/tmp/.ICE-unix/33643
+# automatic
+*F = $(notdir $*)
+# makefile (from 'Makefile', line 7)
+FILELIST_X86_64 = main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o event.o gui.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o placeholder.o system_JSON.o float.o speaker.o
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+XMODIFIERS = @im=ibus
+# environment
+SHLVL = 1
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/cf116813_3696_4946_8820_3ff261111e0d
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+SNAP_COOKIE = 2_xoP49p_yhlF4qDSK6PGGzn5RDzsL1HzCpdbtemzKSG-R6slwzl
+# environment
+PATH = /home/dog/.local/bin:/home/dog/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+# environment
+CLUTTER_VBLANK = none
+# default
+MAKEFILES := 
+# environment
+LC_MONETARY = ru_RU.UTF-8
+# automatic
+^F = $(notdir $^)
+# environment
+SNAP_USER_COMMON = /home/dog/snap/code/common
+# environment
+LC_TIME = ru_RU.UTF-8
+# environment
+SNAP = /snap/code/114
+# environment
+SNAP_REVISION = 114
+# environment
+SNAP_REAL_HOME = /home/dog
+# environment
+USERNAME = dog
+# environment
+LC_TELEPHONE = ru_RU.UTF-8
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# automatic
+?F = $(notdir $?)
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# automatic
++F = $(notdir $+)
+# environment
+DESKTOP_SESSION = ubuntu
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = dog
+# environment
+CLUTTER_DEFAULT_FPS = 144
+# environment
+SNAP_ARCH = amd64
+# makefile
+.DEFAULT_GOAL := aarch64_target
+# environment
+SYSTEMD_EXEC_PID = 33662
+# environment
+DISPLAY = :1
+# environment
+USER = dog
+# environment
+GTK_MODULES = gail:atk-bridge:appmenu-gtk-module:appmenu-gtk-module
+# default
+MAKE_VERSION := 4.3
+# environment
+SNAP_DATA = /var/snap/code/114
+# environment
+SNAP_CONTEXT = 2_xoP49p_yhlF4qDSK6PGGzn5RDzsL1HzCpdbtemzKSG-R6slwzl
+# environment
+LC_MEASUREMENT = ru_RU.UTF-8
+# environment
+LC_PAPER = ru_RU.UTF-8
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+COLORTERM = truecolor
+# environment
+GDK_PIXBUF_MODULE_FILE = /home/dog/snap/code/common/.cache/gdk-pixbuf-loaders.cache
+# makefile (from 'Makefile', line 5)
+STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
+# makefile (from 'Makefile', line 14)
+FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
+# environment
+XDG_SESSION_CLASS = user
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/dog
 # environment
-LESSCLOSE = /usr/bin/lesspipe %s %s
+QT_IM_MODULE = ibus
 # environment
-SGX_AESM_ADDR = 1
+ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_CLI = 1
-# environment
-VSCODE_CODE_CACHE_PATH = /home/dog/.config/Code/CachedData/784b0177c56c607789f9638da7b6bf3230d47a8c
-# environment
-LOGNAME = dog
-# environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
-# automatic
-+F = $(notdir $+)
-# environment
-TELEMETRY_ID = 6b278446-551e-4f79-83ec-ec31de06c64e
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
-# environment
-VSCODE_HANDLES_UNCAUGHT_ERRORS = true
-# automatic
-^D = $(patsubst %/,%,$(dir $^))
-# environment
-XDG_VTNR = 7
-# environment
-CLUTTER_BACKEND = x11
-# environment
-MAKELEVEL := 0
-# environment
-COLORTERM = truecolor
-# default
-MAKE = $(MAKE_COMMAND)
-# default
-MAKECMDGOALS := all
-# environment
-SHLVL = 1
-# makefile (from 'Makefile', line 14)
-FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
-# environment
-COMPIZ_CONFIG_PROFILE = mint
-# environment
-XDG_SESSION_ID = c1
-# makefile (from 'Makefile', line 5)
-STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
-# environment
-USER = dog
-# environment
-LC_MONETARY = ru_RU.UTF-8
-# makefile
-.DEFAULT_GOAL := aarch64_target
-# makefile (from 'Makefile', line 4)
-LDFLAGS_AARCH64 = -nostdlib -nostartfiles -T link.ld
-# environment
-XDG_CURRENT_DESKTOP = XFCE
-# automatic
-%D = $(patsubst %/,%,$(dir $%))
-# environment
-LC_TELEPHONE = ru_RU.UTF-8
-# default
-MAKE_COMMAND := make
-# environment
-UTM_SOURCE = vscode
-# environment
-OLDPWD = /home/dog
-# default
-.VARIABLES := 
-# automatic
-*F = $(notdir $*)
-# environment
-LANGUAGE = en_US
-# environment
-XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
-# environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-521f5c76-1.71.0-main.sock
-# makefile
-MAKEFLAGS = pqrR
-# environment
-MFLAGS = -pqrR
-# automatic
-*D = $(patsubst %/,%,$(dir $*))
-# automatic
-+D = $(patsubst %/,%,$(dir $+))
-# environment
-RECOMMENDER_API_URL = https://gw.api.openshift.io//api/v2
-# environment
-GDK_BACKEND = x11
-# environment
-LC_PAPER = ru_RU.UTF-8
-# environment
-QT_ACCESSIBILITY = 1
-# environment
-DEFAULTS_PATH = /usr/share/gconf/xfce.default.path
-# default
-MAKEFILES := 
-# environment
-LC_NUMERIC = ru_RU.UTF-8
-# automatic
-<F = $(notdir $<)
-# environment
-LC_MEASUREMENT = ru_RU.UTF-8
-# environment
-LC_ALL = C
-# automatic
-^F = $(notdir $^)
-# environment
-CLUTTER_DEFAULT_FPS = 144
-# default
-SUFFIXES := 
-# environment
-CHROME_DESKTOP = code-url-handler.desktop
-# default
-.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
-# environment
-LC_IDENTIFICATION = ru_RU.UTF-8
-# default
-.RECIPEPREFIX := 
-# environment
-LC_ADDRESS = ru_RU.UTF-8
-# environment
-LANG = C
+VSCODE_IPC_HOOK = /run/user/1000/vscode-521f5c76-1.74.0-main.sock
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 1208489
+SNAP_NAME = code
+# environment
+__GL_SYNC_TO_VBLANK = 0
+# makefile (from 'Makefile', line 3)
+LDFLAGS_X86_64 = -nostdlib  -T link.ld
+# environment
+GSETTINGS_SCHEMA_DIR = /snap/code/114/usr/share/glib-2.0/schemas
+# environment
+IM_CONFIG_PHASE = 1
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# environment
+SNAP_VERSION = 5235c6bb
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+VTE_VERSION = 6800
+# environment
+SNAP_COMMON = /var/snap/code/common
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# environment
+SNAP_USER_DATA = /home/dog/snap/code/114
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+GDMSESSION = ubuntu
+# environment
+ 
+LC_IDENTIFICATION = ru_RU.UTF-8
+# environment
+SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
-# Load=123/1024=12%, Rehash=0, Collisions=12/155=8%
+# Load=134/1024=13%, Rehash=0, Collisions=15/171=9%
 
 # Pattern-specific Variable Values
 
@@ -266,7 +288,7 @@ VSCODE_PID = 1208489
 
 # Directories
 
-# . (device 2049, inode 54003514): 19 files, no impossibilities.
+# . (device 2049, inode 23465122): 19 files, no impossibilities.
 
 # 19 files, no impossibilities in 1 directories.
 
@@ -276,83 +298,63 @@ VSCODE_PID = 1208489
 
 # Files
 
-setup:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 35):
-	@bash setup.sh
-
 .ONESHELL:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-all: x86_64_target aarch64_target
-#  Phony target (prerequisite of .PHONY).
-#  Command line target.
+tunnel.aarch64.elf:
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 54):
+	@rm -rf temp
+	@mkdir -p temp
+	@mkdir -p temp/debug
+	@mkdir -p targets_debug
+	@mkdir -p targets_executeable
+	@cp -r arch/aarch64/* temp/
+	@cp -r temp/linker/* temp/
+	@cd temp
+	@bash finder.sh
+	@aarch64-linux-gnu-ld $(LDFLAGS_AARCH64) $(FILELIST_AARCH64) $(FONTLIST) -o $(OSNAME).aarch64.elf || false
+	@aarch64-linux-gnu-objdump -D $(OSNAME).aarch64.elf > $(OSNAME).aarch64.txt
+	
+	@cp $(OSNAME).aarch64.elf ../targets_executeable/
+	@cp $(OSNAME).aarch64.txt ../targets_debug
+	@cd ..
+	@rm -rf temp
+
+setup:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 41):
+	@bash setup.sh
+
+fullclean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 130):
+	@rm -rf *.elf *.iso */bin
+	@cp iso/$(OSNAME).x86_64.iso .
+	@rm -rf iso
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-11-30 17:11:46.843898372
 #  File has been updated.
- 
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
-#  recipe to execute (from 'Makefile', line 26):
-	@mkdir build
-	@mkdir build/debug
-	@mkdir build/executeable
-	@cp targets_debug/* build/debug -rf
-	@cp targets_executeable/* build/executeable -rf
-	@rm targets_executeable targets_debug debug iso fonts_compiled -rf
-	@make x86_64_postbuild
-	@zip targets.zip build api -r9 -qq
+#  Successfully updated.
 
 arch:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 37):
+#  recipe to execute (from 'Makefile', line 43):
 	@echo "Avaliable architectures"
 	@echo "x86_64 aarch64"
-
-.PHONY: all
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-vhd:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 128):
-	@dd if=/dev/zero of=VHD.img bs=1M count=512
-
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2022-09-19 13:16:35.865293521
-#  File has been updated.
-#  Successfully updated.
-
-help:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 40):
-	@echo "make arch - show avaliable architectures"
-	@echo "make all - compile code into bootable files"
-	@echo "make setup - set up compiling environment"
-	@echo "make iso - generate iso file"
-	@echo "make clean - clean"
-	@echo "make fullclean - execute clean and remove target files"
-	@echo "make vhd - generate vhd file"
 
 x86_64_target: clean tunnel.x86_64.iso
 #  Implicit rule search has been done.
@@ -362,8 +364,7 @@ x86_64_target: clean tunnel.x86_64.iso
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 
-# Not a target:
-.DEFAULT:
+aarch64_target: clean tunnel.aarch64.elf
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -377,38 +378,47 @@ clean:
 # automatic
 # @ := clean
 # automatic
-# % := 
-# automatic
 # * := 
+# automatic
+# < := 
 # automatic
 # + := 
 # automatic
-# | := 
-# automatic
-# < := 
+# % := 
 # automatic
 # ^ := 
 # automatic
 # ? := 
+# automatic
+# | := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  recipe to execute (from 'Makefile', line 122):
+#  recipe to execute (from 'Makefile', line 128):
 	@rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
 
-fullclean:
+vhd:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 124):
-	@rm -rf *.elf *.iso */bin
-	@cp iso/$(OSNAME).x86_64.iso .
-	@rm -rf iso
+#  recipe to execute (from 'Makefile', line 134):
+	@dd if=/dev/zero of=VHD.img bs=1M count=512
+
+x86_64_postbuild:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 25):
+	@mkdir -p api
+	@mkdir -p api/x86_64
+	@./build/executeable/Lin_genAPI.bin build/debug/tunnel.x86_64.symboltable.txt resources/function_list-x86_64.text resources/function_list-x86_64.name.text
+	@cp api.h api/x86_64/
+	@rm api.h
 
 tunnel.x86_64.iso:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 67):
+#  recipe to execute (from 'Makefile', line 73):
 	@rm -rf temp
 	@mkdir -p targets_debug
 	@mkdir -p targets_executeable
@@ -428,7 +438,7 @@ tunnel.x86_64.iso:
 	@make all &
 	@cd ../../../../
 	@bash finder.sh
-	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) -o $(OSNAME).x86_64.elf || false
+	@ld $(LDFLAGS_X86_64) $(FILELIST_X86_64) $(FONTLIST) ${SNDLIST_X86_64} -o $(OSNAME).x86_64.elf || false
 	@cp *.bin iso/
 	@cp $(OSNAME).x86_64.elf debug/$(OSNAME).x86_64.notstriped.elf
 	@objdump -t tunnel.x86_64.elf > debug/$(OSNAME).x86_64.symboltable.txt
@@ -461,56 +471,77 @@ tunnel.x86_64.iso:
 	@cd ..
 	@rm -rf temp
 
-aarch64_target: clean tunnel.aarch64.elf
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-x86_64_postbuild:
+aarch64_boot:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 22):
-	@./build/executeable/Lin_genAPI.bin build/debug/tunnel.x86_64.symboltable.txt resources/function_list-x86_64.text resources/function_list-x86_64.name.text
-	@cp api.h api/x86_64/
-	@rm api.h
+	qemu-system-aarch64 -machine raspi3 -cpu cortex-a72 -no-reboot -no-shutdown -kernel build/executeable/$(OSNAME).aarch64.elf 
 
-tunnel.aarch64.elf:
+# Not a target:
+.DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 48):
-	@rm -rf temp
-	@mkdir -p temp
-	@mkdir -p temp/debug
-	@mkdir -p targets_debug
-	@mkdir -p targets_executeable
-	@cp -r arch/aarch64/* temp/
-	@cp -r temp/linker/* temp/
-	@cd temp
-	@bash finder.sh
-	@aarch64-linux-gnu-ld $(LDFLAGS_AARCH64) $(FILELIST_AARCH64) $(FONTLIST) -o $(OSNAME).aarch64.elf || false
-	@aarch64-linux-gnu-objdump -D $(OSNAME).aarch64.elf > $(OSNAME).aarch64.txt
-	
-	@cp $(OSNAME).aarch64.elf ../targets_executeable/
-	@cp $(OSNAME).aarch64.txt ../targets_debug
-	@cd ..
-	@rm -rf temp
+
+all: x86_64_target aarch64_target
+#  Phony target (prerequisite of .PHONY).
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  recipe to execute (from 'Makefile', line 31):
+	@mkdir build
+	@mkdir build/debug
+	@mkdir build/executeable
+	@cp targets_debug/* build/debug -rf
+	@cp targets_executeable/* build/executeable -rf
+	@rm targets_executeable targets_debug debug iso fonts_compiled -rf
+	@make x86_64_postbuild
+	@mv api build/
+	@zip targets.zip build -r9 -qq
+
+help:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 46):
+	@echo "make arch - show avaliable architectures"
+	@echo "make all - compile code into bootable files"
+	@echo "make setup - set up compiling environment"
+	@echo "make iso - generate iso file"
+	@echo "make clean - clean"
+	@echo "make fullclean - execute clean and remove target files"
+	@echo "make vhd - generate vhd file"
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.PHONY: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # files hash-table stats:
-# Load=17/1024=2%, Rehash=0, Collisions=0/39=0%
+# Load=18/1024=2%, Rehash=0, Collisions=0/40=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 36 / storage = 354 B / avg = 9 B
-# current buf: size = 8162 B / used = 354 B / count = 36 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 37 / storage = 371 B / avg = 10 B
+# current buf: size = 8162 B / used = 371 B / count = 37 / avg = 10 B
 
-# strcache performance: lookups = 64 / hit rate = 43%
+# strcache performance: lookups = 66 / hit rate = 43%
 # hash-table stats:
-# Load=36/8192=0%, Rehash=0, Collisions=1/64=2%
-# Finished Make data base on Mon Sep 19 13:16:42 2022
+# Load=37/8192=0%, Rehash=0, Collisions=0/66=0%
+# Finished Make data base on Sat Dec 10 20:21:04 2022
 
  

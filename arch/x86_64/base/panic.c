@@ -13,7 +13,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
     __speaker_stopSound();
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
     printf(COLOR_WHITE, 1, 3, "Reason: %s", str);
-    vector2d_t a = alignText("PANIC");
+    vector2d_t a = __gui_alignText("PANIC");
     puts("PANIC", COLOR_WHITE, a.x, 2);
     int ides = 0;
     int i = 0;

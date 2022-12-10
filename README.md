@@ -1,5 +1,5 @@
 # Welcome to Tunnel OS.
-This is a singlecore text-based Operating System.
+This is a multicore text-based Operating System.
 <br>
 
 **Used materials and source code**

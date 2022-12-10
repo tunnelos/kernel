@@ -5,9 +5,9 @@
 #include "../include/stdio.h"
 #include "../include/cstring.h"
 #include "../include/serial.h"
+#include "../include/assert.h"
 
-vector2d_t alignText(const char *text)
-{
+vector2d_t __gui_alignText(const char *text) {
     vector2d_t t;
     int l = strlen(text);
     int i = 0;
@@ -21,6 +21,28 @@ vector2d_t alignText(const char *text)
     }
     t.y = (30 - newlines) / 2;
     return t;
+}
+void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const char *text) {
+    assert(text);
+    
+    int i = 0;
+    int m = strlen(text);
+
+    vector2d_t c = pos;
+
+    while(i < m) {
+        putc(text[i], color, c.x, c.y);
+
+        i++;
+        c.x++;
+        if(c.y > max_size.y + pos.y) {
+            c.y = pos.y;
+            c.x++;
+        }
+        if(c.x > max_size.x + pos.x) {
+            return;
+        }
+    }
 }
 
 void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color)
@@ -47,6 +69,8 @@ void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, i
     __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col);
 }
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
+    assert(buffer);
+
     __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY);
     int i = 0;
     int l = strlen(buffer);
@@ -76,15 +100,15 @@ void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table) {
     int i = 0;
     tpos = pos;
     while(i < table.columnCount) {
-	tpos.x = pos.x;
-	__gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
-	tpos.y++;
-	tpos.x++;
-	__gui_drawInputBar(tpos, table.row0Values[i], row0w);
-	tpos.x += row0w;
-	__gui_drawInputBar(tpos, table.row1Values[i], row1w);
-	tpos.y += 2;
-	i++;
+        tpos.x = pos.x;
+        __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
+        tpos.y++;
+        tpos.x++;
+        __gui_drawInputBar(tpos, table.row0Values[i], row0w);
+        tpos.x += row0w;
+        __gui_drawInputBar(tpos, table.row1Values[i], row1w);
+        tpos.y += 2;
+        i++;
     }
     tpos.x = pos.x;
     __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
@@ -94,6 +118,8 @@ void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table) {
     return;
 }
 void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
+    assert(image);
+
     int x = pos.x;
     int y = pos.y;
     int xm = image->header.width_px + pos.x;
@@ -116,6 +142,8 @@ void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
     }
 }
 void __gui_drawImage32(BMPImage *image, vector2d_t pos) {
+    assert(image);
+
     int x = pos.x;
     int y = pos.y;
     int xm = image->header.width_px + pos.x;
