@@ -1,4 +1,4 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/dog/Source/TunnelOS'
 rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
 rm -rf temp

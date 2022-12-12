@@ -1,5 +1,6 @@
 #include "../include/math.h"
 #include "../include/stdint.h"
+#include "../include/assert.h"
 
 int abs (int i){
   return i < 0 ? -i : i;
@@ -9,6 +10,8 @@ double fabs(double x) {
 }
 
 float sqrt(float number) {
+    assert(number >= 0);
+
     float i = 0;
 
     while(i <= number){

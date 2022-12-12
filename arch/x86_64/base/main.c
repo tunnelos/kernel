@@ -23,6 +23,7 @@
 #include "../include/cpptest.h"
 #endif
 #include "../include/coreshell.h"
+#include "../include/video.h"
 
 extern BOOTBOOT bootboot;
 extern unsigned char environment[4096];
@@ -72,10 +73,10 @@ void _start(){
             __serial_write_fmt("CPU %d -> tos > Check memory type: %d\r\n", __tools_get_cpu() - 1, MMapEnt_Type(mmap_ent));
             if(MMapEnt_Type(mmap_ent) == MMAP_FREE) {
                 tunnelos_sysinfo.free_memory_location_size = mmap_ent->size;
-                tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((void *)(mmap_ent->ptr));
                 __serial_write_fmt("CPU %d -> tos > Free memory size: %d KB\r\n", __tools_get_cpu() - 1, tunnelos_sysinfo.free_memory_location_size / 1024);
                 if(tunnelos_sysinfo.free_memory_location_size / 1024 > 19000) {
                     __serial_write_fmt("CPU %d -> tos > Found one at address %l 0x%X\r\n", __tools_get_cpu() - 1, mmap_ent->ptr);
+                    tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((void *)(mmap_ent->ptr));
                     break;
                 }
                 //break;
@@ -83,8 +84,10 @@ void _start(){
 
             mmap_ent++;
         }
+        __mm_fillblocks();
+        __video_setup_core();
 
-        tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((void *)0x131000);
+        //tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((void *)0x131000);
 
         // tunnelos_sysinfo.mm = (tunnel_memory_map_t *)((MMapEnt *)(&bootboot.mmap + 4)->ptr);
         // tunnelos_sysinfo.mm->start_point = ((MMapEnt *)(&bootboot.mmap + 4))->size;
@@ -93,10 +96,15 @@ void _start(){
         tunnelos_sysinfo.rtc = true;
         tunnelos_sysinfo.nmi = false;
         tunnelos_sysinfo.ide = true;
-        __main_core0init();
         __main_core0complete = true;
+        __main_core0init();
     } else {
         tunnelos_sysinfo.cores++;
+        if(__tools_get_cpu() == 2) {
+            while(!__main_core0complete);
+            __serial_write_fmt("CPU %d -> tos > Starting to rendering\r\n", __tools_get_cpu() - 1);
+            __video_refresh();
+        }
     }
     while(!__main_core0complete);
 }
@@ -106,13 +114,13 @@ void __main_core0init() {
 
     if(s) {
         __stdio_margin = 0;
-        __mm_fillblocks();
 
         #if ENABLE_TEST == 1
         __test_unitest();
         cpptest_test00();
         #endif
 
+        // wait(500);
         __coreshell_init();
         __pit_init();
         // __desktop_init();
