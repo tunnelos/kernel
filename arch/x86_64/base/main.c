@@ -3,10 +3,13 @@
 #include "../include/tunnel.h"
 #include "../include/serial.h"
 #include "../include/bootboot.h"
+#include "../include/desktop.h"
 
 /******************************************
  * Entry point, called by BOOTBOOT Loader *
 ******************************************/
+
+int _remaps[2] = {0x20, 0x28};
 
 void _start(){
     tunnelos_sysinfo.cores++;
@@ -19,9 +22,10 @@ void _start(){
         __esi_setup_basic_hardware();
         __esi_set_cores();
 
-        __coreshell_init();
+        // __coreshell_init();
+        __desktop_init();
+        __pic_remap(_remaps);
         __pit_init();
         while(1);
-
     }
 }

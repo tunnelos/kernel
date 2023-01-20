@@ -8,6 +8,8 @@
 #include "../include/assert.h"
 
 vector2d_t __gui_alignText(const char *text) {
+    assert(text);
+
     vector2d_t t;
     int l = strlen(text);
     int i = 0;
@@ -24,7 +26,8 @@ vector2d_t __gui_alignText(const char *text) {
 }
 void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const char *text) {
     assert(text);
-    assert(pos.x > 0 && pos.y > 0);
+    assert(pos.x >= 0 && pos.y >= 0);
+    assert(max_size.x >= 0 && max_size.y >= 0);
     
     int i = 0;
     int m = strlen(text);
@@ -49,6 +52,9 @@ void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const ch
 
 void __gui_drawRectangle(vector2d_t pos, vector2d_t size, color_t color)
 {
+    assert(pos.x >= 0 && pos.y >= 0);
+    assert(size.x >= 0 && size.y >= 0);
+
     int x = pos.x;
     int y = pos.y;
     int xm = x + size.x;
@@ -66,12 +72,16 @@ void __gui_drawRectangle(vector2d_t pos, vector2d_t size, color_t color)
 }
 void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, color_t col)
 {
+    assert(pos.x >= 0 && pos.y >= 0);
+    assert(maxSize.x >= 0 && maxSize.y >= 0);
+
     float t = (float)percentage / (float)100;
     float x = t * (float)maxSize.x;
     __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col);
 }
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     assert(buffer);
+    assert(pos.x >= 0 && pos.y >= 0);
 
     __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY);
     int i = 0;
@@ -121,7 +131,7 @@ void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table) {
 }
 void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
     assert(image);
-
+    assert(pos.x >= 0 && pos.y >= 0);
     int x = pos.x;
     int y = pos.y;
     int xm = image->header.width_px + pos.x;
@@ -145,6 +155,7 @@ void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
 }
 void __gui_drawImage32(BMPImage *image, vector2d_t pos) {
     assert(image);
+    assert(pos.x >= 0 && pos.y >= 0);
 
     int x = pos.x;
     int y = pos.y;

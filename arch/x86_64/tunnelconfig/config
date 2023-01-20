@@ -1,4 +1,4 @@
 // BOOTBOOT Options
 
-screen=1024x768
+screen=640x480
 kernel=sys/core

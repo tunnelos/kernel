@@ -17,8 +17,6 @@ uint32_t pit0_col;
 extern unsigned char _binary_hello_snd_start;
 extern unsigned char _binary_error_snd_start;
 
-int __coreshell_remaps[2] = {0x20, 0x28};
-
 bool __coreshell_ideError = false;
 int __coreshell_installStage = 0;
 
@@ -136,5 +134,4 @@ void __coreshell_init() {
     // puts("@SergeyMC9730 (GitHub)", 0, 1, 6);
     // puts("Press Enter to continue", COLOR_DARK_GREEN, 1, 8);
     __gui_drawText((vector2d_t){1, 8}, (vector2d_t){80, 30}, COLOR_DARK_GREEN, "Press Enter to continue");
-    __pic_remap(__coreshell_remaps);
 }

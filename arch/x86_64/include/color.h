@@ -2,11 +2,16 @@
 
 #include "stdio.h"
 
+#pragma pack(push, 1)
+
 typedef struct color_t {
+    uint8_t a;
     uint8_t r;
     uint8_t g;
     uint8_t b;
 } color_t;
+
+#pragma pack(pop)
 
 // By SaziX
 #define COLOR_RED           (color_t){255, 0, 0}
