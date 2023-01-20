@@ -12,26 +12,27 @@
 extern "C" {
 #endif
 
-struct task_t {
+typedef struct task_t {
     uint32_t pid;
     string title;
-};
+    bool used;
+} task_t;
 
-struct theme_t {
+typedef struct theme_t {
     color_t bgcolor;
     color_t taskbarcolor;
-};
+} theme_t;
 
-struct category_t {
+typedef struct category_t {
     string title;    
-};
+} category_t;
 
-extern uint16_t __desktop_task_count;
-extern uint8_t currentCategory = 0;
-extern uint8_t categoriesCount = 0;
+extern uint32_t __desktop_task_count;
+extern uint8_t currentCategory;
+extern uint8_t categoriesCount;
 extern task_t tasks[512];
 extern theme_t currentTheme;
-extern categories_t categories[256] = {{"Apps"}, {"Games"}};
+extern category_t categories[256];
 
 void __desktop_init();
 void __desktop_add_task(task_t task);

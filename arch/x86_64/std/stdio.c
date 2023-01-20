@@ -6,6 +6,7 @@
 #include "../include/cint.h"
 #include "../include/serial.h"
 #include "../include/mm.h"
+#include "../include/panic.h"
 
 int __stdio_margin = 0;
 int __stdio_gui_margin = 0;
@@ -332,4 +333,31 @@ char* strrev(char* src) {
     src[strlen(src)] = '\0';
 
     return src;
+}
+
+const char *__stdio_stub = "Warning, accessed stub";
+
+FILE *fopen(const char *path, const char *mode) {
+    __serial_write_fmt("CPU %d -> tos > %s fopen(const char *, const char *)\r\n", __stdio_stub, __tools_get_cpu() - 1);
+
+    return NULL;
+}
+int fscanf(FILE *stream, const char *format, ...) {
+    __serial_write_fmt("CPU %d -> tos > %s fscanf(FILE *, const char *, ...)\r\n", __stdio_stub, __tools_get_cpu() - 1);
+
+    return 0;
+}
+int feof(FILE *stream) {
+    __serial_write_fmt("CPU %d -> tos > %s feof(FILE *)\r\n", __stdio_stub, __tools_get_cpu() - 1);
+
+    return 0;
+}
+int fgetc(FILE *stream) {
+    __serial_write_fmt("CPU %d -> tos > %s fgetc(FILE *)\r\n", __stdio_stub, __tools_get_cpu() - 1);
+
+    return 0;
+}
+
+void perror(const char *s) {
+    crash(s, PANIC_CUSTOM_NUMBER, false);
 }

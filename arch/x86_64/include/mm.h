@@ -16,7 +16,7 @@ void memset(void *dest, int c, size_t n);
 void __mm_fillblocks();
 int __mm_findoffset(int blocks);
 void *malloc(size_t size);
-void *calloc(size_t size);
+void *calloc(int count, size_t size);
 void free(void *address);
 tunnel_memory_block_t __mm_get_blockinformation(void *address);
 void *realloc(void *address, size_t size);

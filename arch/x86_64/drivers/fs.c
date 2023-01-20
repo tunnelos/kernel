@@ -88,7 +88,7 @@ tunnelfs_t __fs_tunnelCreateFS(int *percentage, uint8_t drive) {
     if(__ide_devices[drive].connected) {
         tunnelfs_t res;
 
-        void *buffer = calloc(512);
+        void *buffer = calloc(1, 512);
 
         int i = 0;
         int sectors = __ide_devices[drive].size / 2 * 1024 / 512;
@@ -118,7 +118,7 @@ tunnelfs_t __fs_tunnelCreateFS(int *percentage, uint8_t drive) {
         boot->revision = TUNNELFS_1;
 
         res.bootsector = (tunnelfs_bootsector_t *)buffer;
-        res.table = (tunnelfs_table_t *)calloc(boot->tableSize * 512);
+        res.table = (tunnelfs_table_t *)calloc(1, boot->tableSize * 512);
         res.drive = drive;
         
         __fs_makeSectorAction(i, 1, buffer, Write, drive);

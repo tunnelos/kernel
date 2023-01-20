@@ -68,7 +68,7 @@ void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, c
 {
     float t = (float)percentage / (float)100;
     float x = t * (float)maxSize.x;
-    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, __color_to_int(col));
+    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col);
 }
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     assert(buffer);
@@ -79,7 +79,7 @@ void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     while(i < maxSymbols) {
         if(buffer) {
             if(buffer[i] != 0 || i < l) {
-                putc(buffer[i], COLOR_BLACK, pos.x, pos.y);
+                putc(buffer[i], __color_to_int(COLOR_BLACK), pos.x, pos.y);
                 pos.x++;
             } else {
                 return;

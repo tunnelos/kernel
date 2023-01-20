@@ -1,10 +1,12 @@
+#pragma once
+
 #include "stdio.h"
 
-struct color_t {
+typedef struct color_t {
     uint8_t r;
     uint8_t g;
     uint8_t b;
-};
+} color_t;
 
 // By SaziX
 #define COLOR_RED           (color_t){255, 0, 0}
@@ -18,7 +20,3 @@ struct color_t {
 #define COLOR_LIGHT_GREEN   (color_t){70, 194, 29}
 #define COLOR_YELLOW        (color_t){255, 242, 0}
 #define COLOR_LIGHT_GRAY    (color_t){189, 189, 185}
-
-uint32_t __color_to_int(color_t color) {
-    return (color.r * 256 * 256) + (color.g * 256) + color.b;
-}

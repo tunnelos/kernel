@@ -4,7 +4,7 @@ LDFLAGS_X86_64  = -nostdlib  -T link.ld
 LDFLAGS_AARCH64 = -nostdlib  -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
-FILELIST_X86_64 =   main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o ui.o      \
+FILELIST_X86_64 =   main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o color.o   \
 		    		keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o event.o gui.o  \
 	    	   		ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
 		    		cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \

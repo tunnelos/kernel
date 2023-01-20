@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jan 20 15:23:37 2023
+# Make data base, printed on Fri Jan 20 22:34:17 2023
 
 # Variables
 
@@ -79,7 +79,7 @@ XAUTHORITY = /run/user/1000/gdm/Xauthority
 # makefile
 MAKEFLAGS = pqrR
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=eb133f2936d9b4f2fcbcbf7f63ca3230
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=f2fd8732ea6114587cb6033363ca9e18
 # makefile
 CURDIR := /home/dog/Source/TunnelOS
 # environment
@@ -107,7 +107,7 @@ SNAP_REEXEC =
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3474
+VSCODE_PID = 3464
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -117,15 +117,15 @@ OSNAME = tunnel
 # environment
 __GL_SYNC_DISPLAY_DEVICE = DP-1
 # environment
-SESSION_MANAGER = local/dog:@/tmp/.ICE-unix/1941,unix/dog:/tmp/.ICE-unix/1941
+SESSION_MANAGER = local/dog:@/tmp/.ICE-unix/1995,unix/dog:/tmp/.ICE-unix/1995
 # automatic
 *F = $(notdir $*)
 # makefile (from 'Makefile', line 7)
-FILELIST_X86_64 = main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o ui.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o event.o gui.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o placeholder.o system_JSON.o float.o speaker.o video.o task.o esi_testing.o esi_set_cores.o esi_setup_bhardware.o esi_setup_memory.o
+FILELIST_X86_64 = main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o color.o keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o event.o gui.o ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o placeholder.o system_JSON.o float.o speaker.o video.o task.o esi_testing.o esi_set_cores.o esi_setup_bhardware.o esi_setup_memory.o
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=eb133f2936d9b4f2fcbcbf7f63ca3230
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=f2fd8732ea6114587cb6033363ca9e18
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -165,7 +165,7 @@ LC_TIME = ru_RU.UTF-8
 # environment
 SNAP = /snap/code/117
 # environment
-INVOCATION_ID = b31e64b97b6946b092892a409a6cc961
+INVOCATION_ID = 1189a09a16b24d228216db48698532df
 # environment
 SNAP_REVISION = 117
 # environment
@@ -199,7 +199,7 @@ SNAP_ARCH = amd64
 # makefile
 .DEFAULT_GOAL := vhd
 # environment
-SYSTEMD_EXEC_PID = 1941
+SYSTEMD_EXEC_PID = 1995
 # environment
 DISPLAY = :0
 # environment
@@ -215,7 +215,7 @@ SNAP_DATA = /var/snap/code/117
 # environment
 SNAP_CONTEXT = 2_xoP49p_yhlF4qDSK6PGGzn5RDzsL1HzCpdbtemzKSG-R6slwzl
 # environment
-MANAGERPID = 1542
+MANAGERPID = 1596
 # environment
 DBUS_STARTER_BUS_TYPE = session
 # environment
@@ -235,7 +235,7 @@ STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 # makefile (from 'Makefile', line 15)
 FILELIST_AARCH64 = boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 # environment
-JOURNAL_STREAM = 8:34037
+JOURNAL_STREAM = 8:33166
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -275,6 +275,7 @@ ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 VTE_VERSION = 6800
 # environment
+ 
 SNAP_COMMON = /var/snap/code/common
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
@@ -289,7 +290,6 @@ LC_IDENTIFICATION = ru_RU.UTF-8
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
- 
 # Load=139/1024=14%, Rehash=0, Collisions=11/176=6%
 
 # Pattern-specific Variable Values
@@ -354,7 +354,7 @@ fullclean:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2023-01-20 15:23:37.349993609
+#  Last modified 2023-01-20 22:34:00.173519529
 #  File has been updated.
 #  Successfully updated.
 
@@ -557,8 +557,9 @@ help:
 # current buf: size = 8162 B / used = 383 B / count = 38 / avg = 10 B
 
 # strcache performance: lookups = 68 / hit rate = 44%
+ 
 # hash-table stats:
 # Load=38/8192=0%, Rehash=0, Collisions=0/68=0%
-# Finished Make data base on Fri Jan 20 15:23:37 2023
+# Finished Make data base on Fri Jan 20 22:34:17 2023
 
  

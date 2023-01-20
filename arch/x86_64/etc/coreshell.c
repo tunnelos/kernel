@@ -29,21 +29,22 @@ void __coreshell_install_base(int drive_number) {
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
     vector2d_t a = __gui_alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
-    puts("You need to create an ", 0, 1, 3);
-    puts("account ", COLOR_YELLOW, 23, 3);
-    puts("for logging in.", COLOR_BLACK, 31, 3);
+    // puts("You need to create an ", 0, 1, 3);
+    // puts("account ", COLOR_YELLOW, 23, 3);
+    // puts("for logging in.", COLOR_BLACK, 31, 3);
+    __gui_drawText((vector2d_t){1, 3}, (vector2d_t){80, 30}, COLOR_WHITE, "You need to create an account for logging in.");
     return;
 }
 char *__coreshell_getDrive(uint8_t id) {
-    char *drv0 = (char *)calloc(100);
-    char *buffer = (char *)calloc(128);
+    char *drv0 = (char *)calloc(1, 100);
+    char *buffer = (char *)calloc(1, 128);
     strcat(drv0, "Drive ");
     strcat(drv0, stditoa(id, buffer, 10));
     strcat(drv0, " (");
     ide_dev_t ideDevice = __ide_devices[id];
     if(ideDevice.connected) {
         free(buffer);
-        char *buffer = (char *)calloc(128);
+        char *buffer = (char *)calloc(1, 128);
         strcat(drv0, stditoa(ideDevice.size / 1024 / 2, buffer, 10));
         strcat(drv0, " MB)");
     } else {
@@ -100,15 +101,16 @@ bool __coreshell_onPIT(uint128_t tick) {
                 }
                 if(!devices) {
                     __coreshell_installStage = 1;
-                    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
+                    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
                     vector2d_t a = __gui_alignText("Coreshell Configuration");
                     puts("Coreshell Configuration", 0, a.x, 1);
                     __sounds_queueSoundData((pcspeaker_sound_t *)&_binary_error_snd_start);
                     __sounds_resumeSound();
-                    puts("ERROR", COLOR_RED, 1, 3);
-                    puts("There is no IDE devices connected to this computer.", COLOR_BLACK, 1, 4);
-                    puts("Settings will not be saved.", COLOR_BLACK, 1, 5);
-                    puts("Press Enter to continue", COLOR_DARK_GREEN, 1, 7);
+                    __gui_drawText((vector2d_t){1, 3}, (vector2d_t){80, 30}, COLOR_RED, "ERROR");
+                    puts("There is no IDE devices connected to this computer.", 0, 1, 4);
+                    puts("Settings will not be saved.", 0, 1, 5);
+                    // puts("Press Enter to continue", COLOR_DARK_GREEN, 1, 7);
+                    __gui_drawText((vector2d_t){1, 7}, (vector2d_t){80, 30}, COLOR_DARK_GREEN, "Press Enter to continue");
                     __coreshell_ideError = true;
                     __pit_setOnIntCallback(__coreshell_onPIT2);
                 } else {
@@ -124,7 +126,7 @@ void __coreshell_init() {
     __pit_setOnIntCallback(__coreshell_onPIT);
     __sounds_initThread();
     //__sounds_queueSoundData((pcspeaker_sound_t *)&_binary_hello_snd_start);
-    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
+    __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_WHITE);
     vector2d_t a = __gui_alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
     __gui_drawText((vector2d_t){1, 4}, (vector2d_t){80, 30}, COLOR_BLACK, "Welcome to the Tunnel OS. This is a singlecore text-based 64-bit operating");
@@ -132,6 +134,7 @@ void __coreshell_init() {
     // puts("Welcome to the Tunnel OS. This is a singlecore", 0, 1, 4);
     // puts("text-based 64-bit operating system made by", 0, 1, 5);
     // puts("@SergeyMC9730 (GitHub)", 0, 1, 6);
-    puts("Press Enter to continue", COLOR_DARK_GREEN, 1, 8);
+    // puts("Press Enter to continue", COLOR_DARK_GREEN, 1, 8);
+    __gui_drawText((vector2d_t){1, 8}, (vector2d_t){80, 30}, COLOR_DARK_GREEN, "Press Enter to continue");
     __pic_remap(__coreshell_remaps);
 }

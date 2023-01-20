@@ -43,7 +43,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
         );
         wait(500);
         __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
-        printf(COLOR_WHITE, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+        printf(0x00FFFFFF, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
@@ -62,7 +62,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
         );
         wait(500);
         __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
-        printf(COLOR_WHITE, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
+        printf(0x00FFFFFF, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
             ides, 
@@ -71,8 +71,8 @@ void crash(const char *str, uint16_t id, bool interrupt) {
             t->cores, current_interrupt.interrupt_id, pcb(current_interrupt.critical)
         );
     }
-    printf(COLOR_WHITE, 1, 3, "Reason: %s", str);
+    printf(0x00FFFFFF, 1, 3, "Reason: %s", str);
     vector2d_t a = __gui_alignText("PANIC");
-    puts("PANIC", COLOR_WHITE, a.x, 2);
+    puts("PANIC", 0x00FFFFFF, a.x, 2);
     __hlt();
 }

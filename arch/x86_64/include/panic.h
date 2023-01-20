@@ -10,6 +10,8 @@
 #define PANIC_UNEXPECTED_INTERRUPT_STRING "Unexpected interrupt"
 #define PANIC_UNEXPECTED_INTERRUPT_NUMBER 0x0001
 
+#define PANIC_CUSTOM_NUMBER 0x010F
+
 #ifdef __cplusplus
 extern "C" {
 #endif

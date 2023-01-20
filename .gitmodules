@@ -7,3 +7,6 @@
 [submodule "arch/x86_64/bootboot"]
 	path = arch/x86_64/bootboot
 	url = https://gitlab.com/bztsrc/bootboot.git
+[submodule "arch/x86_64/Config-Parser-C"]
+	path = arch/x86_64/Config-Parser-C
+	url = https://github.com/tunnelos/Config-Parser-C.git

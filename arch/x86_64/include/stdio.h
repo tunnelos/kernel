@@ -1,10 +1,12 @@
 #pragma once
 
-#include "./main.h" 
+#include "./main.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef void FILE;
 
 int sprintf(char *str, const char *fmt, ...);
 
@@ -29,6 +31,13 @@ char stditoh(int num, bool upper);
 
 char itoc(int num);
 char* strrev(char* src);
+
+FILE *fopen(const char *path, const char *mode); // Stub
+int fscanf(FILE *stream, const char *format, ...); // Stub
+int feof(FILE *stream); // Stub
+int fgetc(FILE *stream); // Stub
+
+void perror(const char *s);
 
 #ifdef __cplusplus
 }

@@ -34,6 +34,7 @@
         "string.h": "c",
         "arch.h": "c",
         "ui.h": "c",
-        "bootboot.h": "c"
+        "bootboot.h": "c",
+        "desktop.h": "c"
     }
 }

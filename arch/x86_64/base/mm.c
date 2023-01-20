@@ -62,9 +62,9 @@ int __mm_findoffset(int blocks) {
         }
     return -1;
 }
-void *calloc(size_t size) {
-    void *ret = malloc(size);
-    memset(ret, 0, size);
+void *calloc(int count, size_t size) {
+    void *ret = malloc(size * count);
+    memset(ret, 0, size * count);
     return ret;
 }
 void *malloc(size_t size) {
