@@ -33,6 +33,7 @@
         "cmos.h": "c",
         "string.h": "c",
         "arch.h": "c",
-        "ui.h": "c"
+        "ui.h": "c",
+        "bootboot.h": "c"
     }
 }

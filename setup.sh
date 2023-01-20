@@ -14,7 +14,7 @@ while getopts 'qbvhr' SHELLARGUMENT; do
 	case "$SHELLARGUMENT" in
 		q)
 			echo "! QEMU will be installed."
-			PACKAGE_SET="qemu-system-x86-64 qemu-system-aarch64 ${PACKAGE_SET}"
+			PACKAGE_SET="qemu-system-x86 qemu-system-aarch64 ${PACKAGE_SET}"
 			PACKAGE_SET_INFO1="QEMU (x86_64 and aarch64 VM packages)"
 			PACKAGE_SET_QEMU=1
 			;;
@@ -36,7 +36,7 @@ while getopts 'qbvhr' SHELLARGUMENT; do
 			;;
 		v)
 			echo "+ Tunnel OS Setup Script"
-			echo "$ Version: 1.32"
+			echo "$ Version: 1.33"
 			exit 0
 			;;
 		r)
@@ -83,7 +83,7 @@ if [ $VERBOSE -eq 1 ]
 then
 rm -vf /usr/include/stdarg.h /usr/include/cpuid.h
 else
-rm -vf /usr/include/stdarg.h /usr/include/cpuid.h
+rm -f /usr/include/stdarg.h /usr/include/cpuid.h
 fi
 
 if [ $NO_PACKAGES -eq 0 ]

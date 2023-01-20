@@ -147,6 +147,7 @@ void free(void *address) {
     while(i < blks) {
         tunnelos_sysinfo.mm->meta[blk + i].free = true;
         tunnelos_sysinfo.mm->meta[blk + i].id = -1;
+        memset(tunnelos_sysinfo.mm->meta[blk + i].address, 0, 256);
         i++;
     }
     __mm_index -= blks;

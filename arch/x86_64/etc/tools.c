@@ -61,6 +61,13 @@ int __tools_get_cpu() {
     return (ebx >> 24) + 1;
 }
 
+uint64_t get_cycles() {
+    uint32_t eax;
+    uint32_t edx;
+    asm volatile("rdtsc" : "=a"(eax), "=d"(edx));
+    return ((uint64_t)edx << 32 | eax);
+}
+
 //waits 1-4 ns
 void io_wait() {
     outb(0x80, 0);
@@ -83,12 +90,7 @@ void wait_ns(uint128_t ns) {
     return;
 }
 void accwait(uint64_t ms) {
-    uint64_t i = 0;
-    while(i < ms) {
-        __sti();
-        __hlt();
-        i++;
-    }
+    //uint64_t cycles = 
 }
 
 void insl(uint16_t reg, uint32_t *buffer, int quads) {

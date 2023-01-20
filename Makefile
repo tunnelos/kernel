@@ -5,22 +5,27 @@ LDFLAGS_AARCH64 = -nostdlib  -T link.ld
 STRIPFLAGS_X86_64 = -K mmio -K fb -K bootboot -K environment -K initstack
 OSNAME = tunnel
 FILELIST_X86_64 =   main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o fs.o ui.o      \
-		    keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o event.o gui.o  \
-	    	    ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
-		    cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
-		    math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
-		    sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o  \
-		    placeholder.o system_JSON.o float.o speaker.o video.o
+		    		keyboard_ps2.o tools.o serial.o idt.o idt_ASM.o pit.o hal.o event.o gui.o  \
+	    	   		ide.o fpu_ASM.o coreshell.o cpptest.o cppfuncs.o network.o tunnel_JSON.o   \
+		    		cpuid_tools_ASM.o sse_ASM.o avx_ASM.o sse.o uhci.o cmos.o test.o arch.o    \
+		    		math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
+		    		sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o  \
+		    		placeholder.o system_JSON.o float.o speaker.o video.o task.o esi_testing.o \
+					esi_set_cores.o esi_setup_bhardware.o esi_setup_memory.o
 FILELIST_AARCH64 =  boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =          gui_PSF.o
 SNDLIST_X86_64 =    hello_SND.o error_SND.o
 
 .PHONY: all
 
+vhd:
+	@dd if=/dev/zero of=VHD.img bs=1M count=512
 aarch64_target: clean $(OSNAME).aarch64.elf
 aarch64_boot:
 	qemu-system-aarch64 -machine raspi3 -cpu cortex-a72 -no-reboot -no-shutdown -kernel build/executeable/$(OSNAME).aarch64.elf 
-x86_64_target:  clean $(OSNAME).x86_64.iso
+x86_64_boot:
+	
+x86_64_target: clean $(OSNAME).x86_64.iso
 x86_64_postbuild:
 	@mkdir -p api
 	@mkdir -p api/x86_64
@@ -130,5 +135,3 @@ fullclean:
 	@rm -rf *.elf *.iso */bin
 	@cp iso/$(OSNAME).x86_64.iso .
 	@rm -rf iso
-vhd:
-	@dd if=/dev/zero of=VHD.img bs=1M count=512

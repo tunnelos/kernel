@@ -24,6 +24,7 @@ vector2d_t __gui_alignText(const char *text) {
 }
 void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const char *text) {
     assert(text);
+    assert(pos.x > 0 && pos.y > 0);
     
     int i = 0;
     int m = strlen(text);
@@ -35,12 +36,13 @@ void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const c
 
         i++;
         c.x++;
+        if(c.x > max_size.x + pos.x) {
+            c.x = pos.x;
+            c.y++;
+        }
         if(c.y > max_size.y + pos.y) {
             c.y = pos.y;
             c.x++;
-        }
-        if(c.x > max_size.x + pos.x) {
-            return;
         }
     }
 }

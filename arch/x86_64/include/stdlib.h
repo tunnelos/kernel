@@ -18,7 +18,7 @@ void srand(int seed);
 int rand();
 
 #if ENABLE_TRANDOM > 0
-// RNG based on PIT's output
+// RNG is based on PIT's output
 extern int TUNNEL_RANDOM();
 #endif
 

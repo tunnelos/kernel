@@ -14,4 +14,8 @@ targets_executeable
 debug
 build
 .vscode
+configurationCache.log
+dryrun.log
 targets.zip
+settings.json
+targets.log

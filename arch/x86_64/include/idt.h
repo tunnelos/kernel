@@ -2,6 +2,7 @@
 
 #include "./stdint.h"
 #include "./serial.h"
+#include "./registers.h"
 
 #define IDT_INTERRUPT_PIT  0
 #define IDT_INTERRUPT_CMOS 8
@@ -51,8 +52,8 @@ extern bool vectors[32];
 extern interrupt_t current_interrupt;
 extern interrupt_frame_t *current_iframe;
 
-void __idt_exception_handler(int interrupt_id);
-void __idt_interrupt_handler(int interrupt_id);
+void __idt_exception_handler(int interrupt_id, register_set_t *register_set);
+void __idt_interrupt_handler(int interrupt_id, register_set_t *register_set);
 
 void __idt_set_descriptor(uint8_t vector, void *isr, uint8_t flags);
 void __idt_init();

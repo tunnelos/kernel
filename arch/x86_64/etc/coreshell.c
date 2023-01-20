@@ -127,7 +127,8 @@ void __coreshell_init() {
     __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, 0x00FFFFFF);
     vector2d_t a = __gui_alignText("Coreshell Configuration");
     puts("Coreshell Configuration", 0, a.x, 1);
-    __gui_drawText((vector2d_t){1, 4}, (vector2d_t){80, 30}, COLOR_BLACK, "Welcome to the Tunnel OS. This is a singlecore text-based 64-bit operating system made by @SergeyMC9730 (GitHub)");
+    __gui_drawText((vector2d_t){1, 4}, (vector2d_t){80, 30}, COLOR_BLACK, "Welcome to the Tunnel OS. This is a singlecore text-based 64-bit operating");
+    __gui_drawText((vector2d_t){1, 5}, (vector2d_t){80, 30}, COLOR_BLACK, "system made by @SergeyMC9730 (GitHub)");
     // puts("Welcome to the Tunnel OS. This is a singlecore", 0, 1, 4);
     // puts("text-based 64-bit operating system made by", 0, 1, 5);
     // puts("@SergeyMC9730 (GitHub)", 0, 1, 6);

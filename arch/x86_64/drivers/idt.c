@@ -14,7 +14,7 @@ bool vectors[32];
 interrupt_t current_interrupt;
 interrupt_frame_t *current_iframe;
 
-void __idt_exception_handler(int interrupt_id) {
+void __idt_exception_handler(int interrupt_id, register_set_t *register_set) {
     uint32_t errorCode = ((uint32_t *)__get_stack())[0];
     current_interrupt.active = true;
     current_interrupt.interrupt_id = interrupt_id;
@@ -31,36 +31,44 @@ void __idt_exception_handler(int interrupt_id) {
     }
     current_interrupt.active = false;
 }
-void __idt_interrupt_handler(int interrupt_id) {
+void __idt_interrupt_handler(int interrupt_id, register_set_t *register_set) {
     current_interrupt.active = true;
     current_interrupt.critical = false;
     current_interrupt.interrupt_id = interrupt_id;
     current_interrupt.frame = current_iframe;
-    if(interrupt_id != IDT_INTERRUPT_PIT) __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n * RIP = %l %X\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
-    switch(interrupt_id) {
-        case IDT_INTERRUPT_PIT: {
-            __pit_event_timer();
-            __pit_eoi();
-            break;
-        }
-        case IDT_INTERRUPT_CMOS: {
-            if(!tunnelos_sysinfo.rtc) {
-                __nmi_init();
-                __rtc_init();
-                tunnelos_sysinfo.rtc = true;
+
+    // task switching should be done quickly
+
+    if(interrupt_id == IDT_INTERRUPT_PIT) {
+        __pit_event_timer();
+        __pit_eoi();
+    } else {
+        __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n * RIP = %l %X\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
+        switch(interrupt_id) {
+            case IDT_INTERRUPT_PIT: {
+                __pit_event_timer();
+                __pit_eoi();
+                break;
             }
-            if(__cmos_firstInt) {
-                __cmos_getRTC();
-                __cmos_firstInt = false;
+            case IDT_INTERRUPT_CMOS: {
+                if(!tunnelos_sysinfo.rtc) {
+                    __nmi_init();
+                    __rtc_init();
+                    tunnelos_sysinfo.rtc = true;
+                }
+                if(__cmos_firstInt) {
+                    __cmos_getRTC();
+                    __cmos_firstInt = false;
+                }
+                outb(RTC_REGISTER_B_OUT, 0x0C);
+                inb(RTC_REGISTER_B_IN);
+                break;
             }
-            outb(RTC_REGISTER_B_OUT, 0x0C);
-            inb(RTC_REGISTER_B_IN);
-            break;
-        }
-        default: {
-            crash(PANIC_UNEXPECTED_INTERRUPT_STRING, PANIC_UNEXPECTED_INTERRUPT_NUMBER, true);
-            break;
-        }
+            default: {
+                crash(PANIC_UNEXPECTED_INTERRUPT_STRING, PANIC_UNEXPECTED_INTERRUPT_NUMBER, true);
+                break;
+            }
+        }   
     }
     current_interrupt.active = false;
 }

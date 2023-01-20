@@ -1,21 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/dog/Source/TunnelOS'
-rm -rf *.o fonts/*.o tunnelconfig/*.o temp targets_debug targets_executeable build targets.zip
-rm -rf temp
-mkdir -p temp
-mkdir -p temp/debug
-mkdir -p targets_debug
-mkdir -p targets_executeable
-cp -r arch/aarch64/* temp/
-cp -r temp/linker/* temp/
-cd temp
-bash finder.sh
-aarch64-linux-gnu-ld -nostdlib  -T link.ld boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o gui_PSF.o -o tunnel.aarch64.elf || false
-aarch64-linux-gnu-objdump -D tunnel.aarch64.elf > tunnel.aarch64.txt
-
-cp tunnel.aarch64.elf ../targets_executeable/
-cp tunnel.aarch64.txt ../targets_debug
-cd ..
-rm -rf temp
+dd if=/dev/zero of=VHD.img bs=1M count=512
 make: Leaving directory '/home/dog/Source/TunnelOS'
  
