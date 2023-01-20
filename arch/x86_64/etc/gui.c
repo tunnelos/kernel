@@ -22,7 +22,7 @@ vector2d_t __gui_alignText(const char *text) {
     t.y = (30 - newlines) / 2;
     return t;
 }
-void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const char *text) {
+void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const char *text) {
     assert(text);
     assert(pos.x > 0 && pos.y > 0);
     
@@ -32,7 +32,7 @@ void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const c
     vector2d_t c = pos;
 
     while(i < m) {
-        putc(text[i], color, c.x, c.y);
+        putc(text[i], __color_to_int(color), c.x, c.y);
 
         i++;
         c.x++;
@@ -47,7 +47,7 @@ void __gui_drawText(vector2d_t pos, vector2d_t max_size, uint32_t color, const c
     }
 }
 
-void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color)
+void __gui_drawRectangle(vector2d_t pos, vector2d_t size, color_t color)
 {
     int x = pos.x;
     int y = pos.y;
@@ -57,18 +57,18 @@ void __gui_drawRectangle(vector2d_t pos, vector2d_t size, int color)
     {
         while (y < ym)
         {
-            puts("\x13", color, x, y);
+            puts("\x13", __color_to_int(color), x, y);
             y++;
         }
         x++;
         y = pos.y;
     }
 }
-void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, int col)
+void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, color_t col)
 {
     float t = (float)percentage / (float)100;
     float x = t * (float)maxSize.x;
-    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col);
+    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, __color_to_int(col));
 }
 void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
     assert(buffer);
