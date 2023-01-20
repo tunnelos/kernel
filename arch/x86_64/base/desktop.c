@@ -1,65 +1,62 @@
-#include "../include/stdio.h"
-#include "../include/screen.h"
-#include "../include/serial.h"
-#include "../include/cstring.h"
-#include "../include/str.h"
-#include "../include/stdint.h"
+#include "../include/desktop.h"
 
 uint32_t __desktop_task_count = 0;
-//unsigned int __desktop_tasks_length = 0;
-int __desktop_ids[10];
-string __desktop_titles[25];
+Theme currentTheme;
 
 void __desktop_init() {
     __serial_write_fmt("CPU 0 -> tos -> DESKTOP > Creating desktop...\r\n");
+    //default theme
+    currentTheme = {COLOR_LIGHT_GREEN, COLOR_DARK_GRAY};
+    //draw bg
     for(int j = 0; j < 30; j++){
         for(int i = 0; i < 80; i++){
-            if(j == 0){
-                putc('\x08', COLOR_DARK_GRAY, i, j);
-            }else{
-                putc('\x08', COLOR_LIGHT_GREEN, i, j);
-            }
+            putc('\x08', __color_to_int(currentTheme.bgcolor), i, j);
         }
     }
-    putc('+', COLOR_WHITE, 0, 0);
-    for(int j = 1; j < 30; j++){
-        for(int i = 0; i < 10; i++){
-            putc('\x08', COLOR_GRAY, i, j);
-        }
-    }
-    for(int i = 0; i < 10; i++){
-        putc('\x08', COLOR_LIGHT_GREEN, i, 2);
-    }
-    puts("Apps", COLOR_WHITE, 1, 2);
-    puts("Games", COLOR_WHITE, 1, 3);
-    puts("System", COLOR_WHITE, 1, 4);
+
+    //draw task bar
+    for(int i = 0; i < 80; i++) putc('\x08', __color_to_int(currentTheme.taskbarcolor), i, 0);
+
+    //draw start button
+    putc('+', __color_to_int(COLOR_WHITE), 0, 0);
 
     while(true);
 }
 
-void __desktop_add_task(string task) {
-    __desktop_titles[__desktop_ids[__desktop_task_count]] = task;
+void __desktop_add_task(Task task) {
     __desktop_task_count++;
-    //__desktop_tasks_length += strlen(task);
+    tasks[__desktop_task_count] = task;
 }
 
-void __desktop_terminate_task(string task) {
-    __desktop_task_count--;
-    //__desktop_tasks_length -= strlen((const string)task);
-}
-
-/*
-int __desktop_get_current_tasks() {
-    
-}
-*/
-void __desktop_render_tasks(){
-    int calculateX = 2;
+void __desktop_terminate_task(uint32_t pid) {
     for(int i = 0; i < __desktop_task_count; i++){
-        for(int j = 0; j < i; j++){
-            calculateX += strlen(__desktop_titles[__desktop_ids[i]]);
+        if(tasks[i].pid == pid){
+            tasks[i] = NULL;
+            for(int j = i; j < __desktop_task_count; j++) tasks[j] = tasks[j + 1];
         }
-        puts(__desktop_titles[__desktop_ids[i]], COLOR_WHITE, calculateX, 0);
-        calculateX = 2;
+    }
+    __desktop_task_count--;
+}
+
+void __desktop_render_tasks(){
+    uint16_t x = 2;
+    for(int i = 0; i < __desktop_task_count; i++){
+        x = x + strlen(tasks[i].title) + 1;
+        puts(tasks[i].title, __color_to_int(COLOR_WHITE), x, 0);
+    }
+}
+
+void __desktop_render_categories(){
+    //draw categories
+    for(int j = 1; j < 30; j++){
+        for(int i = 0; i < 10; i++){
+            putc('\x08', __color_to_int(COLOR_GRAY), i, j);
+        }
+    }
+
+    for(uint16_t i = 0; i < categoriesCount; i++){
+        if(currentCategory == i) for(int i = 0; i < 10; i++) putc('\x08', __color_to_int(currentTheme.bgcolor), i, 1 + currentCategory);
+
+        puts(categories[currentCategory].title, __color_to_int(COLOR_WHITE), 1, 1 + currentCategory);
     }
 }
