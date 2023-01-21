@@ -15,7 +15,7 @@ This is a multicore text-based Operating System.
 **Compileable architectures**
 -
 - `x86_64`
-- `aarch64` **(Some progress is showed up)**
+- `aarch64` **(does not boot)**
 
 **Code statistics**
 - `x86_64` codebase - **`5608` lines of code**

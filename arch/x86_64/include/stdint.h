@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef _STDINT_H
+#define _STDINT_H
+
 #define __SIZE_TYPE__ long unsigned int
 
 typedef unsigned char uint8_t;
@@ -25,3 +28,5 @@ typedef __SIZE_TYPE__ size_t;
 #define ULONG_MAX 0xFFFFFFFFUL
 #define INT_MAX   2147483647
 #define INT_MIN  -2147483647
+
+#endif

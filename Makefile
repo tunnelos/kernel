@@ -11,7 +11,8 @@ FILELIST_X86_64 =   main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o 
 		    		math.o desktop.o pit_ASM.o tools_ASM.o pic_ASM.o rtc.o stdlib.o pic.o      \
 		    		sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o  \
 		    		placeholder.o system_JSON.o float.o speaker.o video.o task.o esi_testing.o \
-					esi_set_cores.o esi_setup_bhardware.o esi_setup_memory.o
+					esi_set_cores.o esi_setup_bhardware.o esi_setup_memory.o fat32.o rpistubs.o\
+					disk_interface.o
 FILELIST_AARCH64 =  boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =          gui_PSF.o
 SNDLIST_X86_64 =    hello_SND.o error_SND.o
@@ -24,7 +25,7 @@ aarch64_target: clean $(OSNAME).aarch64.elf
 aarch64_boot:
 	qemu-system-aarch64 -machine raspi3 -cpu cortex-a72 -no-reboot -no-shutdown -kernel build/executeable/$(OSNAME).aarch64.elf 
 x86_64_boot:
-	
+	qemu-system-x86_64 -m 512M -boot d -cdrom build/executeable/tunnel.x86_64.iso -serial stdio -smp 2 -drive file=VHD.img,format=raw,index=0,media=disk -no-reboot
 x86_64_target: clean $(OSNAME).x86_64.iso
 x86_64_postbuild:
 	@mkdir -p api

@@ -1,1 +1,0 @@
-{"buildTargets":["aarch64_boot","aarch64_target","all","arch","clean","fullclean","help","setup","tunnel.aarch64.elf","tunnel.x86_64.iso","vhd","x86_64_boot","x86_64_postbuild","x86_64_target"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

@@ -317,6 +317,12 @@ char itoc(int num) {
     return '0' + num;
 }
 
+int atoi(const char *str) {
+    int res = 0;
+    for (int i = 0; str[i] != '\0'; ++i) res = res * 10 + str[i] - '0';
+    return res;
+}
+
 char* strrev(char* src) {
     char tmp;
     int str_index = 0;

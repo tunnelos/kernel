@@ -6,6 +6,8 @@
 #include "../include/cstring.h"
 #include "../include/serial.h"
 #include "../include/assert.h"
+#include "../include/bootboot.h"
+#include "../include/stdlib.h"
 
 vector2d_t __gui_alignText(const char *text) {
     assert(text);
@@ -14,14 +16,14 @@ vector2d_t __gui_alignText(const char *text) {
     int l = strlen(text);
     int i = 0;
     int newlines = 0;
-    t.x = (80 - l) / 2;
+    t.x = (__gui_getTextResolution().x - l) / 2;
     while (i < l)
     {
         if (text[i] == '\n')
             newlines++;
         i++;
     }
-    t.y = (30 - newlines) / 2;
+    t.y = (__gui_getTextResolution().y - newlines) / 2;
     return t;
 }
 void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const char *text) {
@@ -172,4 +174,105 @@ void __gui_drawImage32(BMPImage *image, vector2d_t pos) {
         x++;
         y = pos.y;
     }
+}
+
+
+vector2d_t __gui_getScreenResolution() {
+    int i = 0;
+    int l = strlen(environment);
+
+    vector2d_t size = (vector2d_t){0, 0};
+
+    while(i < l) {
+        char *el0 = (char *)malloc(64);
+        char *el1 = (char *)malloc(64);
+        int i2 = 0;
+        while(i2 < 64) {
+            el0[i2] = environment[i];
+            if(el0[i2] == '=') {
+                el0[i2] = 0;
+                break;
+            }
+            if(el0[i2] == 0 || el0[i2] == '\n') {
+                free(el0);
+                free(el1);
+                return size;
+            }
+
+            i2++;
+            i++;
+        }
+
+        i2 = 0;
+        i++;
+        while(i2 < 64) {
+            el1[i2] = environment[i];
+
+            if(el1[i2] == 0 || el1[i2] == '\n') {
+                el1[i2] = 0;
+                break;
+            }
+
+            i2++;
+            i++;
+        }
+
+        if(!strcmp(el0, "screen")) {
+            int i3 = 0;
+            int i4 = 0;
+            int l2 = strlen(el1) + 1;
+            char *buf1 = (char *)malloc(16);
+
+            while(i3 < 16) {
+                buf1[i3] = el1[i4];
+
+                if(buf1[i3] == 'x') {
+                    buf1[i3] = 0;
+                    break;
+                }
+                
+                i4++;
+                i3++;
+            }
+
+            size.x = atoi(buf1);
+
+            i4++;
+            i3 = 0;
+            memset(buf1, 0, 16);
+            while(i3 < 16) {
+                buf1[i3] = el1[i4];
+
+                if(buf1[i3] == 0) {
+                    break;
+                }
+                
+                i4++;
+                i3++;
+            }
+            size.y = atoi(buf1);;
+
+            free(buf1);
+            free(el0);
+            free(el1);
+
+            return size;
+        }
+
+        free(el0);
+        free(el1);
+        i++;
+        i2 = 0;
+    }
+
+    return size;
+}
+
+vector2d_t __gui_getTextResolution() {
+    vector2d_t vec = __gui_getScreenResolution();
+
+    vec.x /= 8;
+    vec.y /= 16;
+    
+    return vec;
 }

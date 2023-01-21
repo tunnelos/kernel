@@ -2,7 +2,7 @@
     "diskguid": "A06204AB-5E98-4058-8559-4BFCB657DD09",
     "disksize": 128,
     "config": "boot/sys/config",
-    "initrd": { "type": "tar", "gzip": true, "directory": [ "boot", "boot" ] },
+    "initrd": { "type": "tar", "gzip": false, "directory": [ "boot", "boot" ] },
     "iso9660": 1,
     "partitions": [
         { "type": "fat32", "size": 16 }

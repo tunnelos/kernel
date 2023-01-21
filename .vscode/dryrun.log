@@ -1,5 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/dog/Source/TunnelOS'
-dd if=/dev/zero of=VHD.img bs=1M count=512
-make: Leaving directory '/home/dog/Source/TunnelOS'
- 

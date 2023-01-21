@@ -14,6 +14,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
     __speaker_stopSound();
     __serial_write_fmt("PANIC\r\n");
     __serial_write_fmt("Reason: %s\r\n", str);
+    vector2d_t screen_size = __gui_getTextResolution();
     wait(100);
     int ides = 0;
     int i = 0;
@@ -42,7 +43,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
             t->cores
         );
         wait(500);
-        __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
+        __gui_drawRectangle((vector2d_t){0, 0}, screen_size, COLOR_BLUE);
         printf(0x00FFFFFF, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,
@@ -61,7 +62,7 @@ void crash(const char *str, uint16_t id, bool interrupt) {
             t->cores
         );
         wait(500);
-        __gui_drawRectangle((vector2d_t){0, 0}, (vector2d_t){80, 30}, COLOR_BLUE);
+        __gui_drawRectangle((vector2d_t){0, 0}, screen_size, COLOR_BLUE);
         printf(0x00FFFFFF, 1, 4, " * Avaliable information:\n   * Memory: Maped     %d  KB of %d  KB\n             Allocated %d  KB of %d  KB\n   * Connected IDE drives: %d\n\n   * AVX : %s  | SSE: %s\n\n     SSE2: %s  | RTC: %s  | Interrupts: %s\n\n     NMI : %s  | PIT: %s  | IDE       : %s\n\n   * Cores: %d  | Interrupt ID: %d  | Critical Interrupt: %s\n\n * Minimum System Requirements:\n   * Memory: 20 MB\n   * CPU with SSE support\n   * PS/2 support", 
             (totalram / 1024) - (mapedram / 1024), totalram / 1024,
             allocram / 256, sizeof(t->mm->blockdata) / 1024,

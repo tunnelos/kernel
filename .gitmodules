@@ -10,3 +10,6 @@
 [submodule "arch/x86_64/Config-Parser-C"]
 	path = arch/x86_64/Config-Parser-C
 	url = https://github.com/tunnelos/Config-Parser-C.git
+[submodule "arch/x86_64/fat32"]
+	path = arch/x86_64/fat32
+	url = https://github.com/tunnelos/fat32.git

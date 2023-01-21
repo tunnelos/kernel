@@ -1,7 +1,6 @@
 iso
 *.o
 *.elf
-*.txt
 VHD.img
 <<<<<<< HEAD
 *.iso

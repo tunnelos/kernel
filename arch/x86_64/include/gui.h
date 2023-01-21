@@ -27,6 +27,8 @@ void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, c
 void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table);
 void __gui_drawImage24(BMPImage *image, vector2d_t pos);
 void __gui_drawImage32(BMPImage *image, vector2d_t pos);
+vector2d_t __gui_getScreenResolution();
+vector2d_t __gui_getTextResolution();
 
 #ifdef __cplusplus
 }

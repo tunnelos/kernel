@@ -73,6 +73,13 @@ CompileLinuxBinaries() {
         cp *.bin ../ 2> /dev/null
         rm *.bin -r 2> /dev/null
 }
+CompileFAT32() {
+        cd ${tmpPWD}/fat32/src
+        bash compile.sh
+        rm compile.sh
+        cp *.o ../../ 2> /dev/null
+        rm *.o -r 2> /dev/null
+}
 
 cp compile.sh base/
 cp compile.sh cJSON/
@@ -83,6 +90,7 @@ cp compile.sh sounddata/
 cp compile.sh software/
 cp compile.sh std/
 cp compile.sh tunnelconfig/
+cp compile.sh fat32/src/
 cp compileLinuxBinaries.sh linux/
 
 CompileBase &
@@ -113,6 +121,9 @@ CompileTunnelConfig &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
 CompileLinuxBinaries &
+tasks[${taskI}]=$!
+taskI=$((taskI+1))
+CompileFAT32 &
 tasks[${taskI}]=$!
 taskI=$((taskI+1))
 

@@ -8,7 +8,7 @@ extern "C" {
 int strlen(const char *str);
 char *tolower(char *data);
 char tolowerchar(char data);
-int strncmp(const char *s1, const char *s2, size_t n);
+int strncmp(const char *s1, const char *s2, long unsigned int n);
 int strcmp(const char *s1, const char *s2);
 char *strcpy(char *dest, const char *src);
 char *strchr(const char *s, char c);

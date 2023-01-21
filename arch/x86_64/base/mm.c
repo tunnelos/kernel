@@ -94,7 +94,8 @@ void *malloc(size_t size) {
         #endif
         state[1]++;
     }
-    __serial_write_fmt("CPU %d -> tos > Allocated %d blocks of memory on address %l %X\r\n", __tools_get_cpu() - 1, state[4], (uint64_t)tunnelos_sysinfo.mm->meta[state[0]].address);
+    __serial_write_fmt("CPU %d -> tos > Allocated %d blocks of memory on address %l %X (requested %d bytes)\r\n", __tools_get_cpu() - 1, state[4], (uint64_t)tunnelos_sysinfo.mm->meta[state[0]].address, size);
+    memset(tunnelos_sysinfo.mm->meta[state[0]].address, 0, size);
     return tunnelos_sysinfo.mm->meta[state[0]].address;
     
     return NULL;

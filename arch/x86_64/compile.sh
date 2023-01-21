@@ -30,6 +30,16 @@ for g in *.psf ; do
         taskI=$((taskI+1));
     fi
 done
+for p in *.sfn ; do 
+    if [ "$p" != '*.sfn' ]
+    then
+        echo Linking ${p%.sfn}.sfn in x86_64 codebase ...;
+        ld -r -b binary -o ${p%.sfn}_SFN.o ${p%.sfn}.sfn &
+        tasks[${taskI}]=$!;
+        taskI=$((taskI+1));
+    fi
+done
+
 for m in *.snd ; do 
     if [ "$m" != '*.snd' ]
     then
