@@ -30,7 +30,7 @@ void _start(){
         // wait(1000);
 
         test_fat();
-        //__desktop_init();
+        __desktop_init();
         __pic_remap(_remaps);
         __pit_init();
         while(1);
@@ -40,7 +40,7 @@ void _start(){
 }
 
 void test_fat() {
-    int a = disk_mount(DISK_IDE_DRV0);
+    int a = disk_mount(1);
 
     struct file_s f;
     // fat_w
