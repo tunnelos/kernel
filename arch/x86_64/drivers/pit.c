@@ -6,6 +6,13 @@ uint128_t current_tick;
 bool (* __pit_callback[128])(uint128_t);
 bool (* __pit_postintr)     (uint128_t);
 
+uint16_t __pit_system_timer_fractions = 1;
+uint32_t __pit_system_timer_ms = 1;
+uint32_t __pit_IRQ0_fractions = 1;
+uint32_t __pit_IRQ0_ms = 1;
+uint32_t __pit_IRQ0_frequency = 1;
+uint16_t __pit_reload_value = 1;
+
 uint16_t __pit_count() {
     uint16_t count;
     __cli();
@@ -24,13 +31,13 @@ void __pit_set_count(uint16_t count) {
 uint8_t __pit_currentTaskPointer = 0;
 
 void __pit_event_timer(){
-    current_tick++;
-    if(__pit_callback[__pit_currentTaskPointer]) {
-        if(!__pit_callback[__pit_currentTaskPointer](current_tick)) __pit_callback[__pit_currentTaskPointer] = NULL;
-    }
-    __pit_currentTaskPointer++;
-    if(__pit_currentTaskPointer == 128) __pit_currentTaskPointer = 0;
-    if(__pit_postintr) __pit_postintr(current_tick);
+    // current_tick++;
+    // if(__pit_callback[__pit_currentTaskPointer]) {
+    //     if(!__pit_callback[__pit_currentTaskPointer](current_tick)) __pit_callback[__pit_currentTaskPointer] = NULL;
+    // }
+    // __pit_currentTaskPointer++;
+    // if(__pit_currentTaskPointer == 128) __pit_currentTaskPointer = 0;
+    // if(__pit_postintr) __pit_postintr(current_tick);
 }
 
 void __pit_setOnIntCallback(bool (* callback)(uint128_t)) {

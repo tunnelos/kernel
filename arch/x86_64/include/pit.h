@@ -27,7 +27,8 @@ void __pit_setPostInterrupt(bool (* callback)(uint128_t));
 void __pit_event_timer();
 uint16_t __pit_count();
 void __pit_set_count(uint16_t count);
-extern void __pit_init();
+extern void __pit_init(int freq);
+extern void __pit_default_init();
 extern void __pit_eoi();
 bool __pit_waitTicks(uint64_t ticks, uint128_t ct);
 

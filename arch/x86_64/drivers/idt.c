@@ -31,6 +31,8 @@ void __idt_exception_handler(int interrupt_id, register_set_t *register_set) {
     }
     current_interrupt.active = false;
 }
+uint64_t tt = 0;
+int ti = 0;
 void __idt_interrupt_handler(int interrupt_id, register_set_t *register_set) {
     current_interrupt.active = true;
     current_interrupt.critical = false;
@@ -42,8 +44,17 @@ void __idt_interrupt_handler(int interrupt_id, register_set_t *register_set) {
     if(interrupt_id == IDT_INTERRUPT_PIT) {
         __pit_event_timer();
         __pit_eoi();
+        // if((tt % 1000000) == 0) {
+            __serial_write_fmt("CPU %d -> tos > Interrupt %d! %d\r\n", __tools_get_cpu() - 1, interrupt_id, tt);
+            __serial_write_fmt("- CPU %d -> tos > PIT fractions: %d\r\n", __tools_get_cpu() - 1, __pit_IRQ0_fractions);
+            __serial_write_fmt("- CPU %d -> tos > PIT ms: %d\r\n", __tools_get_cpu() - 1, __pit_IRQ0_ms);
+            __serial_write_fmt("- CPU %d -> tos > PIT frequency: %d\r\n", __tools_get_cpu() - 1, __pit_IRQ0_frequency);
+            __serial_write_fmt("- CPU %d -> tos > PIT rvalue: %d\r\n", __tools_get_cpu() - 1, __pit_reload_value);
+            ti++;
+        // }
+        tt++;
     } else {
-        __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n * RIP = %l %X\r\n", __tools_get_cpu() - 1, interrupt_id, current_iframe->rip);
+        __serial_write_fmt("CPU %d -> tos > Interrupt %d!\r\n * RIP = %l %X\r\n", __tools_get_cpu() - 1, interrupt_id, register_set->rip);
         switch(interrupt_id) {
             case IDT_INTERRUPT_PIT: {
                 __pit_event_timer();
@@ -62,6 +73,9 @@ void __idt_interrupt_handler(int interrupt_id, register_set_t *register_set) {
                 }
                 outb(RTC_REGISTER_B_OUT, 0x0C);
                 inb(RTC_REGISTER_B_IN);
+                break;
+            }
+            case 6: {
                 break;
             }
             default: {

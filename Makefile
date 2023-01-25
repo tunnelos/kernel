@@ -25,7 +25,7 @@ aarch64_target: clean $(OSNAME).aarch64.elf
 aarch64_boot:
 	qemu-system-aarch64 -machine raspi3 -cpu cortex-a72 -no-reboot -no-shutdown -kernel build/executeable/$(OSNAME).aarch64.elf 
 x86_64_boot:
-	qemu-system-x86_64 -m 512M -boot d -cdrom build/executeable/tunnel.x86_64.iso -serial stdio -smp 2 -drive file=VHD.img,format=raw,index=0,media=disk -no-reboot
+	qemu-system-x86_64 -m 512M -boot d -cdrom build/executeable/tunnel.x86_64.iso -serial stdio -smp 2 -drive file=VHD.img,format=raw,index=0,media=disk -g
 x86_64_target: clean $(OSNAME).x86_64.iso
 x86_64_postbuild:
 	@mkdir -p api

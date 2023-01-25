@@ -6,6 +6,8 @@
 #include "../include/desktop.h"
 #include "../fat32/src/fat32.h"
 #include "../include/tools.h"
+#include "../include/pit.h"
+#include "../include/idt.h"
 
 /******************************************
  * Entry point, called by BOOTBOOT Loader *
@@ -32,7 +34,16 @@ void _start(){
         test_fat();
         //__desktop_init();
         __pic_remap(_remaps);
-        __pit_init();
+        __pit_default_init();
+        __sti();
+        __serial_write_fmt("- CPU %d -> tos > PIT fractions: %d\r\n", __tools_get_cpu() - 1, __pit_IRQ0_fractions);
+        __serial_write_fmt("- CPU %d -> tos > PIT ms: %d\r\n", __tools_get_cpu() - 1, __pit_IRQ0_ms);
+        __serial_write_fmt("- CPU %d -> tos > PIT frequency: %d\r\n", __tools_get_cpu() - 1, __pit_IRQ0_frequency);
+        __serial_write_fmt("- CPU %d -> tos > PIT rvalue: %d\r\n", __tools_get_cpu() - 1, __pit_reload_value);
+        // __cli();
+        // while(1) {
+        //     __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
+        // }
         while(1);
     }
 

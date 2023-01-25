@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.embeddedhtml": "html",
         "stdio.h": "c",
         "string.h": "c",
         "cstring.h": "c",
@@ -10,6 +11,7 @@
         "stdlib.h": "c",
         "ide.h": "c",
         "stdint.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "pit.h": "c"
     }
 }
