@@ -20,7 +20,7 @@ while getopts 'qbvhr' SHELLARGUMENT; do
 			;;
 		b)
 			echo "! Build Toolchain will be installed."
-			PACKAGE_SET="${PACKAGE_SET_INFO} ${PACKAGE_SET} gcc iat make nasm build-essential binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu zip"
+			PACKAGE_SET="${PACKAGE_SET_INFO} ${PACKAGE_SET} gcc iat make nasm build-essential binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu zip gcc-multilib"
 			PACKAGE_SET_INFO2="Build Toolchain (x86_64 and aarch64)"
 			PACKAGE_SET_TOOL=1
 			;;
