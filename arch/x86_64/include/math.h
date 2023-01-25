@@ -18,21 +18,31 @@
     res;                                                                        \
 })
 
+#define PI 3.14159265359
+#define E 2.71828182846
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int abs(int i);
+//utils
+int16_t compare_float(double f1, double f2);
+
+//math.h functions
+int32_t abs(int x);
 double fabs(double x);
-float acos(float x);
-int pow(int x, int y);
-int floor(float x);
+float sqrt(float number);
+float round(float number);
+int32_t ceil(float x);
+double cos(double x);
+double fmod(double x, double y);
+double sin(double x);
+int32_t pow(int x, int y);
+int32_t floor(float x);
 float floorf(float x);
 double floord(double x);
-float round(float number);
-float sqrt(float number);
-float modf(float x, float *iptr);
-float acos(float x);
+long double floorl(long double x);
+double truncate(double x);
 
 #ifdef __cplusplus
 }
