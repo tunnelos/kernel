@@ -29,7 +29,7 @@ void memset(void *dest, int c, size_t n) {
 }
 
 void __mm_fillblocks() {
-    int m = 8320 * 8;
+    int m = MEMORY_X;
     int i = 0;
     while(i < m) {
         //__serial_write_fmt("CPU %d -> tos > Clean %d.\n", __tools_get_cpu() - 1, i);
@@ -47,10 +47,10 @@ int __mm_findoffset(int blocks) {
     int o = 0;
     goto repeat;
     repeat:
-        if(o >= 8320 * 8) return -1;
+        if(o >= MEMORY_X) return -1;
         //find free block offset
         while(!tunnelos_sysinfo.mm->meta[o].free) o++;
-        if(o >= 8320 * 8) return -1;
+        if(o >= MEMORY_X) return -1;
         //find free blocks on this offset
         while(tunnelos_sysinfo.mm->meta[o + p].free) p++;
         if(blocks <= p) return o;
@@ -68,9 +68,6 @@ void *calloc(int count, size_t size) {
     return ret;
 }
 void *malloc(size_t size) {
-    #if TUNNEL_TRANDOM <= 0
-    srand(1024);
-    #endif
     if(size <= 0) return 0;
     int state[6];
     state[4] = round(size / 256);
@@ -138,7 +135,7 @@ void free(void *address) {
     uint64_t index = adr - sadr;
     uint64_t blk = floor(index / 256);
     int blks = 0;
-    if(blk >= 8320 * 8) return;
+    if(blk >= MEMORY_X) return;
     if(blk < 0) return;
     if(tunnelos_sysinfo.mm->meta[blk].free) return;
     int i = 0;

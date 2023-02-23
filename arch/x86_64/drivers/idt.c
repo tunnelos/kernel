@@ -75,9 +75,6 @@ void __idt_interrupt_handler(int interrupt_id, register_set_t *register_set) {
                 inb(RTC_REGISTER_B_IN);
                 break;
             }
-            case 6: {
-                break;
-            }
             default: {
                 crash(PANIC_UNEXPECTED_INTERRUPT_STRING, PANIC_UNEXPECTED_INTERRUPT_NUMBER, true);
                 break;

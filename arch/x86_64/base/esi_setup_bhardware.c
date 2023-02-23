@@ -1,4 +1,6 @@
 #include "../include/tunnel.h"
+#include "../include/video.h"
+#include "../include/panic.h"
 
 uint32_t bars[5] = {
     0x1F0, 0x3F6, 0x170, 0x376, 0x000
@@ -14,7 +16,7 @@ void __esi_setup_basic_hardware() {
     __idt_init();
     __sti();
     __sse_init();
-    __pic_unmask(0);
+    //__pic_unmask(0);
     __ide_init(bars);
 
     if(__cpuid_check_avx() || __cpuid_check_avx2()) {
@@ -30,4 +32,8 @@ void __esi_setup_basic_hardware() {
     tunnelos_sysinfo.rtc = true;
     tunnelos_sysinfo.nmi = false;
     tunnelos_sysinfo.ide = true;
+
+    __video_setup_core();
+
+    //crash("lmao", 6969, false);
 }

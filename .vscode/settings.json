@@ -12,6 +12,9 @@
         "ide.h": "c",
         "stdint.h": "c",
         "stddef.h": "c",
-        "pit.h": "c"
+        "pit.h": "c",
+        "gui.h": "c",
+        "color.h": "c",
+        "bootboot.h": "c"
     }
 }

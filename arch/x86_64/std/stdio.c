@@ -7,6 +7,7 @@
 #include "../include/serial.h"
 #include "../include/mm.h"
 #include "../include/panic.h"
+#include "../include/video.h"
 
 int __stdio_margin = 0;
 int __stdio_gui_margin = 0;
@@ -22,6 +23,7 @@ void puts(const char *s, uint32_t color, int x4, int y4){
     int x, y, line, mask, offs;
     psf2_t *font = (psf2_t*)&_binary_gui_psf_start;
     int bpl = (font->width + 7) / 8;
+    void *framebuffer = __video_get_fb(false);
     while(*s) {
         //72
         unsigned char *glyph = (unsigned char*)&_binary_gui_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
@@ -35,7 +37,7 @@ void puts(const char *s, uint32_t color, int x4, int y4){
                 line = offs; 
                 mask = 1 << (font -> width - 1);
                 for(x = 0; x < font->width; x++) {
-                    *((uint32_t*)((uint64_t)&fb + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4))) = ((int)*glyph) & (mask) ? color : *((uint32_t*)((uint64_t)&fb + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4)));
+                    *((uint32_t*)((uint64_t)framebuffer + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4))) = ((int)*glyph) & (mask) ? color : *((uint32_t*)((uint64_t)framebuffer + line + (ty * tunnelos_sysinfo.bootboot.fb_scanline) + (tx * 4)));
                     mask >>= 1; 
                     line += 4;
                 } 

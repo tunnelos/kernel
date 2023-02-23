@@ -31,7 +31,7 @@ void __desktop_init() {
     __desktop_render_categories();
     __desktop_render_tasks();
 
-    while(true);
+    //while(true);
 }
 
 void __desktop_add_task(task_t task) {

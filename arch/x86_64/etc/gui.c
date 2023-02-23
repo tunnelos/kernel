@@ -9,6 +9,10 @@
 #include "../include/bootboot.h"
 #include "../include/stdlib.h"
 
+color_t __gui_generateRandomColor() {
+    return (color_t){rand() % 256, rand() % 256, rand() % 256};
+}
+
 vector2d_t __gui_alignText(const char *text) {
     assert(text);
 
