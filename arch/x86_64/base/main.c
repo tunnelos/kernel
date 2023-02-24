@@ -20,6 +20,8 @@ int _remaps[2] = {0x20, 0x28};
 void test_fat();
 void __main_smallfbtest();
 
+bool _memory_complete = false;
+
 void _start(){  
     tunnelos_sysinfo.cores++;
 
@@ -31,10 +33,12 @@ void _start(){
         __esi_set_cores();
 
         __esi_setup_basic_hardware();
+        //_memory_complete = true;
 
         // __coreshell_init();
         // wait(1000);
-        __sti();
+        malloc(10000);
+        __cli();
         //__desktop_init();
         __main_smallfbtest();
 
@@ -55,8 +59,9 @@ void _start(){
         //__main_smallfbtest();
         while(1);
     } else if (__tools_get_cpu() == bootboot.bspid + 1 + 1){
-        wait(500);
-        __video_refresh();
+        //while(!_memory_complete);
+        //wait(500);
+        //__video_refresh();
     }
 
     __serial_write_fmt("CPU %d -> tos > Shutdown\r\n", __tools_get_cpu() - 1);
@@ -66,33 +71,63 @@ void _start(){
 
 vector2d_t *positions;
 
-bool __main_smallfbtest_isPlaced(vector2d_t vec) {
-    int i = 0;
-    while(i < 5000) {
-        if(positions[i].x == vec.x && positions[i].y == vec.y) return true;
-        i++;
-    }
-    return false;
-}
-
 void __main_smallfbtest() {
-    vector2d_t s = __gui_getTextResolution();
-    s.x /= 2;
-    s.y /= 2;
     int i = 0;
 
     const char *data = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 
     //positions = (vector2d_t *)malloc(sizeof(vector2d_t) * 5000);
 
+
+    vector2d_t res = __gui_getTextResolution();
+    vector2d_t res2 = __gui_getTextResolution();
+    res.y -= 5;
+
+    text_framebuffer_t myfb = __textfb_create(res);
+
+    myfb.fb = 0;
+    myfb.color_table = 0;
+
+    bool pause = false;
+
     while(1) {
-        wait(250);
+        wait(100);
+
+        uint8_t val = 1;
+
+        if(inb(0x64) & 1) {
+            uint8_t scancode = inb(0x60);
+            if(!(scancode & 0x80)) {
+                //__serial_write_fmt("CPU %d -> tos > pressed %d\r\n", __tools_get_cpu() - 1, scancode);
+                if(scancode == 28) {
+                    myfb.fb += 0x100;
+                    myfb.color_table += 0x100;
+                } else if (scancode == 57) {
+                    pause = !pause;
+                }
+            }
+        }
+
+        if(!pause) {
+            myfb.fb += val;
+            myfb.color_table += val;
+        }
+        //__gui_drawText((vector2d_t){x, y}, (vector2d_t){1, 1}, __gui_generateRandomColor(), "\x13", &myfb);
+        //__gui_drawRectangle((vector2d_t){0, 0}, myfb.size, COLOR_WHITE, &myfb);
+        //__gui_drawRectangle((vector2d_t){1, 1}, (vector2d_t){12, 2}, COLOR_BLACK, &myfb2);
+        //__gui_drawText((vector2d_t){1, 1}, (vector2d_t){9, 1}, COLOR_BLUE, "Glory to", &myfb2);
+        //__gui_drawText((vector2d_t){1, 2}, (vector2d_t){9, 1}, COLOR_YELLOW, "Ukraine", &myfb2);
+        __gui_drawRectangle((vector2d_t){0, 0}, res2, COLOR_BLACK, NULL);
+        //__textfb_merge(myfb, myfb2, (vector2d_t){0, 0});
+        __textfb_render(myfb, __video_get_fb(false));
+        printf(0x00FFFFFF, 3, 27, "Previewing address %X", myfb.fb);
+        printf(__color_to_int(COLOR_YELLOW), 40, 26, "Press Enter to move by 0x100");
+        printf(__color_to_int(COLOR_YELLOW), 40, 28, "Press Space to pause/unpause");
+        //__textfb_render(myfb2, __video_get_fb(true));
+        memcpy(__video_get_fb(true), (const void *)__video_get_fb(false), 640 * 480* 4);
+
+        //__serial_write_fmt("CPU %d -> tos > rendered %d\r\n", __tools_get_cpu() - 1, i);
         
-        int x = rand() % (s.x * 2);
-        int y = rand() % (s.x * 2);
-        printf(rand(), x, y, "%c", data[rand() % 52]);
-        __gui_drawRectangle((vector2d_t){1, 1}, (vector2d_t){12, 1}, COLOR_BLACK);
-        printf(0xFFFFFFFF, 1, 1, "Slide %d", i);
         i++;
     }
     // crash("123", 11, false);

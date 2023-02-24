@@ -30,7 +30,7 @@ vector2d_t __gui_alignText(const char *text) {
     t.y = (__gui_getTextResolution().y - newlines) / 2;
     return t;
 }
-void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const char *text) {
+void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const char *text, text_framebuffer_t *tfb) {
     assert(text);
     assert(pos.x >= 0 && pos.y >= 0);
     assert(max_size.x >= 0 && max_size.y >= 0);
@@ -41,7 +41,16 @@ void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const ch
     vector2d_t c = pos;
 
     while(i < m) {
-        putc(text[i], __color_to_int(color), c.x, c.y);
+        if(tfb) {
+            int el = ELEMENT(c.x, c.y, tfb->size.x);
+            tfb->fb[el] = text[i];
+            tfb->color_table[el].a = color.a;
+            tfb->color_table[el].r = color.r;
+            tfb->color_table[el].g = color.g;
+            tfb->color_table[el].b = color.b;
+        } else {
+            putc(text[i], __color_to_int(color), c.x, c.y);   
+        }
 
         i++;
         c.x++;
@@ -56,7 +65,7 @@ void __gui_drawText(vector2d_t pos, vector2d_t max_size, color_t color, const ch
     }
 }
 
-void __gui_drawRectangle(vector2d_t pos, vector2d_t size, color_t color)
+void __gui_drawRectangle(vector2d_t pos, vector2d_t size, color_t color, text_framebuffer_t *tfb)
 {
     assert(pos.x >= 0 && pos.y >= 0);
     assert(size.x >= 0 && size.y >= 0);
@@ -69,33 +78,51 @@ void __gui_drawRectangle(vector2d_t pos, vector2d_t size, color_t color)
     {
         while (y < ym)
         {
-            puts("\x13", __color_to_int(color), x, y);
+            if(tfb) {
+                int el = ELEMENT(x, y, tfb->size.x);
+                tfb->fb[el] = 0x13;
+                tfb->color_table[el].a = color.a;
+                tfb->color_table[el].r = color.r;
+                tfb->color_table[el].g = color.g;
+                tfb->color_table[el].b = color.b;
+            } else {
+                puts("\x13", __color_to_int(color), x, y);
+            }
             y++;
         }
         x++;
         y = pos.y;
     }
 }
-void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, color_t col)
+void __gui_drawProgressBar(vector2d_t pos, vector2d_t maxSize, int percentage, color_t col, text_framebuffer_t *tfb)
 {
     assert(pos.x >= 0 && pos.y >= 0);
     assert(maxSize.x >= 0 && maxSize.y >= 0);
 
     float t = (float)percentage / (float)100;
     float x = t * (float)maxSize.x;
-    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col);
+    __gui_drawRectangle(pos, (vector2d_t){(int)x, maxSize.y}, col, tfb);
 }
-void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
+void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols, text_framebuffer_t *tfb) {
     assert(buffer);
     assert(pos.x >= 0 && pos.y >= 0);
 
-    __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY);
+    __gui_drawRectangle(pos, (vector2d_t){maxSymbols, 1}, COLOR_LIGHT_GRAY, tfb);
     int i = 0;
     int l = strlen(buffer);
     while(i < maxSymbols) {
         if(buffer) {
             if(buffer[i] != 0 || i < l) {
-                putc(buffer[i], __color_to_int(COLOR_BLACK), pos.x, pos.y);
+                if(tfb) {
+                    int el = ELEMENT(pos.x, pos.y, tfb->size.x);
+                    tfb->fb[el] = 0x13;
+                    tfb->color_table[el].a = 0;
+                    tfb->color_table[el].r = 0;
+                    tfb->color_table[el].g = 0;
+                    tfb->color_table[el].b = 0;
+                } else {
+                    putc(buffer[i], __color_to_int(COLOR_BLACK), pos.x, pos.y);
+                }
                 pos.x++;
             } else {
                 return;
@@ -104,35 +131,35 @@ void __gui_drawInputBar(vector2d_t pos, const char *buffer, int maxSymbols) {
         i++;
     }
 }
-void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table) {
+void __gui_drawTable(vector2d_t pos, int row0w, int row1w, gui_table_t table, text_framebuffer_t *tfb) {
     vector2d_t tpos = pos;
     row0w++;
     row1w++;
-    __gui_drawRectangle(pos, (vector2d_t){row0w + row1w + 1, table.columnCount * 3}, COLOR_WHITE);
-    __gui_drawRectangle(pos, (vector2d_t){row0w + row1w + 1, 1}, COLOR_BLACK);
-    __gui_drawRectangle(pos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK);
+    __gui_drawRectangle(pos, (vector2d_t){row0w + row1w + 1, table.columnCount * 3}, COLOR_WHITE, tfb);
+    __gui_drawRectangle(pos, (vector2d_t){row0w + row1w + 1, 1}, COLOR_BLACK, tfb);
+    __gui_drawRectangle(pos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK, tfb);
     tpos.x += row0w + row1w + 1;
-    __gui_drawRectangle(tpos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK);
+    __gui_drawRectangle(tpos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK, tfb);
     tpos.y += table.columnCount * 3 + table.columnCount;
     tpos.x = pos.x;
     int i = 0;
     tpos = pos;
     while(i < table.columnCount) {
         tpos.x = pos.x;
-        __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
+        __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK, tfb);
         tpos.y++;
         tpos.x++;
-        __gui_drawInputBar(tpos, table.row0Values[i], row0w);
+        __gui_drawInputBar(tpos, table.row0Values[i], row0w, tfb);
         tpos.x += row0w;
-        __gui_drawInputBar(tpos, table.row1Values[i], row1w);
+        __gui_drawInputBar(tpos, table.row1Values[i], row1w, tfb);
         tpos.y += 2;
         i++;
     }
     tpos.x = pos.x;
-    __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK);
+    __gui_drawRectangle(tpos, (vector2d_t){row0w + row1w + 2, 1}, COLOR_BLACK, tfb);
     tpos.x = pos.x + row0w;
     tpos.y = pos.y + 1;
-    __gui_drawRectangle(tpos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK);
+    __gui_drawRectangle(tpos, (vector2d_t){1, table.columnCount * 3}, COLOR_BLACK, tfb);
     return;
 }
 void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
@@ -151,7 +178,7 @@ void __gui_drawImage24(BMPImage *image, vector2d_t pos) {
             col[1] = image->data[p + 0];
             col[2] = image->data[p + 1];
             col[3] = image->data[p + 2];
-            *((uint32_t*)((uint64_t)&fb + (y * tunnelos_sysinfo.bootboot.fb_scanline) + (x * 4))) = *(uint32_t *)&col;
+            *((uint32_t*)((uint64_t)__video_get_fb(false) + (y * tunnelos_sysinfo.bootboot.fb_scanline) + (x * 4))) = *(uint32_t *)&col;
             y++;
             p += 3;
         }
@@ -171,7 +198,7 @@ void __gui_drawImage32(BMPImage *image, vector2d_t pos) {
     int *imd = (int *)&image->data;
     while(x < xm) {
         while(y < ym) {
-            *((uint32_t*)((uint64_t)&fb + (y * tunnelos_sysinfo.bootboot.fb_scanline) + (x * 4))) = imd[p];
+            *((uint32_t*)((uint64_t)__video_get_fb(false) + (y * tunnelos_sysinfo.bootboot.fb_scanline) + (x * 4))) = imd[p];
             y++;
             p++;
         }

@@ -13,7 +13,7 @@ int __stdio_margin = 0;
 int __stdio_gui_margin = 0;
 bool terminal_block = false;
 
-void puts(const char *s, uint32_t color, int x4, int y4){
+void putsfb(const char *s, uint32_t color, int x4, int y4, char *framebuffer){
     int tx = x4 * 8;
     int ty = y4 * 16;
     int kx = 0;
@@ -23,7 +23,6 @@ void puts(const char *s, uint32_t color, int x4, int y4){
     int x, y, line, mask, offs;
     psf2_t *font = (psf2_t*)&_binary_gui_psf_start;
     int bpl = (font->width + 7) / 8;
-    void *framebuffer = __video_get_fb(false);
     while(*s) {
         //72
         unsigned char *glyph = (unsigned char*)&_binary_gui_psf_start + font->headersize + (*s > 0 && *s < font->numglyph ? *s : 0)*font->bytesperglyph;
@@ -51,10 +50,18 @@ void puts(const char *s, uint32_t color, int x4, int y4){
     terminal_block = false;
 }
 
-void putc(const char c, uint32_t color, int x, int y) {
+void putcfb(const char c, uint32_t color, int x, int y, char *framebuffer) {
     char str[2] = {c, '\0'};
-    puts(str, color, x, y);
+    putsfb(str, color, x, y, framebuffer);
     return;
+}
+
+void puts(const char *s, uint32_t color, int x4, int y4){
+    putsfb(s, color, x4, y4, __video_get_fb(false));
+}
+
+void putc(const char c, uint32_t color, int x, int y) {
+    putcfb(c, color, x, y, __video_get_fb(false));
 }
 
 char *itoa(int num, char *buffer, int base, int x, int y, int color, bool use_additional) {

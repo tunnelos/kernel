@@ -10,6 +10,10 @@ typedef struct color_t {
     uint8_t g;
     uint8_t b;
 } color_t;
+typedef struct extended_color_t {
+    color_t front;
+    color_t back;
+} extended_color_t;
 
 #pragma pack(pop)
 

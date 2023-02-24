@@ -15,6 +15,8 @@
         "pit.h": "c",
         "gui.h": "c",
         "color.h": "c",
-        "bootboot.h": "c"
+        "bootboot.h": "c",
+        "text_framebuffer.h": "c",
+        "vector2d.h": "c"
     }
 }
