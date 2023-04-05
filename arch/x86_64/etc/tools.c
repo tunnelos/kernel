@@ -1,5 +1,6 @@
 #include "../include/tools.h"
 #include "../include/idt.h"
+#include "../include/time.h"
 #include <cpuid.h>
 
 uint8_t inb(uint16_t port) {
@@ -70,13 +71,23 @@ uint64_t get_cycles() {
 
 //waits 1-4 ns
 void io_wait() {
-    outb(0x80, 0);
+    outb(0x81, 0);
     return;
 }
-void wait(uint64_t ms) { 
+void wait(uint64_t ms) {
+    ms *= 10;
     uint128_t i = 0;
-    while(i < ms * 900) {
-        io_wait();
+    while(i < ms * 1000) {
+        outb(0x80, 0);
+        i++;
+    }
+    return;
+}
+void waitb(uint64_t ms) {
+    ms *= 10;
+    uint128_t i = 0;
+    while(i < ms * 1000) {
+        outb(0x80, 0);
         i++;
     }
     return;
@@ -84,13 +95,18 @@ void wait(uint64_t ms) {
 void wait_ns(uint128_t ns) {
     uint128_t i = 0;
     while(i < ns) {
-        io_wait();
+        outb(0x80, 0);
         i++;
     }
     return;
 }
 void accwait(uint64_t ms) {
-    //uint64_t cycles = 
+    uint64_t timeold = __time_get_uptimeMS();
+    uint64_t timeexpected = timeold + ms;
+    while(1) {
+        uint64_t timenew = __time_get_uptimeMS();
+        if(timenew == timeexpected || timenew > timeexpected) return;
+    }
 }
 
 void insl(uint16_t reg, uint32_t *buffer, int quads) {

@@ -20,6 +20,7 @@ void outl(uint16_t port, uint32_t val);
 void io_wait(void);
 uint64_t get_cycles();
 void wait(uint64_t ms);
+void waitb(uint64_t ms);
 void wait_ns(uint128_t ns);
 void accwait(uint64_t ms);
 void insl(uint16_t reg, uint32_t *buffer, int quads);

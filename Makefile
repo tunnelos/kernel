@@ -12,7 +12,7 @@ FILELIST_X86_64 =   main.o stdio.o tunnel.o cstring.o cint.o panic.o mm.o nmi.o 
 		    		sort.o cJSON.o cJSON_Utils.o systemconf.o trnd.o unitype.o stb.o sounds.o  \
 		    		placeholder.o system_JSON.o float.o speaker.o video.o task.o esi_testing.o \
 					esi_set_cores.o esi_setup_bhardware.o esi_setup_memory.o fat32.o rpistubs.o\
-					disk_interface.o text_framebuffer.o
+					disk_interface.o text_framebuffer.o time.o
 FILELIST_AARCH64 =  boot_ASM.o armio.o cint.o math.o stdlib.o system_JSON.o main.o
 FONTLIST =          gui_PSF.o
 SNDLIST_X86_64 =    hello_SND.o error_SND.o

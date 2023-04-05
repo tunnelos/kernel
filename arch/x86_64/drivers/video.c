@@ -19,23 +19,11 @@ void __video_switch_to_failure_mode() {
     __video_failure = true;
 }
 void __video_refresh() {
-    int frames = 0;
-    vector2d_t s = __gui_getScreenResolution();
-    int n = s.x * s.y * 4;
     goto l;
     l:
-    frames++;
-    //memcpy(&fb, (const void *)__video_fb2, s.x * s.y * 4);
-    size_t i = 0;
-    char *d = (char *)&fb;
-    char *c = (char *)__video_fb2;
-    while(i < n) {
-        if(__video_failure) return;
-        d[i] = c[i];
-        i++;
-    }
-    __serial_write_fmt("CPU %d -> video > rendered %d frames (%d)\r\n", __tools_get_cpu() - 1, frames, frames / 30);
-    wait(33);
+    waitb(1);
+    tunnelos_sysinfo.uptime += 0.0001;
+    tunnelos_sysinfo.uptime_ms += 1;
     goto l;
 }
 

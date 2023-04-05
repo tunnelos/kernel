@@ -10,6 +10,7 @@
 #include "../include/idt.h"
 #include "../include/video.h"
 #include "../include/gui.h"
+#include "../include/time.h"
 
 /******************************************
  * Entry point, called by BOOTBOOT Loader *
@@ -26,6 +27,7 @@ void _start(){
     tunnelos_sysinfo.cores++;
 
     if(__tools_get_cpu() == bootboot.bspid + 1) {
+        uint64_t timeold = __time_get_uptimeMS();
         __serial_write_fmt("CPU %d -> tos > Welcome to Tunnel OS\r\n", __tools_get_cpu() - 1);
 
         tunnelos_sysinfo.bootboot = bootboot;
@@ -36,10 +38,12 @@ void _start(){
         //_memory_complete = true;
 
         // __coreshell_init();
-        // wait(1000);
-        malloc(10000);
+
+        // malloc(10000);
         __cli();
         //__desktop_init();
+        uint64_t timenew = __time_get_uptimeMS();
+        __serial_write_fmt("CPU %d -> tos > System took %d ms to boot\r\n", __tools_get_cpu() - 1, timenew - timeold);
         __main_smallfbtest();
 
         //__pit_default_init();
@@ -61,12 +65,14 @@ void _start(){
     } else if (__tools_get_cpu() == bootboot.bspid + 1 + 1){
         //while(!_memory_complete);
         //wait(500);
-        //__video_refresh();
+        __video_refresh();
     }
 
     __serial_write_fmt("CPU %d -> tos > Shutdown\r\n", __tools_get_cpu() - 1);
 
-    while(1);
+    while(1) {
+        accwait(1000);
+    }
 }
 
 vector2d_t *positions;
@@ -91,8 +97,10 @@ void __main_smallfbtest() {
     bool pause = false;
 
     while(1) {
-        wait(100);
+        accwait(16);
 
+        uint64_t timeold = __time_get_uptimeMS();
+        
         uint8_t val = 1;
 
         if(inb(0x64) & 1) {
@@ -117,7 +125,7 @@ void __main_smallfbtest() {
         //__gui_drawRectangle((vector2d_t){1, 1}, (vector2d_t){12, 2}, COLOR_BLACK, &myfb2);
         //__gui_drawText((vector2d_t){1, 1}, (vector2d_t){9, 1}, COLOR_BLUE, "Glory to", &myfb2);
         //__gui_drawText((vector2d_t){1, 2}, (vector2d_t){9, 1}, COLOR_YELLOW, "Ukraine", &myfb2);
-        __gui_drawRectangle((vector2d_t){0, 0}, res2, COLOR_BLACK, NULL);
+        // __gui_drawRectangle((vector2d_t){0, 0}, res2, COLOR_BLACK, NULL);
         //__textfb_merge(myfb, myfb2, (vector2d_t){0, 0});
         __textfb_render(myfb, __video_get_fb(false));
         printf(0x00FFFFFF, 3, 27, "Previewing address %X", myfb.fb);
@@ -129,6 +137,9 @@ void __main_smallfbtest() {
         //__serial_write_fmt("CPU %d -> tos > rendered %d\r\n", __tools_get_cpu() - 1, i);
         
         i++;
+    
+        uint64_t timenew = __time_get_uptimeMS();
+        __serial_write_fmt("CPU %d -> tos > System took %d ms to render a frame\r\n", __tools_get_cpu() - 1, timenew - timeold);
     }
     // crash("123", 11, false);
 }

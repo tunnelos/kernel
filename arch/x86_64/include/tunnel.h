@@ -35,6 +35,8 @@ typedef struct tunnelos_sysinfo_t {
     bool pit;
     bool ide;
     int cores;
+    double uptime;
+    uint64_t uptime_ms;
 } tunnelos_sysinfo_t;
 #pragma pack(pop)
 
