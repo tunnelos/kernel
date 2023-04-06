@@ -96,8 +96,10 @@ void __main_smallfbtest() {
 
     bool pause = false;
 
+    int fps;
+
     while(1) {
-        accwait(16);
+        //accwait(16);
 
         uint64_t timeold = __time_get_uptimeMS();
         
@@ -125,12 +127,13 @@ void __main_smallfbtest() {
         //__gui_drawRectangle((vector2d_t){1, 1}, (vector2d_t){12, 2}, COLOR_BLACK, &myfb2);
         //__gui_drawText((vector2d_t){1, 1}, (vector2d_t){9, 1}, COLOR_BLUE, "Glory to", &myfb2);
         //__gui_drawText((vector2d_t){1, 2}, (vector2d_t){9, 1}, COLOR_YELLOW, "Ukraine", &myfb2);
-        // __gui_drawRectangle((vector2d_t){0, 0}, res2, COLOR_BLACK, NULL);
+        __gui_drawRectangle((vector2d_t){0, 0}, res2, COLOR_BLACK, NULL);
         //__textfb_merge(myfb, myfb2, (vector2d_t){0, 0});
         __textfb_render(myfb, __video_get_fb(false));
-        printf(0x00FFFFFF, 3, 27, "Previewing address %X", myfb.fb);
+        printf(0x00FFFFFF, 3, 26, "Previewing address %X", myfb.fb);
         printf(__color_to_int(COLOR_YELLOW), 40, 26, "Press Enter to move by 0x100");
         printf(__color_to_int(COLOR_YELLOW), 40, 28, "Press Space to pause/unpause");
+        printf(0x00FFFFFF, 3, 28, "FPS: %d", fps);
         //__textfb_render(myfb2, __video_get_fb(true));
         memcpy(__video_get_fb(true), (const void *)__video_get_fb(false), 640 * 480* 4);
 
@@ -139,7 +142,8 @@ void __main_smallfbtest() {
         i++;
     
         uint64_t timenew = __time_get_uptimeMS();
-        __serial_write_fmt("CPU %d -> tos > System took %d ms to render a frame\r\n", __tools_get_cpu() - 1, timenew - timeold);
+        fps = (int)(1000.f / (float)(timenew - timeold));
+        //__serial_write_fmt("CPU %d -> tos > System took %d ms to render a frame\r\n", __tools_get_cpu() - 1, timenew - timeold);
     }
     // crash("123", 11, false);
 }

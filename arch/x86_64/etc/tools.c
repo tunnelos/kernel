@@ -75,19 +75,17 @@ void io_wait() {
     return;
 }
 void wait(uint64_t ms) {
-    ms *= 10;
     uint128_t i = 0;
-    while(i < ms * 1000) {
+    while(i < ms * 10000) {
         outb(0x80, 0);
         i++;
     }
     return;
 }
 void waitb(uint64_t ms) {
-    ms *= 10;
     uint128_t i = 0;
-    while(i < ms * 1000) {
-        outb(0x80, 0);
+    while(i < ms * 10000) {
+        outb(0x82, 0);
         i++;
     }
     return;
